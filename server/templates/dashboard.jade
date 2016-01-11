@@ -1,0 +1,15 @@
+extends layout/page
+
+block content
+  .main.col-md-10
+    h1 Панель управления
+    .row
+      .col-md-8
+        form(id="new-transaction-form")
+          div.form-group.date
+            input.form-control(type="date" name="date" value="" required)
+          div.form-group.description
+            input.form-control(type="text" name="description" value="" placeholder="Описание транзакции, от 1 до 140 символов" required)
+
+block scripts
+  script(src='/assets/dashboard.js')

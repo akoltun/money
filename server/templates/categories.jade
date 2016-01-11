@@ -1,0 +1,46 @@
+extends layout/page
+
+block content
+  .main.col-md-10
+    button.btn.btn-primary.pull-right(type="button" data-toggle="modal" data-target=".add-categorie") Добавить Категорию
+    h1 Категории
+    .row
+      .categories-list.col-md-12
+        hr
+        .table-responsive
+          table.table.table-striped
+            thead
+              tr
+                td Имя
+                td Транзакций
+                td Потрачено
+                td Заработано
+                td Итого
+            tbody
+              each categorie in categories
+                tr
+                  td
+                    a= categorie.name
+                  td= categorie.transactions.length
+                  td= categorie.spent
+                  td= categorie.earned
+                  td= categorie.summary
+                  td.button-cell
+                    button.btn.btn-default
+                      span.glyphicon.glyphicon-edit
+                    button.btn.btn-default
+                      span.glyphicon.glyphicon-minus-sign
+  .modal.fade.add-categorie(tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel")
+    .modal-dialog.modal-sm
+      .modal-content
+        .modal-header
+          h4.modal-title(id="myModalLabel") Добавить категорию
+        .modal-body
+          form(id="categorie-form")
+            div.form-group
+              label(for="categorie") Имя Категории
+              input.form-control(type="text" name="categorie" required autofocus)
+            div.form-group
+              button#add-account.btn.btn-primary(type="submit") Добавить
+block scripts
+  script(src='/assets/categories.js')

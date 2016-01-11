@@ -1,0 +1,35 @@
+extends layout/page
+
+block content
+  .main.col-md-10
+    h1 Транзакции
+    .row
+      .transactions-list.col-md-12
+        hr
+        .table-responsive
+          table.table.table-striped.table-bordered
+            thead
+              tr
+                td Сумма
+                td Число
+                td Счет
+                td Категории
+                td Описание
+                td
+            tbody
+              for transaction in transactions
+                tr
+                  td.transaction-price-cell
+                    span.spend-false= transaction.amount
+                  td.transcation-date-cell= transaction.date
+                  td.transcation-account-cell
+                    span= transaction.account.name
+                  td.transcation-categories-cell
+                    for categorie in transaction.categories
+                      span.label.label-primary= categorie.name
+                  td.transaction-description-cell= transaction.descripton
+                  td.button-cell
+                    button.btn.btn-default
+                      span.glyphicon.glyphicon-edit
+                    button.btn.btn-default
+                      span.glyphicon.glyphicon-minus-sign

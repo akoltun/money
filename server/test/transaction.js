@@ -98,7 +98,7 @@ describe('Transaction REST API', () => {
       response.body.transaction.amount.should.eql(+newTransactionData.amount);
       response.body.transaction.account.name.should.eql(newTransactionData.account);
       response.body.transaction.account._id.should.eql(fixtures.Account[0]._id);
-      response.body.transaction.categories[0].should.eql(fixtures.Category[0]._id);
+      response.body.transaction.categories[0]._id.should.eql(fixtures.Category[0]._id);
       response.body.transaction.user._id.should.eql(fixtures.User[0]._id);
     });
 

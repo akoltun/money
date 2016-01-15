@@ -1,8 +1,8 @@
 'use strict';
 
 const Router = require('koa-router');
-let transaction = require('../controllers').transaction;
-let mustBeAuthenticated = require('../lib/mustBeAuthenticated');
+let transaction = require('../../controllers').api.transaction;
+let mustBeAuthenticated = require('../../lib/mustBeAuthenticated');
 
 let router = new Router();
 

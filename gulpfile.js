@@ -29,8 +29,8 @@ gulp.task('mocha', tasks.mocha);
 gulp.task('db:load', tasks.dbLoad);
 
 //DEV
-//gulp.task('dev', ['nodemon', 'build', 'client:livereload']);
-gulp.task('dev', ['nodemon']);
+gulp.task('dev', ['nodemon', 'build', 'client:livereload']);
+//gulp.task('dev', ['nodemon']);
 
 
 

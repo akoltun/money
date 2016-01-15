@@ -28,9 +28,7 @@ module.exports = {
           return ctx.throw(401, info); //можно изменить на flash собщения
         } else {
           yield ctx.login(user);
-          ctx.body = {
-            success: true
-          };
+          ctx.body = {success: true};
         }
 
       }).call(this, next);

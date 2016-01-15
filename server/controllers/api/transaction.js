@@ -1,10 +1,10 @@
 'use strict';
 
-const mongoose    = require('../lib/mongoose');
+const mongoose    = require('../../lib/mongoose');
 const isValid     = mongoose.Types.ObjectId.isValid;
-const Transaction = require('../models').Transaction;
-const Account     = require('../models').Account;
-const Category    = require('../models').Category;
+const Transaction = require('../../models').Transaction;
+const Account     = require('../../models').Account;
+const Category    = require('../../models').Category;
 
 module.exports = {
 

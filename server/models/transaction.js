@@ -6,6 +6,7 @@
 
 const mongoose = require('../lib/mongoose');
 const co = require('co');
+const moment = require('moment');
 
 /**
  * SCHEMA.
@@ -44,20 +45,16 @@ let transactionSchema = new mongoose.Schema({
   },
   categories: [{
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Categorie',
-    default: []
+    ref: 'Category'
   }],
   date: {type: Date, default: Date.now}
 });
-
-/**
- * STATICS.
- */
 
 
 /**
  * METHODS.
  */
+
 
 transactionSchema.methods.increaseCounts = function*() {
 

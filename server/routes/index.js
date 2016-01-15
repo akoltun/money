@@ -1,26 +1,23 @@
 'use strict';
 
 const Router = require('koa-router');
-let router = new Router();
+const router = new Router();
 
-let controllers = require('../controllers');
+const controllers = require('../controllers');
 
-let users = require('./users');
-let accounts = require('./accounts');
-let categories = require('./categories');
-let transactions = require('./transactions');
-// let dashboard = require('./dashboard');
-
+const api = require('./api');
+const dashboard = require('./dashboard');
 
 router
-  .get('/', controllers.auth.register)
-  .get('/login', controllers.auth.login.get)
-  .post('/login', controllers.auth.login.post)
-  .get('/logout', controllers.auth.logout);
+  .get('/', controllers.api.auth.register)
+  .get('/login', controllers.api.auth.login.get)
+  .post('/login', controllers.api.auth.login.post)
+  .get('/logout', controllers.api.auth.logout);
 
-router.use('/transactions/me', transactions);
-router.use('/accounts/me', accounts);
-router.use('/categories/me', categories);
-router.use('/users', users);
+router.use('/transactions/me', api.transactions);
+router.use('/accounts/me', api.accounts);
+router.use('/categories/me', api.categories);
+router.use('/users', api.users);
+router.use('/dashboard', dashboard);
 
 module.exports = router;

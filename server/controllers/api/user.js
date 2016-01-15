@@ -1,9 +1,9 @@
 'use strict';
 
-const mongoose = require('../lib/mongoose');
+const mongoose = require('../../lib/mongoose');
 const isValid = mongoose.Types.ObjectId.isValid;
 
-const User = require('../models').User;
+const User = require('../../models').User;
 
 module.exports = {
 

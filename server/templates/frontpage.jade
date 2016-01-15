@@ -6,19 +6,16 @@ html(lang="de")
     link(rel="stylesheet", href="/assets/main.css")
     script(src='/assets/common.js')
   body
-    section.container-fluid
-      .row
-        .col-md-12
-          a.btn.btn-primary(href='/login') Войти
-          h2 Зарегистрироваться
-          form(id="register-form")
-            div.form-group
-              label(for="email") E-mail
-              input.form-control(type="email" name="email" required)
-            div.form-group
-              label(for="password") Password
-              input.form-control(type="password" name="password" required)
-            div.form-group
-              button.btn.btn-primary(type="submit") Зарегистироваться
+    section.container-fluid: .row: .col-md-12
+      a.btn.btn-primary(href='/login') Войти
+      h2 Зарегистрироваться
+      form(id="register-form")
+        div.form-group
+          label(for="email") E-mail
+          input.form-control(type="email" name="email" required)
+        div.form-group
+          label(for="password") Password
+          input.form-control(type="password" name="password" required)
+        div.form-group: button.btn.btn-primary(type="submit") Зарегистироваться
 
     script(src='/assets/register.js')

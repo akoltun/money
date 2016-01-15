@@ -1,70 +1,51 @@
 extends layout/page
 
+include mixins/thead
+include mixins/editButtons
+
+block append variables
+  - var thead = {name: 'Имя', transactionsCount: 'Транзакций', spent: 'Потрачено', earned: 'Заработано', withdrawal: 'Снято', deposits: 'Пополнения', summary: 'Итого'}
+
 block content
   .main.col-md-10
-    button.btn.btn-primary.pull-right(type="button" data-toggle="modal" data-target=".add-account") Добавить счет
+    button.btn.btn-primary.pull-right(type="button" data-toggle="modal" data-target=".add-account") Добавить Счет
     h1 Счета
-    .row
-      .accounts-list.col-md-12
-        hr
-        .table-responsive
-          table.table.table-striped
-            thead
-              tr
-                td Имя
-                td Транзакций
-                td Потрачено
-                td Заработано
-                td Снято
-                td Пополнения
-                td Итого
-            tbody
-              each account in accounts
-                tr
-                  td= account.name
-                  td= account.transactions.length
-                  td= account.spent
-                  td= account.earned
-                  td= account.withdrawal
-                  td= account.deposits
-                  td= account.summary
-              //- tr
-              //-   td Банк
-              //-   td 25
-              //-   td 1500
-              //-   td 4500
-              //-   td 1000
-              //-   td 2000
-              //-   td 5000
-              //-   td.button-cell
-              //-     button.btn.btn-default
-              //-       span.glyphicon.glyphicon-edit
-              //-     button.btn.btn-default
-              //-       span.glyphicon.glyphicon-minus-sign
-              //- tr
-              //-   td Кошелек
-              //-   td 25
-              //-   td 1500
-              //-   td 4500
-              //-   td 1000
-              //-   td 2000
-              //-   td 5000
-              //-   td.button-cell
-              //-     button.btn.btn-default
-              //-       span.glyphicon.glyphicon-edit
-              //-     button.btn.btn-default
-              //-       span.glyphicon.glyphicon-minus-sign
+    .row: .accounts-list.col-md-12
+      hr
+      .table-responsive: table.table.table-striped
+        +thead(thead)
+        tbody#accounts-table: each account in accounts
+          tr
+            td: a(href="/dashboard/accounts/#{account._id}")= account.name
+            td= account.transactionsCount
+            td= account.spent
+            td= account.earned
+            td= account.withdrawal
+            td= account.deposits
+            td= account.summary
+            +editButtons(account._id, account.name, account.pinned)
   .modal.fade.add-account(tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel")
-    .modal-dialog.modal-sm
-      .modal-content
-        .modal-header
-          h4.modal-title(id="myModalLabel") Добавить аккаунт
-        .modal-body
-          form(id="account-form")
-            div.form-group
-              label(for="account") Имя аккаунта
-              input.form-control(type="text" name="account" required autofocus)
-            div.form-group
-              button#add-account.btn.btn-primary(type="submit") Добавить
+    .modal-dialog.modal-sm: .modal-content
+      .modal-header: h4.modal-title(id="myModalLabel") Добавить счет
+      .modal-body: form(id="add-account-form")
+        .form-group
+          label(for="name") Имя счета
+          input.form-control(type="text" name="name" required autofocus)
+        .form-group: div.checkbox: label
+          input(type="checkbox")
+          | Закрепить
+        .form-group: button#add-account.btn.btn-primary(type="submit") Добавить
+  .modal.fade.edit-account(tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel")
+    .modal-dialog.modal-sm: .modal-content
+      .modal-header: h4.modal-title(id="myModalLabel") Изменить счет
+      .modal-body: form(id="edit-account-form")
+        .form-group
+          label(for="name") Имя счета
+          input.form-control(type="text" name="name" required autofocus)
+        .form-group: div.checkbox: label
+          input(type="checkbox")
+          | Закрепить
+        .form-group: button#edit-account.btn.btn-primary(type="submit") Изменить
+
 block scripts
   script(src='/assets/accounts.js')

@@ -29,7 +29,7 @@ module.exports = {
 
   getTransactions: function*(next) {
 
-    let transaction = yield Transaction.find({user: this.user});
+    let transaction = yield Transaction.find({user: this.user}).lean();
     this.body = transaction;
 
   },

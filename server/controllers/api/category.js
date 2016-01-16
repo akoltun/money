@@ -29,7 +29,7 @@ module.exports = {
 
   getCategories: function*(next) {
 
-    let categories = yield Category.find({user: this.user});
+    let categories = yield Category.find({user: this.user}).lean();
     this.body = categories;
 
   },

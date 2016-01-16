@@ -30,7 +30,7 @@ module.exports = {
 
   getAccounts: function*(next) {
 
-    let accounts = yield Account.find({user: this.user});
+    let accounts = yield Account.find({user: this.user}).lean();
     this.body = accounts;
 
   },

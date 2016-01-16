@@ -9,7 +9,7 @@ module.exports = {
 
     let accounts = yield Account.find({
       user: this.user,
-    });
+    }).lean();
 
     let summary = accounts
       .map(account => account.summary)
@@ -26,7 +26,7 @@ module.exports = {
 
     let transactions = yield Transaction.find({
       user: this.user
-    }).populate('account categories');
+    }).populate('account categories').lean();
 
     this.body = this.render('dashboard', {
       title: 'Панель управления',

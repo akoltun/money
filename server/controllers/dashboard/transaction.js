@@ -8,7 +8,7 @@ module.exports = {
 
     let transactions = yield Transaction.find({
       user: this.user
-    }).populate('account categories');
+    }).populate('account categories').lean();
 
     this.body = this.render('transactions', {
       title: 'Транзакции',

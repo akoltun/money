@@ -1,12 +1,4 @@
-doctype html
-html(lang="de")
-  head
-    block variables
-    meta(charset="UTF-8")
-    title= title
-    link(rel="stylesheet", href="/assets/main.css")
-    script(src='/assets/common.js')
-    block head
+include head
   body
     section.dashboard.container-fluid: .row
       include ../partials/sidebarLeft.jade

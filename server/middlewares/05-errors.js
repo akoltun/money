@@ -6,12 +6,15 @@ module.exports = function*(next) {
     yield * next;
     if (404 == this.response.status && !this.response.body) this.throw(404);
   } catch (err) {
+    console.log(err.name);
+    console.log(err.message);
+    console.log(err.status);
 
     let preferredType = this.accepts('html', 'text', 'json');
 
     this.set('X-Content-Type-Options', 'nosniff');
     this.status = err.status || 500;
-    this.app.emit('error', err, this);
+    //this.app.emit('error', err, this);
 
     if (err.name === 'ValidationError') {
       this.status = 400;
@@ -37,7 +40,7 @@ module.exports = function*(next) {
 
       case 'html':
         this.type = 'text/html';
-        this.render('error', {
+        this.body = this.render('error', {
           message: err.message,
           status: this.status,
           stack: this.app.env === 'development' ? err.stack : null

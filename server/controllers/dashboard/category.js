@@ -9,7 +9,7 @@ module.exports = {
 
     let categories = yield Category.find({
       user: this.user
-    });
+    }).lean();
 
     this.body = this.render('categories', {
       title: 'Категории',
@@ -23,7 +23,7 @@ module.exports = {
     let transactions = yield Transaction.find({
       user: this.user,
       categories: this.params.category
-    }).populate('account categories');
+    }).populate('account categories').lean();
 
     this.body = this.render('transactions', {
       title: `Транзакции в "${this.params.category.name}"`,

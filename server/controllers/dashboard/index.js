@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = {
-  dashboard: require('./dashboard'),
+  main: require('./main'),
   account: require('./account'),
   category: require('./category'),
   transaction: require('./transaction')

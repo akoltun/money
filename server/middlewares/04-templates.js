@@ -3,6 +3,7 @@
 const jade = require('jade');
 const config = require('config');
 const path = require('path');
+const moment = require('moment');
 
 module.exports = function*(next) {
 
@@ -13,6 +14,9 @@ module.exports = function*(next) {
     /* at the time of this middleware, user is unknown, so we make it a getter */
     get user() {
       return ctx.req.user; // passport sets this
+    },
+    get moment() {
+      return moment;
     }
   };
 

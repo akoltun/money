@@ -54,6 +54,7 @@ module.exports = {
 
     let fields = this.request.body;
     fields.user = this.user;
+    if (!fields.pinned) fields.pinned = false;
     let account = yield Account.create(fields);
     this.status = 201;
     this.body = {success: true, account: account};
@@ -64,6 +65,7 @@ module.exports = {
 
     let account = this.params.account;
     let fields = this.request.body;
+    if (!fields.pinned) fields.pinned = false;
     Object.assign(account, fields);
     yield account.save();
     this.body = {success: true, account: account};

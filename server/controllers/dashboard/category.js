@@ -12,6 +12,7 @@ module.exports = {
     });
 
     this.body = this.render('categories', {
+      title: 'Категории',
       categories: categories
     });
 
@@ -25,8 +26,8 @@ module.exports = {
     }).populate('account categories');
 
     this.body = this.render('transactions', {
-      transactions: transactions,
-      transactionsTitle: `Транзакции в "${this.params.category.name}"`
+      title: `Транзакции в "${this.params.category.name}"`,
+      transactions: transactions
     });
 
   }

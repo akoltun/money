@@ -1,0 +1,16 @@
+include thead
+include editButtons
+
+mixin transactionsTable(transactions, thead)
+  .table-responsive: table.table.table-striped
+    +thead(thead)
+    tbody: for transaction in transactions
+      tr
+        td.transaction-price-cell: span.spend-false= transaction.amount
+        td.transcation-date-cell=moment(transaction.date).format('DD/MM/YYYY - HH:MM')
+        td.transcation-account-cell
+          a(href="/dashboard/accounts/#{transaction.account._id}")=transaction.account.name
+        td.transcation-categories-cell: for category in transaction.categories
+          a.label.label-primary(href="/dashboard/categories/#{category._id}")=category.name
+        td.transaction-description-cell=transaction.description
+        +editButtons

@@ -24,7 +24,7 @@ module.exports = {
     register: './register.js',
     accounts: './accounts.js',
     categories: './categories.js',
-    // dashboard: './dashboard.js'
+    dashboard: './dashboard.js'
   },
 
   output: {

@@ -1,16 +1,8 @@
 'use strict';
 
 const Transaction = require('../../models').Transaction;
-const moment = require('moment');
 
 module.exports = {
-
-  pre: function*(next) {
-
-    this.state.moment = moment;
-    yield * next;
-
-  },
 
   getTransactions: function*(next) {
 
@@ -19,8 +11,8 @@ module.exports = {
     }).populate('account categories');
 
     this.body = this.render('transactions', {
-      transactions: transactions,
-      transactionsTitle: 'Транзакции'
+      title: 'Транзакции',
+      transactions: transactions
     });
 
   }

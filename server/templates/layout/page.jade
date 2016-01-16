@@ -8,10 +8,9 @@ html(lang="de")
     script(src='/assets/common.js')
     block head
   body
-    section.dashboard.container-fluid
-      .row
-        include ../partials/sidebarLeft.jade
-        block content
+    section.dashboard.container-fluid: .row
+      include ../partials/sidebarLeft.jade
+      block content
     footer.container-fluid
       block footer
     script(src='/assets/main.js')

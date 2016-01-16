@@ -12,6 +12,7 @@ module.exports = {
     });
 
     this.body = this.render('accounts', {
+      title: 'Счета',
       accounts: accounts
     });
 
@@ -25,8 +26,8 @@ module.exports = {
     }).populate('account categories');
 
     this.body = this.render('transactions', {
-      transactions: transactions,
-      transactionsTitle: `Транзакции в "${this.params.account.name}"`
+      title: `Транзакции в "${this.params.account.name}"`,
+      transactions: transactions
     });
 
   }

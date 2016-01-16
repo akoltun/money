@@ -8,28 +8,36 @@ block append variables
 
 block content
   .main.col-md-10
-    button.btn.btn-primary.pull-right(type="button" data-toggle="modal" data-target=".add-category") Добавить Категорию
-    h1 Категории
+    button.btn.btn-primary.pull-right(type="button" data-toggle="modal" data-target=".add-form") Добавить Категорию
+    h1= title
     .row: .categories-list.col-md-12
       hr
       .table-responsive: table.table.table-striped
         +thead(thead)
-        tbody: each category in categories
+        tbody#categories-table: each category in categories
           tr
             td: a(href="/dashboard/categories/#{category._id}")= category.name
             td= category.transactionsCount
             td= category.spent
             td= category.earned
             td= category.summary
-            +editButtons(category._id)
-  .modal.fade.add-category(tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel")
+            +editButtons(category._id, category.name)
+  .modal.fade.add-form(tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel")
     .modal-dialog.modal-sm: .modal-content
       .modal-header: h4.modal-title(id="myModalLabel") Добавить категорию
-      .modal-body: form(id="category-form")
+      .modal-body: form(id="add-form")
         .form-group
           label(for="name") Имя категории
           input.form-control(type="text" name="name" required autofocus)
-        .form-group: button#add-category.btn.btn-primary(type="submit") Добавить
+        .form-group: button#add-form.btn.btn-primary(type="submit") Добавить
+  .modal.fade.edit-form(tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel")
+    .modal-dialog.modal-sm: .modal-content
+      .modal-header: h4.modal-title(id="myModalLabel") Изменить Категорию
+      .modal-body: form(id="edit-form")
+        .form-group
+          label(for="name") Имя счета
+          input.form-control(type="text" name="name" required autofocus)
+        .form-group: button#edit-form.btn.btn-primary(type="submit") Изменить
 
 block scripts
   script(src='/assets/categories.js')

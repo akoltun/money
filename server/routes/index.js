@@ -5,6 +5,7 @@ const router = new Router();
 
 const controllers = require('../controllers');
 
+
 const api = require('./api');
 const dashboard = require('./dashboard');
 
@@ -18,6 +19,7 @@ router.use('/transactions/me', api.transactions);
 router.use('/accounts/me', api.accounts);
 router.use('/categories/me', api.categories);
 router.use('/users', api.users);
+
 router.use('/dashboard', dashboard);
 
 module.exports = router;

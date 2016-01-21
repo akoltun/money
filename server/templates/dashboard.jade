@@ -3,17 +3,47 @@ extends layout/page
 include mixins/transactionsTable
 
 block append variables
-  - var thead = {amount: 'Сумма', date: 'Число', account: 'Счет', Categories: 'Категории', description: 'Описание'}
+  - var thead = {amount: 'Beitrag', date: 'Date', account: 'Konto', Categories: 'Kategorie', description: 'Beschreibung'}
 
 block content
   .main.col-md-10: .row
     .col-md-8
       h1= title
-      .row: .col-md-12: form(id="new-transaction-form")
-        div.form-group.date
-          input.form-control(type="date" name="date" value="" required)
-        div.form-group.description
-          input.form-control(type="text" name="description" value="" placeholder="Описание транзакции, от 1 до 140 символов" required)
+      .row: .col-md-12: form(id="add-transaction-form")
+        .form-group.date: .input-group.date
+          input.form-control(type="text" value=moment().format('DD.MM.YYYY'))
+        .form-group.description
+          input.form-control(type="text" name="description" value="" placeholder="Transaction beschreibung" required)
+        .form-group#transaction-type-select
+          a.btn.btn-default.btn-sm.icon.glyphicon.glyphicon-plus-sign(data-type="spent")
+          a.btn.btn-default.btn-sm.icon.glyphicon.glyphicon-transfer(data-type="transfer")
+          a.btn.btn-default.btn-sm.icon.glyphicon.glyphicon-minus-sign.active(data-type="earned")
+        .form-group.amount
+          input.form-control(type="text" name="amount" placeholder="Beitrag" required)
+        .form-group.category-select-container#category-select: .row
+          .account.col-md-6
+            for account in accounts
+              .radio: label
+                input.radio(type="radio" name="account" value="#{account.name}")
+                | #{account.name}
+          .categories.col-md-6
+            for category in categories
+              .checkbox: label
+                input.checkbox(type="checkbox" value="#{category.name}")
+                | #{category.name}
+        .form-group.accounts-select-container.hidden#accounts-select: .row
+          .account.col-md-6
+            for account in accounts
+              .radio: label
+                input.radio(type="radio" name="sourceAccount" value="#{account.name}")
+                | #{account.name}
+          .account.col-md-6
+            for account in accounts
+              .radio: label
+                input.radio(type="radio" name="destinationAccount" value="#{account.name}")
+                | #{account.name}
+        .form-group: button#add-form.btn.btn-primary(type="submit") Hinzufügen
+      hr
       .row: .col-md-12: +transactionsTable(transactions, thead)
     .col-md-2
       h1 Статистика

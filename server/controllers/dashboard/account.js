@@ -12,7 +12,7 @@ module.exports = {
     }).lean();
 
     this.body = this.render('accounts', {
-      title: 'Счета',
+      title: 'Kontos',
       accounts: accounts
     });
 
@@ -26,7 +26,7 @@ module.exports = {
     }).populate('account categories').lean();
 
     this.body = this.render('transactions', {
-      title: `Транзакции в "${this.params.account.name}"`,
+      title: `Transaktionen in "${this.params.account.name}"`,
       transactions: transactions
     });
 

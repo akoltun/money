@@ -6,9 +6,6 @@ module.exports = function*(next) {
     yield * next;
     if (404 == this.response.status && !this.response.body) this.throw(404);
   } catch (err) {
-    console.log(err.name);
-    console.log(err.message);
-    console.log(err.status);
 
     let preferredType = this.accepts('html', 'text', 'json');
 
@@ -30,7 +27,7 @@ module.exports = function*(next) {
           errors: errors
         };
       } else {
-        this.body = 'Некорректные данные';
+        this.body = 'Bad data';
       }
 
       return;

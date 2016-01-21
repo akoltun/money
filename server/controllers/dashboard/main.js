@@ -2,6 +2,7 @@
 
 const Transaction = require('../../models').Transaction;
 const Account = require('../../models').Account;
+const Category = require('../../models/').Category;
 
 module.exports = {
 
@@ -28,9 +29,19 @@ module.exports = {
       user: this.user
     }).populate('account categories').lean();
 
+    let accounts = yield Account.find({
+      user: this.user
+    }).lean();
+
+    let categories = yield Category.find({
+      user: this.user
+    }).lean();
+
     this.body = this.render('dashboard', {
-      title: 'Панель управления',
-      transactions: transactions
+      title: 'Übersicht',
+      transactions: transactions,
+      accounts: accounts,
+      categories: categories
     });
 
   }

@@ -1,6 +1,6 @@
 'use strict';
-if (process.env.TRACE) {
-  require('./libs/trace');
+if (process.env.NODE_TRACE) {
+  require('./lib/trace');
 }
 
 const koa = require('koa');

@@ -11,7 +11,7 @@ module.exports = {
     }).populate('account categories').lean();
 
     this.body = this.render('transactions', {
-      title: 'Транзакции',
+      title: 'Transaktionen',
       transactions: transactions
     });
 

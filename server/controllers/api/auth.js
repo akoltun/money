@@ -18,8 +18,8 @@ module.exports = {
 
       let ctx = this;
 
-      if (!this.request.body.email) this.throw(400, 'Укажите email');
-      if (!this.request.body.password) this.throw(400, 'Укажите пароль');
+      if (!this.request.body.email) this.throw(400, 'Email is required');
+      if (!this.request.body.password) this.throw(400, 'Password is required');
 
       yield passport.authenticate('local', function*(err, user, info) {
         if (err) throw err;
@@ -57,7 +57,7 @@ module.exports = {
   register: function*() {
 
     this.body = this.render('frontpage', {
-      title: 'Зарегистрироваться',
+      title: 'Registrieren',
     });
 
   }

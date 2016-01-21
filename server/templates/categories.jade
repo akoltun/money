@@ -4,11 +4,11 @@ include mixins/thead
 include mixins/editButtons
 
 block append variables
-  - var thead = {name: 'Имя', transactionsCount: 'Транзакций', spent: 'Потрачено', earned: 'Заработано', summary: 'Итого'}
+  - var thead = {name: 'Name', transactionsCount: 'Transactionen', spent: 'Verbrachten', earned: 'Verdient', summary: 'Gesamt'}
 
 block content
   .main.col-md-10
-    button.btn.btn-primary.pull-right(type="button" data-toggle="modal" data-target=".add-form") Добавить Категорию
+    button.btn.btn-primary.pull-right(type="button" data-toggle="modal" data-target=".add-form") Kategorie hinzufügen
     h1= title
     .row: .categories-list.col-md-12
       hr
@@ -24,20 +24,20 @@ block content
             +editButtons(category._id, category.name)
   .modal.fade.add-form(tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel")
     .modal-dialog.modal-sm: .modal-content
-      .modal-header: h4.modal-title(id="myModalLabel") Добавить категорию
+      .modal-header: h4.modal-title(id="myModalLabel") Kategorie hinzufügen
       .modal-body: form(id="add-form")
         .form-group
-          label(for="name") Имя категории
+          label(for="name") Kategorie name
           input.form-control(type="text" name="name" required autofocus)
-        .form-group: button#add-form.btn.btn-primary(type="submit") Добавить
+        .form-group: button#add-form.btn.btn-primary(type="submit") Hinzufügen
   .modal.fade.edit-form(tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel")
     .modal-dialog.modal-sm: .modal-content
-      .modal-header: h4.modal-title(id="myModalLabel") Изменить Категорию
+      .modal-header: h4.modal-title(id="myModalLabel") Kategorie ändern
       .modal-body: form(id="edit-form")
         .form-group
-          label(for="name") Имя счета
+          label(for="name") Kategorie name
           input.form-control(type="text" name="name" required autofocus)
-        .form-group: button#edit-form.btn.btn-primary(type="submit") Изменить
+        .form-group: button#edit-form.btn.btn-primary(type="submit") Ändern
 
 block scripts
   script(src='/assets/categories.js')

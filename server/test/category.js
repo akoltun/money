@@ -75,7 +75,7 @@ describe('Category REST API', () => {
         json: true
       });
       response.statusCode.should.eql(403);
-      response.body.error.should.eql('Доступ запрещен, пожалуйста авторизуйтесь');
+      response.body.error.should.eql('Forbidden, authorization required');
     });
 
   });
@@ -152,7 +152,7 @@ describe('Category REST API', () => {
         }
       });
       response.statusCode.should.eql(409);
-      response.body.error.should.eql('Такое имя категории уже используется.');
+      response.body.error.should.eql('Category name is occupied');
     });
 
   });
@@ -183,7 +183,7 @@ describe('Category REST API', () => {
         }
       });
       response.statusCode.should.eql(409);
-      response.body.error.should.eql('Такое имя категории уже используется.');
+      response.body.error.should.eql('Category name is occupied');
     });
 
     it('returns 400 if category name is empty', function*() {
@@ -196,7 +196,7 @@ describe('Category REST API', () => {
         }
       });
       response.statusCode.should.eql(400);
-      response.body.errors[0].should.eql('Название категории не может быть пустым');
+      response.body.errors[0].should.eql('Category name can\'t be a empty');
     });
 
   });

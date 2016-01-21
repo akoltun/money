@@ -15,7 +15,7 @@ const co = require('co');
 let accountSchema = new mongoose.Schema({
   name: {
     type: String,
-    required: 'Название счета не может быть пустым',
+    required: 'Account name can\'t be a empty',
     minLength: 2,
     maxlength: 256,
     trim: true
@@ -23,7 +23,7 @@ let accountSchema = new mongoose.Schema({
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
-    required: 'Аккаунт не может быть без владельца'
+    required: 'Account can\'t be without user'
   },
   transactionsCount : {type : Number,  default : 0},
   spent             : {type : Number,  default : 0}, // Потрачено
@@ -50,7 +50,7 @@ accountSchema.pre('save', function(next) {
 
     if (isOccupied) {
       if (String(isOccupied._id) == String(account._id)) return next();
-      let err = new mongoose.Error('Такое имя счета уже используется.');
+      let err = new mongoose.Error('Account name is occupied');
       err.status = 409;
       throw err;
     }

@@ -79,7 +79,7 @@ describe('Transaction REST API', () => {
         json: true
       });
       response.statusCode.should.eql(403);
-      response.body.error.should.eql('Доступ запрещен, пожалуйста авторизуйтесь');
+      response.body.error.should.eql('Forbidden, authorization required');
     });
 
   });

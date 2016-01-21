@@ -17,7 +17,7 @@ let transactionSchema = new mongoose.Schema({
     type: String,
     enum: {
       values: ['spent', 'earned', 'transfer'],
-      message: "Неизвестный тип транзакции"
+      message: 'Unknown type of transaction'
     }
   },
   description: {
@@ -28,7 +28,7 @@ let transactionSchema = new mongoose.Schema({
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
-    required: 'Транзакция не может быть без пользователя'
+    required: 'Transaction can\'t be without user'
   },
   account: {
     type: mongoose.Schema.Types.ObjectId,

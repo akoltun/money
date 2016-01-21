@@ -14,7 +14,7 @@ const co = require('co');
 let categorySchema = new mongoose.Schema({
   name: {
     type: String,
-    required: 'Название категории не может быть пустым',
+    required: 'Category name can\'t be a empty',
     minLength: 2,
     maxlength: 256,
     trim: true
@@ -22,7 +22,7 @@ let categorySchema = new mongoose.Schema({
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
-    required: 'Категория не может быть без владельца'
+    required: 'Category can\'t be without user'
   },
   transactionsCount : {type : Number,  default : 0},
   spent             : {type : Number,  default : 0}, // Потрачено
@@ -46,7 +46,7 @@ categorySchema.pre('save', function(next) {
 
     if (isOccupied) {
       if (String(isOccupied._id) == String(category._id)) return next();
-      let err = new mongoose.Error('Такое имя категории уже используется.');
+      let err = new mongoose.Error('Category name is occupied');
       err.status = 409;
       throw err;
     }

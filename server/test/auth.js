@@ -69,7 +69,7 @@ describe('Auth API', () => {
       });
 
       response.statusCode.should.eql(400);
-      response.body.error.should.eql('Укажите email');
+      response.body.error.should.eql('Email is required');
 
     });
 
@@ -86,7 +86,7 @@ describe('Auth API', () => {
 
       response.statusCode.should.eql(400);
       response.body.should.have.error;
-      response.body.error.should.eql('Укажите пароль');
+      response.body.error.should.eql('Password is required');
 
     });
 
@@ -104,7 +104,8 @@ describe('Auth API', () => {
 
       response.statusCode.should.eql(401);
       response.body.should.have.error;
-      response.body.error.should.eql('Не верный email или пароль.');
+      console.log(response.body.error);
+      response.body.error.should.eql('Email or password wrong');
 
     });
 
@@ -122,7 +123,7 @@ describe('Auth API', () => {
 
       response.statusCode.should.eql(401);
       response.body.should.have.error;
-      response.body.error.should.eql('Не верный email или пароль.');
+      response.body.error.should.eql('Email or password wrong');
 
     });
 

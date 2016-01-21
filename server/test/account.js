@@ -75,7 +75,7 @@ describe('Account REST API', () => {
         json: true
       });
       response.statusCode.should.eql(403);
-      response.body.error.should.eql('Доступ запрещен, пожалуйста авторизуйтесь');
+      response.body.error.should.eql('Forbidden, authorization required');
     });
 
   });
@@ -154,7 +154,7 @@ describe('Account REST API', () => {
         }
       });
       response.statusCode.should.eql(409);
-      response.body.error.should.eql('Такое имя счета уже используется.');
+      response.body.error.should.eql('Account name is occupied');
     });
 
   });
@@ -185,7 +185,7 @@ describe('Account REST API', () => {
         }
       });
       response.statusCode.should.eql(409);
-      response.body.error.should.eql('Такое имя счета уже используется.');
+      response.body.error.should.eql('Account name is occupied');
     });
 
     it('returns 400 if account name is empty', function*() {
@@ -198,7 +198,7 @@ describe('Account REST API', () => {
         }
       });
       response.statusCode.should.eql(400);
-      response.body.errors[0].should.eql('Название счета не может быть пустым');
+      response.body.errors[0].should.eql('Account name can\'t be a empty');
     });
 
   });

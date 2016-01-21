@@ -17,13 +17,13 @@ const uniqueValidator = require('mongoose-unique-validator');
 let userSchema = new mongoose.Schema({
   email: {
     type: String,
-    required: 'E-mail пользователя не может быть пустым',
+    required: 'E-mail can\'t be empty',
     unique: true,
     lowercase: true,
     trim: true,
     validate: [{
       validator: validator.isEmail,
-      msg: 'Некорректный email.'
+      msg: 'Email is wrong'
     }],
   },
   passwordHash: {
@@ -43,7 +43,7 @@ let userSchema = new mongoose.Schema({
  */
 
 userSchema.plugin(uniqueValidator, {
-  message: 'Ошибка: {PATH}: {VALUE} уже существует'
+  message: 'Error: {PATH}: {VALUE} exists'
 });
 
 /**
@@ -55,7 +55,7 @@ userSchema.virtual('password')
 
     if (password !== undefined) {
       if (password.length < 4) {
-        this.invalidate('password', 'Пароль должен быть минимум 4 символа.');
+        this.invalidate('password', 'Password should not be less than 4 character');
       }
     }
 
@@ -88,7 +88,7 @@ userSchema.virtual('password')
 
     if (isOccupied) {
       if (String(isOccupied.email) !== String(user.email)) return next();
-      let err = new mongoose.Error('Такой email уже используется.');
+      let err = new mongoose.Error('Email is occupied.');
       err.status = 409;
       throw err;
     }

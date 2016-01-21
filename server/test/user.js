@@ -139,7 +139,7 @@ describe('User REST API', () => {
         }
       });
       response.statusCode.should.eql(409);
-      response.body.error.should.eql('Такой email уже используется.');
+      response.body.error.should.eql('Email is occupied.');
     });
 
     it('returns 400 if passwordOld is wrong', function*() {
@@ -154,7 +154,7 @@ describe('User REST API', () => {
         }
       });
       response.statusCode.should.eql(400);
-      response.body.error.should.eql('Старый пароль неверен.');
+      response.body.error.should.eql('Old password is wrong.');
     });
 
   });
@@ -207,7 +207,7 @@ describe('User REST API', () => {
         body: fixtures.User[0]
       });
       response.statusCode.should.eql(400);
-      response.body.errors[0].should.eql('Ошибка: email: admin@google.com уже существует');
+      response.body.errors[0].should.eql('Error: email: admin@google.com exists');
     });
 
     it('returns 400 if email not valid', function*() {
@@ -220,7 +220,7 @@ describe('User REST API', () => {
         }
       });
       response.statusCode.should.eql(400);
-      response.body.errors[0].should.eql('Некорректный email.');
+      response.body.errors[0].should.eql('Email is wrong');
     });
 
     it('returns 400 if password less then 4 char', function*() {
@@ -234,7 +234,7 @@ describe('User REST API', () => {
         }
       });
       response.statusCode.should.eql(400);
-      response.body.errors[0].should.eql('Пароль должен быть минимум 4 символа.');
+      response.body.errors[0].should.eql('Password should not be less than 4 character');
     });
 
   });

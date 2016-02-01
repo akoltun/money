@@ -58,7 +58,7 @@ module.exports = {
     let user = yield User.create(this.request.body);
 
     this.status = 201;
-    this.body = {success: true, user: user.getInfoFields()};
+    this.redirect('/login');
 
   },
 

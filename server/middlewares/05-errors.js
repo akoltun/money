@@ -23,9 +23,7 @@ module.exports = function*(next) {
 
       if (preferredType === 'json') {
         this.type = 'application/json';
-        this.body = {
-          errors: errors
-        };
+        this.body = {errors: errors};
       } else {
         this.body = 'Bad data';
       }

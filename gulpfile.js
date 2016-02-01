@@ -1,7 +1,6 @@
 'use strict';
 
 const gulp = require('gulp');
-const gutil = require("gulp-util");
 const config = require('config');
 const runSequence = require('run-sequence');
 const tasks = require('./tasks');

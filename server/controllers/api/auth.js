@@ -7,11 +7,11 @@ module.exports = {
   login: {
 
     get: function*() {
-
-      this.body = this.render('login', {
-        title: 'Войти',
-      });
-
+      if (this.isAuthenticated()) {
+        this.redirect('/dashboard');
+        return;
+      }
+      this.body = this.render('login', {title: 'Einloggen'});
     },
 
     post: function*(next) {
@@ -28,7 +28,8 @@ module.exports = {
           return ctx.throw(401, info); //можно изменить на flash собщения
         } else {
           yield ctx.login(user);
-          ctx.body = {success: true};
+          ctx.newFlash = {message: 'Sie haben sich eingeloggt'};
+          ctx.redirect('/dashboard');
         }
 
       }).call(this, next);
@@ -41,25 +42,16 @@ module.exports = {
     //cookies.set( name, [ value ], [ options ] ) - без value удаляет
     // this.cookies.set('sid');
     // this.cookies.set('sid.sig');
-
-    if (this.session.socketIds) {
-      this.session.socketIds.forEach((socketId) => {
-        this.app.io.socketEmitter.to(socketId).emit('logout');
-      });
-    }
-
     this.logout();
     //this.session = null;
+    this.newFlash = {message: 'Sie haben sich abgemeldet'};
     this.redirect('/');
 
   },
 
   register: function*() {
-
-    this.body = this.render('frontpage', {
-      title: 'Registrieren',
-    });
-
+    this.newFlash = {message: 'Sie haben sich angemeldet'};
+    this.body = this.render('register', {title: 'Anmelden'});
   }
 
 };

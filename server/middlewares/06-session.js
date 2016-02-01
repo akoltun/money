@@ -5,8 +5,6 @@ const sessionStore = require('../lib/sessionStore');
 
 const config = require('config');
 
-const _ = require('lodash');
+Object.assign(config.session, sessionStore);
 
-let options = _.extend(config.session, sessionStore);
-
-module.exports = session(options);
+module.exports = session(config.session);

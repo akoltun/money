@@ -10,8 +10,8 @@ const api = require('./api');
 const dashboard = require('./dashboard');
 
 router
-  .get('/', controllers.api.auth.register)
-  .get('/login', controllers.api.auth.login.get)
+  .get('/register', controllers.api.auth.register)
+  .get('/', controllers.api.auth.login.get)
   .post('/login', controllers.api.auth.login.post)
   .get('/logout', controllers.api.auth.logout);
 

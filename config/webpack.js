@@ -20,8 +20,6 @@ module.exports = {
 
   entry: {
     main: './main.js',
-    login: './login.js',
-    register: './register.js',
     accounts: './accounts.js',
     categories: './categories.js',
     dashboard: './dashboard.js'

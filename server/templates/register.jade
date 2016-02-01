@@ -4,18 +4,18 @@ include layout/head
       p.bg-primary=flash.message
     section.container-fluid: .row
       .col-xs-4
-      .col-xs-4: h2 Einloggen
+      .col-xs-4: h2 Anmelden
         hr
-        form(action="/login" method="POST" role="form")
+        form(action="/users" method="POST" role="form")
           .form-group
             label(for="email") E-mail
             input.form-control#email(type="email" name="email"
-              value="admin@google.com" required autofocus)
+              required autofocus)
           .form-group
             label(for="password") Password
             input.form-control#password(type="password" name="password"
-              value="admin" required)
-          button.btn.btn-primary(type="submit") Einloggen
+              required)
+          button.btn.btn-primary(type="submit") Anmelden
       .col-xs-4
         br
-        a.btn.btn-primary(href='/register') Anmelden
+        a.btn.btn-primary(href='/') Einloggen

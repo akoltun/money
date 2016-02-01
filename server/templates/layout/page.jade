@@ -1,5 +1,7 @@
 include head
   body
+    if flash
+      p.bg-primary=flash.message
     section.dashboard.container-fluid: .row
       include ../partials/sidebarLeft.jade
       block content

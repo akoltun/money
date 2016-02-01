@@ -17,6 +17,9 @@ module.exports = function*(next) {
     },
     get moment() {
       return moment;
+    },
+    get flash() {
+      return ctx.flash;
     }
   };
 

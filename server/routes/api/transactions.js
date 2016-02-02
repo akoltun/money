@@ -1,19 +1,18 @@
 'use strict';
 
 const Router = require('koa-router');
-let transaction = require('../../controllers').api.transaction;
+let transactionCtrl = require('../../controllers').api.transaction;
 let mustBeAuthenticated = require('../../lib/mustBeAuthenticated');
 
 let router = new Router();
 
 router
-  .use('/', mustBeAuthenticated)
-  .param('transactionById', transaction.params.transactionById)
-  .get('/', transaction.getTransactions)
-  .post('/', transaction.post)
-  .get('/:transactionById', transaction.get)
-  .patch('/:transactionById', transaction.patch)
-  .del('/:transactionById', transaction.del);
+  .param('transactionById', transactionCtrl.params.transactionById)
+  .get('/', transactionCtrl.getTransactions)
+  .post('/', transactionCtrl.post)
+  .get('/:transactionById', transactionCtrl.get)
+  .patch('/:transactionById', transactionCtrl.patch)
+  .del('/:transactionById', transactionCtrl.del);
   
 
 module.exports = router.routes();

@@ -50,7 +50,6 @@ module.exports = {
   },
 
   register: function*() {
-    this.newFlash = {message: 'Sie haben sich angemeldet'};
     this.body = this.render('register', {title: 'Anmelden'});
   }
 

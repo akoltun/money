@@ -57,7 +57,7 @@ module.exports = {
 
     let user = yield User.create(this.request.body);
 
-    this.status = 201;
+    this.newFlash = {message: 'Sie haben sich angemeldet'};
     this.redirect('/login');
 
   },

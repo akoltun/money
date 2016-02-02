@@ -40,9 +40,8 @@ describe('User REST API', () => {
         json: true,
         body: newUserData
       });
-      response.statusCode.should.eql(201);
-      response.body.success.should.eql(true);
-      response.body.user.email.should.eql(newUserData.email);
+      response.statusCode.should.eql(302);
+      response.body.should.eql('Redirecting to /login.');
     });
 
   });

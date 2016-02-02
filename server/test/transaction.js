@@ -59,7 +59,7 @@ describe('Transaction REST API', () => {
     it('returns 404 if transaction not exist', function*() {
       let response = yield request({
         method: 'get',
-        url: getURL('/transactions/me/fe3a2ecc7355a20674486789'),
+        url: getURL('/transactions/fe3a2ecc7355a20674486789'),
         json: true
       });
       response.statusCode.should.eql(404);
@@ -75,7 +75,7 @@ describe('Transaction REST API', () => {
 
       let response = yield request({
         method: 'get',
-        url: getURL('/transactions/me/' + fixtures.Account[0]._id),
+        url: getURL('/transactions/' + fixtures.Account[0]._id),
         json: true
       });
       response.statusCode.should.eql(403);
@@ -84,12 +84,12 @@ describe('Transaction REST API', () => {
 
   });
 
-  describe('POST /transactions/me', () => {
+  describe('POST /transactions', () => {
 
     it("creates transaction", function*() {
       let response = yield request({
         method: 'post',
-        url: getURL('/transactions/me'),
+        url: getURL('/transactions'),
         json: true,
         body: newTransactionData
       });
@@ -104,12 +104,12 @@ describe('Transaction REST API', () => {
 
   });
 
-  describe('GET /transactions/me', () => {
+  describe('GET /transactions', () => {
 
     it('returns transactions to user', function*() {
       let response = yield request({
         method: 'get',
-        url: getURL('/transactions/me'),
+        url: getURL('/transactions'),
         json: true
       });
       response.statusCode.should.eql(200);
@@ -119,12 +119,12 @@ describe('Transaction REST API', () => {
       
   });
 
-  describe('GET /transaction/me/:id', () => {
+  describe('GET /transaction/:id', () => {
 
     it('returns single transaction by id', function*() {
       let response = yield request({
         method: 'get',
-        url: getURL('/transactions/me/' + fixtures.Transaction[0]._id),
+        url: getURL('/transactions/' + fixtures.Transaction[0]._id),
         json: true
       });
       response.statusCode.should.eql(200);
@@ -133,13 +133,13 @@ describe('Transaction REST API', () => {
       
   });
 
-  describe('PATCH /transactions/me/:id', () => {
+  describe('PATCH /transactions/:id', () => {
 
     it('modified transaction', function*() {
 
       let response = yield request({
         method: 'patch',
-        url: getURL('/transactions/me/' + fixtures.Transaction[0]._id),
+        url: getURL('/transactions/' + fixtures.Transaction[0]._id),
         json: true,
         body: newTransactionData
       });
@@ -154,12 +154,12 @@ describe('Transaction REST API', () => {
       
   });
 
-  describe('DELETE /transactions/me/:id', () => {
+  describe('DELETE /transactions/:id', () => {
 
     it('delete account', function*() {
       let response = yield request({
         method: 'delete',
-        url: getURL('/transactions/me/' + fixtures.Transaction[0]._id),
+        url: getURL('/transactions/' + fixtures.Transaction[0]._id),
         json: true,
       });
       response.statusCode.should.eql(200);

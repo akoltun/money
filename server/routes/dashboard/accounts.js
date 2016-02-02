@@ -9,6 +9,7 @@ const router = new Router();
 router
   .param('accountById', accountAPICtrl.params.accountById)
   .get('/', accountCtrl.getAccounts)
-  .get('/:accountById', accountCtrl.getTransactionsByAccount);
+  .get('/:accountById', accountCtrl.getTransactionsByAccount)
+  .get('/editaccount/:accountById', accountCtrl.editAccountById);
 
 module.exports = router.routes();

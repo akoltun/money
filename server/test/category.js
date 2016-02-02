@@ -55,7 +55,7 @@ describe('Category REST API', () => {
     it('returns 404 if category not exist', function*() {
       let response = yield request({
         method: 'get',
-        url: getURL('/categories/me/fe3a2ecc7355a20674486789'),
+        url: getURL('/categories/fe3a2ecc7355a20674486789'),
         json: true
       });
       response.statusCode.should.eql(404);
@@ -71,7 +71,7 @@ describe('Category REST API', () => {
 
       let response = yield request({
         method: 'get',
-        url: getURL('/categories/me/' + fixtures.Category[0]._id),
+        url: getURL('/categories/' + fixtures.Category[0]._id),
         json: true
       });
       response.statusCode.should.eql(403);
@@ -80,12 +80,12 @@ describe('Category REST API', () => {
 
   });
 
-  describe('POST /categories/me', () => {
+  describe('POST /categories', () => {
 
     it("creates category", function*() {
       let response = yield request({
         method: 'post',
-        url: getURL('/categories/me'),
+        url: getURL('/categories'),
         json: true,
         body: newCategoryData
       });
@@ -97,12 +97,12 @@ describe('Category REST API', () => {
 
   });
 
-  describe('GET /categories/me', () => {
+  describe('GET /categories', () => {
 
     it('returns categories to user', function*() {
       let response = yield request({
         method: 'get',
-        url: getURL('/categories/me'),
+        url: getURL('/categories'),
         json: true
       });
       response.statusCode.should.eql(200);
@@ -112,12 +112,12 @@ describe('Category REST API', () => {
 
   });
 
-  describe('GET /categories/me/:id', () => {
+  describe('GET /categories/:id', () => {
 
     it('returns transactions by category to user', function*() {
       let response = yield request({
         method: 'get',
-        url: getURL('/categories/me/' + fixtures.Category[0]._id),
+        url: getURL('/categories/' + fixtures.Category[0]._id),
         json: true
       });
       response.statusCode.should.eql(200);
@@ -128,12 +128,12 @@ describe('Category REST API', () => {
 
   });
 
-  describe('PATCH /categories/me/:id', () => {
+  describe('PATCH /categories/:id', () => {
 
     it('modified category', function*() {
       let response = yield request({
         method: 'patch',
-        url: getURL('/categories/me/' + fixtures.Category[0]._id),
+        url: getURL('/categories/' + fixtures.Category[0]._id),
         json: true,
         body: newCategoryData
       });
@@ -145,7 +145,7 @@ describe('Category REST API', () => {
     it('returns 409 if category name is isOccupied', function*() {
       let response = yield request({
         method: 'patch',
-        url: getURL('/categories/me/' + fixtures.Category[0]._id),
+        url: getURL('/categories/' + fixtures.Category[0]._id),
         json: true,
         body: {
           name: 'travel'
@@ -157,12 +157,12 @@ describe('Category REST API', () => {
 
   });
 
-  describe('DELETE /categories/me/:id', () => {
+  describe('DELETE /categories/:id', () => {
 
     it('delete category', function*() {
       let response = yield request({
         method: 'delete',
-        url: getURL('/categories/me/' + fixtures.Category[0]._id),
+        url: getURL('/categories/' + fixtures.Category[0]._id),
         json: true,
       });
       response.statusCode.should.eql(200);
@@ -176,7 +176,7 @@ describe('Category REST API', () => {
     it('returns 409 if category name already exists', function*() {
       let response = yield request({
         method: 'post',
-        url: getURL('/categories/me'),
+        url: getURL('/categories'),
         json: true,
         body: {
           name: 'travel'
@@ -189,7 +189,7 @@ describe('Category REST API', () => {
     it('returns 400 if category name is empty', function*() {
       let response = yield request({
         method: 'post',
-        url: getURL('/categories/me'),
+        url: getURL('/categories'),
         json: true,
         body: {
           name: ''

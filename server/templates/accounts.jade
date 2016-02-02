@@ -8,8 +8,8 @@ block append variables
 
 block content
   .main.col-md-10
-    button.btn.btn-primary.pull-right(type="button" data-toggle="modal" data-target=".add-form") Konto hinzufügen
     h1= title
+    a.btn.btn-default(href="createaccount") Konto hinzufügen
     .row: .accounts-list.col-md-12
       hr
       .table-responsive: table.table.table-striped
@@ -23,29 +23,4 @@ block content
             td= account.withdrawal
             td= account.deposits
             td= account.summary
-            +editButtons(account._id, account.name, account.pinned)
-  .modal.fade.add-form(tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel")
-    .modal-dialog.modal-sm: .modal-content
-      .modal-header: h4.modal-title(id="myModalLabel") Konto hinzufügen
-      .modal-body: form(id="add-form")
-        .form-group
-          label(for="name") Kontoname
-          input.form-control(type="text" name="name" required autofocus)
-        .form-group: div.checkbox: label
-          input(type="checkbox" name="pinned" value="true")
-          | Anmachen
-        .form-group: button#add-form.btn.btn-primary(type="submit") Hinzufügen
-  .modal.fade.edit-form(tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel")
-    .modal-dialog.modal-sm: .modal-content
-      .modal-header: h4.modal-title(id="myModalLabel") Konto ändern
-      .modal-body: form(id="edit-form")
-        .form-group
-          label(for="name") Kontoname
-          input.form-control(type="text" name="name" required autofocus)
-        .form-group: div.checkbox: label
-          input(type="checkbox" name="pinned" value="true")
-          | Anmachen
-        .form-group: button#edit-form.btn.btn-primary(type="submit") Ändern
-
-block scripts
-  script(src='/assets/accounts.js')
+            +editButtons(account._id)

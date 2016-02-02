@@ -1,19 +1,18 @@
 'use strict';
 
 const Router = require('koa-router');
-let account = require('../../controllers').api.account;
+let accountCtrl = require('../../controllers').api.account;
 let mustBeAuthenticated = require('../../lib/mustBeAuthenticated');
 
 let router = new Router();
 
 router
-  .use('/', mustBeAuthenticated)
-  .param('accountById', account.params.accountById)
-  .get('/', account.getAccounts)
-  .post('/', account.post)
-  .get('/:accountById', account.getAccountTransactions)
-  .patch('/:accountById', account.patch)
-  .del('/:accountById', account.del);
+  .param('accountById', accountCtrl.params.accountById)
+  .get('/', accountCtrl.getAccounts)
+  .post('/', accountCtrl.post)
+  .get('/:accountById', accountCtrl.getAccountTransactions)
+  .patch('/:accountById', accountCtrl.patch)
+  .del('/:accountById', accountCtrl.del);
   
 
 module.exports = router.routes();

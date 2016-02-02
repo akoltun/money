@@ -1,6 +1,6 @@
-mixin editButtons(id, name, pinned)
+mixin editButtons(id)
   td.button-cell
-    button.btn.btn-default#btnEdit(data-id="#{id}" data-name="#{name}" data-pinned="#{pinned}" type="button" data-toggle="modal" data-target=".edit-form")
+    a.btn.btn-default(href="/dashboard/accounts/editaccount/#{id}")
       span.glyphicon.glyphicon-edit
-    button.btn.btn-default#btnRemove(data-id="#{id}")
+    a.btn.btn-default(href="")
       span.glyphicon.glyphicon-minus-sign

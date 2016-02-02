@@ -30,6 +30,17 @@ module.exports = {
       transactions: transactions
     });
 
+  },
+
+  editAccountById: function*(next) {
+
+    let account = this.params.account;
+
+    this.body = this.render('editAccount', {
+      title: `Konto '${account.name}' ändern`,
+      account: account
+    });
+    
   }
 
 };

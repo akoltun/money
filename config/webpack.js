@@ -20,9 +20,9 @@ module.exports = {
 
   entry: {
     main: './main.js',
-    accounts: './accounts.js',
-    categories: './categories.js',
-    dashboard: './dashboard.js'
+    // accounts: './accounts.js',
+    // categories: './categories.js',
+    // dashboard: './dashboard.js'
   },
 
   output: {

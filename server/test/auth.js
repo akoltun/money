@@ -41,7 +41,7 @@ describe('Auth API', () => {
     it('returns success and 200', function*() {
 
       let response = yield request({
-        method: 'post',
+        method: 'POST',
         url: getURL('/login'),
         json: true,
         body: {
@@ -49,9 +49,8 @@ describe('Auth API', () => {
           "password": fixtures.User[0].password
         }
       });
-
-      response.statusCode.should.eql(200);
-      response.body.success.should.eql(true);
+      response.statusCode.should.eql(302);
+      response.body.should.eql('Redirecting to /dashboard.');
       response.headers.should.have['set-cookie'];
       response.headers['set-cookie'].length.should.not.eql(0);
 

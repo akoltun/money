@@ -3,23 +3,10 @@
 const Router = require('koa-router');
 const router = new Router();
 
-const controllers = require('../controllers');
+let dashboard = require('./dashboard');
+let api = require('./api');
 
-
-const api = require('./api');
-const dashboard = require('./dashboard');
-
-router
-  .get('/register', controllers.api.auth.register)
-  .get('/', controllers.api.auth.login.get)
-  .post('/login', controllers.api.auth.login.post)
-  .get('/logout', controllers.api.auth.logout);
-
-router.use('/transactions/me', api.transactions);
-router.use('/accounts/me', api.accounts);
-router.use('/categories/me', api.categories);
-router.use('/users', api.users);
-
-router.use('/dashboard', dashboard);
+router.use(api);
+router.use(dashboard);
 
 module.exports = router;

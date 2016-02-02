@@ -55,7 +55,7 @@ describe('Account REST API', () => {
     it('returns 404 if account not exist', function*() {
       let response = yield request({
         method: 'get',
-        url: getURL('/accounts/me/fe3a2ecc7355a20674486789'),
+        url: getURL('/accounts/fe3a2ecc7355a20674486789'),
         json: true
       });
       response.statusCode.should.eql(404);
@@ -71,7 +71,7 @@ describe('Account REST API', () => {
 
       let response = yield request({
         method: 'get',
-        url: getURL('/accounts/me/' + fixtures.Account[0]._id),
+        url: getURL('/accounts/' + fixtures.Account[0]._id),
         json: true
       });
       response.statusCode.should.eql(403);
@@ -80,12 +80,12 @@ describe('Account REST API', () => {
 
   });
 
-  describe('POST /accounts/me', () => {
+  describe('POST /accounts', () => {
 
     it("creates account", function*() {
       let response = yield request({
         method: 'post',
-        url: getURL('/accounts/me'),
+        url: getURL('/accounts'),
         json: true,
         body: newAccountData
       });
@@ -97,12 +97,12 @@ describe('Account REST API', () => {
 
   });
 
-  describe('GET /accounts/me', () => {
+  describe('GET /accounts', () => {
 
     it('returns accounts to user', function*() {
       let response = yield request({
         method: 'get',
-        url: getURL('/accounts/me'),
+        url: getURL('/accounts'),
         json: true
       });
       response.statusCode.should.eql(200);
@@ -113,12 +113,12 @@ describe('Account REST API', () => {
 
   });
 
-  describe('GET /accounts/me/:id', () => {
+  describe('GET /accounts/:id', () => {
 
     it('returns transactions by account to user', function*() {
       let response = yield request({
         method: 'get',
-        url: getURL('/accounts/me/' + fixtures.Account[0]._id),
+        url: getURL('/accounts/' + fixtures.Account[0]._id),
         json: true
       });
       response.statusCode.should.eql(200);
@@ -130,12 +130,12 @@ describe('Account REST API', () => {
 
   });
 
-  describe('PATCH /accounts/me/:id', () => {
+  describe('PATCH /accounts/:id', () => {
 
     it('modified account', function*() {
       let response = yield request({
         method: 'patch',
-        url: getURL('/accounts/me/' + fixtures.Account[0]._id),
+        url: getURL('/accounts/' + fixtures.Account[0]._id),
         json: true,
         body: newAccountData
       });
@@ -147,7 +147,7 @@ describe('Account REST API', () => {
     it('returns 409 if account name is isOccupied', function*() {
       let response = yield request({
         method: 'patch',
-        url: getURL('/accounts/me/' + fixtures.Account[0]._id),
+        url: getURL('/accounts/' + fixtures.Account[0]._id),
         json: true,
         body: {
           name: 'Bank'
@@ -159,12 +159,12 @@ describe('Account REST API', () => {
 
   });
 
-  describe('DELETE /accounts/me/:id', () => {
+  describe('DELETE /accounts/:id', () => {
 
     it('delete account', function*() {
       let response = yield request({
         method: 'delete',
-        url: getURL('/accounts/me/' + fixtures.Account[0]._id),
+        url: getURL('/accounts/' + fixtures.Account[0]._id),
         json: true,
       });
       response.statusCode.should.eql(200);
@@ -178,7 +178,7 @@ describe('Account REST API', () => {
     it('returns 409 if account name already exists', function*() {
       let response = yield request({
         method: 'post',
-        url: getURL('/accounts/me'),
+        url: getURL('/accounts'),
         json: true,
         body: {
           name: 'Bank'
@@ -191,7 +191,7 @@ describe('Account REST API', () => {
     it('returns 400 if account name is empty', function*() {
       let response = yield request({
         method: 'post',
-        url: getURL('/accounts/me'),
+        url: getURL('/accounts'),
         json: true,
         body: {
           name: ''

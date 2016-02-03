@@ -1,7 +1,6 @@
-extends layout/page
+extends ../layout/page
 
-include mixins/thead
-include mixins/editButtons
+include ../mixins/thead
 
 block append variables
   - var thead = {name: 'Name', transactionsCount: 'Transactionen', spent: 'Verbrachten', earned: 'Verdient', summary: 'Gesamt'}
@@ -9,6 +8,7 @@ block append variables
 block content
   .main.col-md-10
     h1= title
+    a.btn.btn-default(href="/dashboard/categories/addcategory") Kategorie hinzufügen
     .row: .categories-list.col-md-12
       hr
       .table-responsive: table.table.table-striped
@@ -20,4 +20,8 @@ block content
             td= category.spent
             td= category.earned
             td= category.summary
-            +editButtons(category._id, category.name)
+            td.button-cell
+              a.btn.btn-default(href="/dashboard/categories/editcategory/#{category._id}")
+                span.glyphicon.glyphicon-edit
+              a.btn.btn-default(href="/dashboard/categories/deletecategory/#{category._id}")
+                span.glyphicon.glyphicon-minus-sign

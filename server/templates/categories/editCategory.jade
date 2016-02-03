@@ -1,0 +1,15 @@
+extends ../layout/page
+
+block content
+  .main.col-md-10: .row
+    .col-xs-2
+    .col-xs-6
+      h1= title
+      br
+      form(action="/dashboard/categories/editcategory/#{category.id}" method="POST" role="form")
+        .form-group
+          label(for="name") Kategorie name
+          input.form-control(type="text" name="name"
+            value="#{category.name}" required autofocus)
+        button.btn.btn-primary(type="submit") Ändern
+    .col-xs-2

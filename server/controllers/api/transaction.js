@@ -17,7 +17,7 @@ module.exports = {
       let transaction = yield Transaction.findOne({
         _id: id,
         user: this.user
-      });
+      }).populate('account categories sourceAccount destinationAccount');
 
       if (!transaction) this.throw(404, 'Transaction not found');
       this.params.transaction = transaction;

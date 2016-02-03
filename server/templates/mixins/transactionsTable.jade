@@ -9,8 +9,27 @@ mixin transactionsTable(transactions, thead)
         td.transaction-price-cell: span.spend-false= transaction.amount
         td.transcation-date-cell=moment(transaction.date).format('DD.MM.YYYY')
         td.transcation-account-cell
-          a(href="/dashboard/accounts/#{transaction.account._id}")=transaction.account.name
+          if transaction.account
+            a(href="/dashboard/accounts/#{transaction.account._id}")
+              | #{transaction.account.name}
+          else
+            a(href="/dashboard/accounts/#{transaction.sourceAccount._id}")
+              | #{transaction.sourceAccount.name}
+            span.icon.glyphicon.glyphicon-transfer
+            a(href="/dashboard/accounts/#{transaction.destinationAccount._id}")
+              | #{transaction.destinationAccount.name}
         td.transcation-categories-cell: for category in transaction.categories
-          a.label.label-primary(href="/dashboard/categories/#{category._id}")=category.name
+          a.label.label-primary(href="/dashboard/categories/#{category._id}")
+            | #{category.name}
         td.transaction-description-cell=transaction.description
-        +editButtons
+        td.button-cell
+          a.btn.btn-default(
+          href=(transaction.type==="transfer" ?
+            "/dashboard/transactions/edittransfer/#{transaction._id}" :
+            "/dashboard/transactions/edittransaction/#{transaction._id}"))
+            span.glyphicon.glyphicon-edit
+          a.btn.btn-default(
+          href=(transaction.type==="transfer" ?
+            "/dashboard/transactions/deletetransfer/#{transaction._id}" :
+            "/dashboard/transactions/deletetransaction/#{transaction._id}"))
+            span.glyphicon.glyphicon-minus-sign

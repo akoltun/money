@@ -11,7 +11,7 @@ module.exports = {
       user: this.user
     }).lean();
 
-    this.body = this.render('accounts', {
+    this.body = this.render('accounts/index', {
       title: 'Kontos',
       accounts: accounts
     });
@@ -25,10 +25,28 @@ module.exports = {
       account: this.params.account
     }).populate('account categories').lean();
 
-    this.body = this.render('transactions', {
+    this.body = this.render('transactions/index', {
       title: `Transaktionen in "${this.params.account.name}"`,
       transactions: transactions
     });
+
+  },
+
+  addAccount: function*(next) {
+
+    this.body = this.render('accounts/addAccount', {
+      title: `Konto hinzufügen`
+    });
+    
+  },
+
+  addAccountPost: function*(next) {
+
+    let fields = this.request.body;
+    fields.user = this.user;
+    if (!fields.pinned) fields.pinned = false;
+    let account = yield Account.create(fields);
+    this.redirect('/dashboard/accounts');
 
   },
 
@@ -36,10 +54,28 @@ module.exports = {
 
     let account = this.params.account;
 
-    this.body = this.render('editAccount', {
+    this.body = this.render('accounts/editAccount', {
       title: `Konto '${account.name}' ändern`,
       account: account
     });
+    
+  },
+
+  editAccountByIdPost: function*(next) {
+
+    let account = this.params.account;
+    let fields = this.request.body;
+    if (!fields.pinned) fields.pinned = false;
+    Object.assign(account, fields);
+    yield account.save();
+    this.redirect('/dashboard/accounts');
+
+  },
+
+  deleteAccountById: function*(next) {
+
+    yield this.params.account.remove();
+    this.redirect('/dashboard/accounts');
     
   }
 

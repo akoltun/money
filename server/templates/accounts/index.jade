@@ -1,7 +1,6 @@
-extends layout/page
+extends ../layout/page
 
-include mixins/thead
-include mixins/editButtons
+include ../mixins/thead
 
 block append variables
   - var thead = {name: 'Name', transactionsCount: 'Transactionen', spent: 'Verbrachten', earned: 'Verdient', withdrawal: 'Abhebung', deposits: 'Anzahlung', summary: 'Gesamt'}
@@ -9,7 +8,7 @@ block append variables
 block content
   .main.col-md-10
     h1= title
-    a.btn.btn-default(href="createaccount") Konto hinzufügen
+    a.btn.btn-default(href="/dashboard/accounts/addaccount") Konto hinzufügen
     .row: .accounts-list.col-md-12
       hr
       .table-responsive: table.table.table-striped
@@ -23,4 +22,8 @@ block content
             td= account.withdrawal
             td= account.deposits
             td= account.summary
-            +editButtons(account._id)
+            td.button-cell
+              a.btn.btn-default(href="/dashboard/accounts/editaccount/#{account._id}")
+                span.glyphicon.glyphicon-edit
+              a.btn.btn-default(href="/dashboard/accounts/deleteaccount/#{account._id}")
+                span.glyphicon.glyphicon-minus-sign

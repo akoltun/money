@@ -29,8 +29,8 @@ let accountSchema = new mongoose.Schema({
   spent             : {type : Number,  default : 0}, // Потрачено
   earned            : {type : Number,  default : 0}, // Заработано
   summary           : {type : Number,  default : 0}, // Итого
-  withdrawal        : {type : Number,  default : 0}, //Снято
-  deposits          : {type : Number,  default : 0}, //Пополнено
+  withdrawal        : {type : Number,  default : 0}, // Снято
+  deposits          : {type : Number,  default : 0}, // Пополнено
   pinned            : {type : Boolean, default : true}, // Закрепить
   created           : {type : Date,    default : Date.now}
 });

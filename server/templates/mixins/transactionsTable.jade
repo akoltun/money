@@ -6,7 +6,10 @@ mixin transactionsTable(transactions, thead)
     +thead(thead)
     tbody: for transaction in transactions
       tr
-        td.transaction-price-cell: span.spend-false= transaction.amount
+        td.transaction-price-cell
+          span(class=(transaction.type==="earned" ? "text-success" :
+            transaction.type==="spent" ? "text-danger" :
+            null))=transaction.amount
         td.transcation-date-cell=moment(transaction.date).format('DD.MM.YYYY')
         td.transcation-account-cell
           if transaction.account

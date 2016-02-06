@@ -1,12 +1,14 @@
 .sidebar-left.col-md-2
   .row.info: .col-md-12
     h1 Geld
-    h2.text-primary= summary
+    h2(class=(summary > 0 ? "text-success" : "text-danger"))= summary
   hr
   .row.pinned-accounts: .col-md-12
-    each account in pinnedAccounts
-      h3= account.name
-      h4.text-primary= account.summary
+    if pinnedAccounts
+      each account in pinnedAccounts
+        h3= account.name
+        h4(class=(account.summary > 0 ? "text-success" : "text-danger"))
+          =account.summary
   hr
   .row: .col-md-12
     ul.sidebar-nav.nav.nav-pills.nav-stacked#sidebarLeftMenu

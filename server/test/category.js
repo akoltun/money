@@ -106,8 +106,7 @@ describe('Category REST API', () => {
         json: true
       });
       response.statusCode.should.eql(200);
-      response.body[0].name.should.eql(fixtures.Category[0].name);
-      response.body[1].name.should.eql(fixtures.Category[1].name);
+      response.body.length.should.eql(3);
     });
 
   });

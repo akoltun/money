@@ -5,6 +5,7 @@ const isValid     = mongoose.Types.ObjectId.isValid;
 const Transaction = require('../../models').Transaction;
 const Account     = require('../../models').Account;
 const Category    = require('../../models').Category;
+const moment      = require('moment');
 
 module.exports = {
 
@@ -29,7 +30,8 @@ module.exports = {
 
   getTransactions: function*(next) {
 
-    let transaction = yield Transaction.find({user: this.user}).lean();
+    let transaction = yield Transaction.find({user: this.user})
+      .sort({date: -1}).lean();
     this.body = transaction;
 
   },
@@ -44,6 +46,11 @@ module.exports = {
 
     let fields = this.request.body;
     fields.user = this.user;
+    
+    if (fields.date) {
+      fields.date = +new Date(fields.date) +
+        (new Date() - new Date(fields.date));
+    }
 
     if (fields.type === 'transfer') {
 
@@ -78,7 +85,7 @@ module.exports = {
       });
 
       if (!fields.account) {
-        this.throw(409, 'Transfer can\'t be without an account');
+        this.throw(409, 'Transaction can\'t be without an account');
       }
 
     }
@@ -93,6 +100,11 @@ module.exports = {
 
     let transaction = this.params.transaction;
     let fields = this.request.body;
+
+    if (moment(fields.date).format('YYYY-MM-DD') ===
+        moment().format('YYYY-MM-DD')) {
+      delete fields.date;
+    }
 
     if (fields.type === 'transfer') {
 
@@ -130,7 +142,7 @@ module.exports = {
       });
 
       if (!fields.account) {
-        this.throw(409, 'Transfer can\'t be without an account');
+        this.throw(409, 'Transaction can\'t be without an account');
       }
 
       if (transaction.sourceAccount) delete transaction.sourceAccount;

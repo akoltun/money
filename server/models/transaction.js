@@ -15,6 +15,7 @@ let transactionSchema = new mongoose.Schema({
   amount: {type: Number, default: 0},
   type: {
     type: String,
+    index: true,
     enum: {
       values: ['spent', 'earned', 'transfer'],
       message: 'Unknown type of transaction'
@@ -28,25 +29,33 @@ let transactionSchema = new mongoose.Schema({
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
-    required: 'Transaction can\'t be without user'
+    required: 'Transaction can\'t be without user',
+    index: true
   },
   account: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Account'
+    ref: 'Account',
+    index: true
   },
   sourceAccount: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Account'
+    ref: 'Account',
+    index: true
   },
   destinationAccount: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Account'
+    ref: 'Account',
+    index: true
   },
   categories: [{
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Category'
+    ref: 'Category',
+    index: true
   }],
-  date: {type: Date, default: Date.now}
+  date: {
+    type: Date,
+    default: Date.now
+  }
 });
 
 

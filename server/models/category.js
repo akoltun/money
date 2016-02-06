@@ -17,18 +17,19 @@ let categorySchema = new mongoose.Schema({
     required: 'Category name can\'t be a empty',
     minLength: 2,
     maxlength: 256,
-    trim: true
+    trim: true,
+    index: true
   },
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
-    required: 'Category can\'t be without user'
+    required: 'Category can\'t be without user',
+    index: true
   },
   transactionsCount : {type : Number,  default : 0},
   spent             : {type : Number,  default : 0}, // Потрачено
   earned            : {type : Number,  default : 0}, // Заработано
   summary           : {type : Number,  default : 0}, // Итого
-  created           : {type : Date,    default : Date.now}
 });
 
 /**

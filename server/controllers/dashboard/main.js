@@ -10,12 +10,16 @@ module.exports = {
 
     let accounts = yield Account.find({
       user: this.user,
-    }).lean();
+    }).sort({name: 1}).lean();
+    let summary = 0;
+    let pinned;
 
-    let summary = accounts
-      .map(account => account.summary)
-      .reduce((a, b) => a + b);
-    let pinned = accounts.filter(account => account.pinned);
+    if (accounts.length) {
+      summary = accounts
+        .map(account => account.summary)
+        .reduce((a, b) => a + b);
+      pinned = accounts.filter(account => account.pinned);
+    }
 
     this.state.summary = summary;
     this.state.pinnedAccounts = pinned;
@@ -27,7 +31,8 @@ module.exports = {
 
     let transactions = yield Transaction.find({
       user: this.user
-    }).populate('account categories').lean();
+    }).populate('account categories sourceAccount destinationAccount')
+      .sort({date: -1}).lean();
 
     let accounts = yield Account.find({
       user: this.user

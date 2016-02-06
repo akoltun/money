@@ -31,12 +31,8 @@ let userSchema = new mongoose.Schema({
   },
   salt: {
     type: String
-  },
-  created: {
-    type: Date,
-    default: Date.now
   }
-});
+}, {timestamps: true});
 
 /**
  * PLUGINS.

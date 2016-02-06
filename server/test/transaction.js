@@ -113,8 +113,7 @@ describe('Transaction REST API', () => {
         json: true
       });
       response.statusCode.should.eql(200);
-      response.body[0]._id.should.eql(fixtures.Transaction[0]._id);
-      response.body[1]._id.should.eql(fixtures.Transaction[1]._id);
+      response.body.length.should.eql(5);
     });
       
   });

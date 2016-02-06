@@ -107,8 +107,6 @@ describe('Account REST API', () => {
       });
       response.statusCode.should.eql(200);
       response.body.length.should.eql(2);
-      response.body[0].name.should.eql(fixtures.Account[0].name);
-      response.body[1].name.should.eql(fixtures.Account[1].name);
     });
 
   });

@@ -18,12 +18,14 @@ let accountSchema = new mongoose.Schema({
     required: 'Account name can\'t be a empty',
     minLength: 2,
     maxlength: 256,
-    trim: true
+    trim: true,
+    index: true
   },
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
-    required: 'Account can\'t be without user'
+    required: 'Account can\'t be without user',
+    index: true
   },
   transactionsCount : {type : Number,  default : 0},
   spent             : {type : Number,  default : 0}, // Потрачено
@@ -32,7 +34,6 @@ let accountSchema = new mongoose.Schema({
   withdrawal        : {type : Number,  default : 0}, // Снято
   deposits          : {type : Number,  default : 0}, // Пополнено
   pinned            : {type : Boolean, default : true}, // Закрепить
-  created           : {type : Date,    default : Date.now}
 });
 
 /**

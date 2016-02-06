@@ -57,6 +57,14 @@ module.exports = {
         name: fields.destinationAccount
       });
 
+      if (!fields.sourceAccount || !fields.destinationAccount) {
+        this.throw(409, 'Transfer can\'t be without an account');
+      }
+
+      if (String(fields.sourceAccount._id) === String(fields.destinationAccount._id)) {
+        this.throw(409, 'Transfer can\'t be on the same account');
+      }
+
     } else {
 
       fields.account = yield Account.findOne({
@@ -68,6 +76,10 @@ module.exports = {
         user: fields.user,
         name: {$in: fields.categories}
       });
+
+      if (!fields.account) {
+        this.throw(409, 'Transfer can\'t be without an account');
+      }
 
     }
 
@@ -94,8 +106,12 @@ module.exports = {
         name: fields.destinationAccount
       });
 
+      if (!fields.sourceAccount || !fields.destinationAccount) {
+        this.throw(409, 'Transfer can\'t be without an account');
+      }
+
       if (String(fields.sourceAccount._id) === String(fields.destinationAccount._id)) {
-        this.throw('Трансфер не может быть на один и тот же счет');
+        this.throw(409, 'Transfer can\'t be on the same account');
       }
 
       if (transaction.account) delete transaction.account;
@@ -112,6 +128,10 @@ module.exports = {
         user: this.user,
         name: {$in: fields.categories}
       });
+
+      if (!fields.account) {
+        this.throw(409, 'Transfer can\'t be without an account');
+      }
 
       if (transaction.sourceAccount) delete transaction.sourceAccount;
       if (transaction.destinationAccount) delete transaction.destinationAccount;

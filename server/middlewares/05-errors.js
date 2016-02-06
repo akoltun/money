@@ -11,7 +11,7 @@ module.exports = function*(next) {
 
     this.set('X-Content-Type-Options', 'nosniff');
     this.status = err.status || 500;
-    //this.app.emit('error', err, this);
+    // this.app.emit('error', err, this);
 
     if (err.name === 'ValidationError') {
       this.status = 400;

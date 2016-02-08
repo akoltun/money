@@ -41,7 +41,7 @@ describe('User REST API', () => {
         body: newUserData
       });
       response.statusCode.should.eql(302);
-      response.body.should.eql('Redirecting to /login.');
+      response.body.should.eql('Redirecting to /.');
     });
 
   });

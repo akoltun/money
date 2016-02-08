@@ -2,7 +2,6 @@
 
 const gulp = require('gulp');
 const config = require('config');
-const runSequence = require('run-sequence');
 const tasks = require('./tasks');
 let mongoose = require('./server/lib/mongoose');
 
@@ -18,8 +17,8 @@ gulp.task("webpack-dev-server", tasks.webpack.devServer);
 gulp.task("client:livereload", tasks.livereload);
 
 //BUILD
-gulp.task('build', ['webpack:build']);
-gulp.task('build-dev', ['webpack:build-dev']);
+gulp.task('build', gulp.parallel('webpack:build'));
+gulp.task('build-dev', gulp.parallel('webpack:build-dev'));
 
 //TEST
 gulp.task('mocha', tasks.mocha);
@@ -28,8 +27,7 @@ gulp.task('mocha', tasks.mocha);
 gulp.task('db:load', tasks.dbLoad);
 
 //DEV
-gulp.task('dev', ['nodemon', 'build', 'client:livereload']);
-//gulp.task('dev', ['nodemon']);
+gulp.task('dev', gulp.parallel('build', 'nodemon', 'client:livereload'));
 
 
 

@@ -17,8 +17,9 @@ gulp.task("webpack-dev-server", tasks.webpack.devServer);
 gulp.task("client:livereload", tasks.livereload);
 
 //BUILD
-gulp.task('build', gulp.parallel('webpack:build'));
-gulp.task('build-dev', gulp.parallel('webpack:build-dev'));
+gulp.task('clean', tasks.clean);
+gulp.task('build', gulp.series('clean', 'webpack:build'));
+gulp.task('build-dev', gulp.series('clean', 'webpack:build-dev'));
 
 //TEST
 gulp.task('mocha', tasks.mocha);
@@ -27,7 +28,7 @@ gulp.task('mocha', tasks.mocha);
 gulp.task('db:load', tasks.dbLoad);
 
 //DEV
-gulp.task('dev', gulp.parallel('build', 'nodemon', 'client:livereload'));
+gulp.task('dev', gulp.parallel('build-dev', 'nodemon', 'client:livereload'));
 
 
 

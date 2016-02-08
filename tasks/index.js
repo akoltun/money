@@ -5,5 +5,6 @@ module.exports = {
   livereload: require('./livereload'),
   nodemon: require('./nodemon'),
   dbLoad: require('./dbLoad'),
-  mocha: require('./mocha')
+  mocha: require('./mocha'),
+  clean: require('./clean')
 };

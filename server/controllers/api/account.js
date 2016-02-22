@@ -37,7 +37,7 @@ module.exports = {
 
   get: function*(next) {
 
-    this.body = this.params.account;
+    this.body = this.params.account.toObject();
 
   },
 
@@ -46,7 +46,7 @@ module.exports = {
     this.body = yield Transaction.find({
       user: this.user,
       account: this.params.account
-    });
+    }).lean();
 
   },
 
@@ -57,7 +57,7 @@ module.exports = {
     if (!fields.pinned) fields.pinned = false;
     let account = yield Account.create(fields);
     this.status = 201;
-    this.body = {success: true, account: account};
+    this.body = {success: true, account: account.toObject()};
 
   },
 
@@ -68,14 +68,14 @@ module.exports = {
     if (!fields.pinned) fields.pinned = false;
     Object.assign(account, fields);
     yield account.save();
-    this.body = {success: true, account: account};
+    this.body = {success: true, account: account.toObject()};
 
   },
 
   del: function*(next) {
 
     yield this.params.account.remove();
-    this.body = {success: true, account: this.params.account};
+    this.body = {success: true, account: this.params.account.toObject()};
 
   }
 

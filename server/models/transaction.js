@@ -141,7 +141,7 @@ transactionSchema.post('save', function(next) {
 
 });
 
-transactionSchema.pre('remove', function(next) {
+transactionSchema.post('remove', function(next) {
   let transaction = this;
 
   co(function*() {

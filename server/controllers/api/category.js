@@ -36,7 +36,7 @@ module.exports = {
 
   get: function*(next) {
 
-    this.body = this.params.category;
+    this.body = this.params.category.lean();
 
   },
 
@@ -45,7 +45,7 @@ module.exports = {
     this.body = yield Transaction.find({
       user: this.user,
       categories: this.params.category
-    });
+    }).lean();
 
   },
 
@@ -55,7 +55,7 @@ module.exports = {
     fields.user = this.user;
     let category = yield Category.create(fields);
     this.status = 201;
-    this.body = {success: true, category: category};
+    this.body = {success: true, category: category.toObject()};
 
   },
 
@@ -65,14 +65,14 @@ module.exports = {
     let fields = this.request.body;
     Object.assign(category, fields);
     yield category.save();
-    this.body = {success: true, category: category};
+    this.body = {success: true, category: category.toObject()};
 
   },
 
   del: function*(next) {
 
     yield this.params.category.remove();
-    this.body = {success: true, category: this.params.category};
+    this.body = {success: true, category: this.params.category.toObject()};
 
   }
 

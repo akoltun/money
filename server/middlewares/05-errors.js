@@ -8,14 +8,16 @@ module.exports = function*(next) {
   } catch (err) {
 
     let preferredType = this.accepts('html', 'text', 'json');
+    let redirectPath = '/';
 
     this.set('X-Content-Type-Options', 'nosniff');
     this.status = err.status || 500;
     // this.app.emit('error', err, this);
 
     if (err.name === 'ValidationError') {
-      this.status = 400;
+      this.status = 409;
       let errors = [];
+      redirectPath = this.session.lastPath;
 
       for (let field in err.errors) {
         errors.push(err.errors[field].message);
@@ -23,9 +25,12 @@ module.exports = function*(next) {
 
       if (preferredType === 'json') {
         this.type = 'application/json';
-        this.body = {errors: errors};
+        this.body = {
+          errors: errors
+        };
       } else {
         this.body = 'Bad data';
+        this.redirect(redirectPath);
       }
 
       return;

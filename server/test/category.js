@@ -185,7 +185,7 @@ describe('Category REST API', () => {
       response.body.error.should.eql('Category name is occupied');
     });
 
-    it('returns 400 if category name is empty', function*() {
+    it('returns 409 if category name is empty', function*() {
       let response = yield request({
         method: 'post',
         url: getURL('/categories'),
@@ -194,7 +194,7 @@ describe('Category REST API', () => {
           name: ''
         }
       });
-      response.statusCode.should.eql(400);
+      response.statusCode.should.eql(409);
       response.body.errors[0].should.eql('Category name can\'t be a empty');
     });
 

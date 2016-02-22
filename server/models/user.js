@@ -74,24 +74,6 @@ userSchema.virtual('password')
  * MIDDLEWARES.
  */
 
- userSchema.pre('save', function (next) {
-   let user = this;
-
-  co(function*() {
-    let isOccupied = yield User.findOne({
-      email: user.email
-    });
-
-    if (isOccupied) {
-      if (String(isOccupied.email) !== String(user.email)) return next();
-      let err = new mongoose.Error('Email is occupied.');
-      err.status = 409;
-      throw err;
-    }
-    return user;
-  }).then(next, err => next(err));
- });
-
 
 /**
  * METHODS.

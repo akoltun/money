@@ -195,7 +195,7 @@ describe('Account REST API', () => {
           name: ''
         }
       });
-      response.statusCode.should.eql(400);
+      response.statusCode.should.eql(409);
       response.body.errors[0].should.eql('Account name can\'t be a empty');
     });
 

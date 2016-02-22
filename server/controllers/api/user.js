@@ -10,7 +10,7 @@ module.exports = {
   params: {
 
     userByReq: function*(next) {
-      this.params.user = yield User.findById(this.user._id);
+      this.params.user = this.user; //from passport
       yield * next;
     },
     

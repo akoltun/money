@@ -138,7 +138,7 @@ describe('User REST API', () => {
         }
       });
       response.statusCode.should.eql(409);
-      response.body.error.should.eql('Email is occupied.');
+      response.body.errors[0].should.eql('Error: email: google@google.com exists');
     });
 
     it('returns 400 if passwordOld is wrong', function*() {
@@ -198,18 +198,18 @@ describe('User REST API', () => {
 
   describe('DB Validation(POST, PATCH)', () => {
 
-    it('returns 400 if email already exists', function*() {
+    it('returns 409 if email already exists', function*() {
       let response = yield request({
         method: 'POST',
         url: getURL('/users'),
         json: true,
         body: fixtures.User[0]
       });
-      response.statusCode.should.eql(400);
+      response.statusCode.should.eql(409);
       response.body.errors[0].should.eql('Error: email: admin@google.com exists');
     });
 
-    it('returns 400 if email not valid', function*() {
+    it('returns 409 if email not valid', function*() {
       let response = yield request({
         method: 'POST',
         url: getURL('/users'),
@@ -218,11 +218,11 @@ describe('User REST API', () => {
           email: 'dimad@'
         }
       });
-      response.statusCode.should.eql(400);
+      response.statusCode.should.eql(409);
       response.body.errors[0].should.eql('Email is wrong');
     });
 
-    it('returns 400 if password less then 4 char', function*() {
+    it('returns 409 if password less then 4 char', function*() {
       let response = yield request({
         method: 'POST',
         url: getURL('/users'),
@@ -232,7 +232,7 @@ describe('User REST API', () => {
           password: '123'
         }
       });
-      response.statusCode.should.eql(400);
+      response.statusCode.should.eql(409);
       response.body.errors[0].should.eql('Password should not be less than 4 character');
     });
 

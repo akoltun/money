@@ -7,20 +7,20 @@ const transactionAPICtrl = require('../../controllers').api.transaction;
 const router = new Router();
 
 router
-  .param('transactionById', transactionAPICtrl.params.transactionById)
+  .param('id', transactionAPICtrl.params.transactionById)
   .get('/', transactionCtrl.getTransactions)
   
   .get('/addtransaction', transactionCtrl.addTransaction)
   .post('/addtransaction', transactionCtrl.addTransactionPost)
-  .get('/edittransaction/:transactionById', transactionCtrl.editTransactionById)
-  .post('/edittransaction/:transactionById', transactionCtrl.editTransactionByIdPost)
-  .get('/deletetransaction/:transactionById', transactionCtrl.deleteTransactionById)
+  .get('/edittransaction/:id', transactionCtrl.editTransactionById)
+  .post('/edittransaction/:id', transactionCtrl.editTransactionByIdPost)
+  .get('/deletetransaction/:id', transactionCtrl.deleteTransactionById)
 
   .get('/addtransfer', transactionCtrl.addTransfer)
   .post('/addtransfer', transactionCtrl.addTransactionPost)
-  .get('/edittransfer/:transactionById', transactionCtrl.editTransferById)
-  .post('/edittransfer/:transactionById', transactionCtrl.editTransactionByIdPost)
-  .get('/deletetransfer/:transactionById', transactionCtrl.deleteTransactionById);
+  .get('/edittransfer/:id', transactionCtrl.editTransferById)
+  .post('/edittransfer/:id', transactionCtrl.editTransactionByIdPost)
+  .get('/deletetransfer/:id', transactionCtrl.deleteTransactionById);
 
 
 module.exports = router.routes();

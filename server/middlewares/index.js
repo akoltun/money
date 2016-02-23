@@ -1,9 +1,14 @@
 'use strict';
 
+const NODE_ENV = process.env.NODE_ENV;
+function* nope(next) {
+  yield* next;
+}
+
 module.exports = {
   favicon              : require('./01-favicon'),
   static               : require('./02-static'),
-  logger               : require('./03-logger'),
+  logger               : (NODE_ENV !== "testing") ? require('./03-logger') : nope,
   templates            : require('./04-templates'),
   errors               : require('./05-errors'),
   session              : require('./06-session'),

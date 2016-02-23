@@ -1,7 +1,7 @@
 'use strict';
 
-let mongoose = require('../mongoose');
-//mongoose.set('debug', true);
+const mongoose = require('../mongoose');
+// mongoose.set('debug', true);
 
 module.exports = function*(data) {
   let modelsData = (typeof data === 'string') ? require(data) : data;
@@ -9,7 +9,7 @@ module.exports = function*(data) {
   for (let modelName in modelsData) {
     let Model = mongoose.models[modelName];
     yield Model.remove({});
-    yield * loadModel(Model, modelsData[modelName]);
+    yield* loadModel(Model, modelsData[modelName]);
   }
 
 };
@@ -19,6 +19,3 @@ function* loadModel(Model, data) {
     yield Model.create(data[i]);
   }
 }
-
-
-

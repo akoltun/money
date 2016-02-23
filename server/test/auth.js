@@ -103,7 +103,6 @@ describe('Auth API', () => {
 
       response.statusCode.should.eql(401);
       response.body.should.have.error;
-      console.log(response.body.error);
       response.body.error.should.eql('Email or password wrong');
 
     });

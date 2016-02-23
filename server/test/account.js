@@ -25,7 +25,7 @@ describe('Account REST API', () => {
   });
 
   beforeEach(function*() {
-    yield * loadModels(fixtures);
+    yield* loadModels(fixtures);
 
     yield request({
       method: 'post',

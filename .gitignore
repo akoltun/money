@@ -3,6 +3,8 @@
 Desktop.ini
 .idea
 
+*.log
+
 # Thumbnail cache files
 ._*
 Thumbs.db

@@ -137,7 +137,7 @@ transactionSchema.post('save', function(next) {
   co(function*() {
     yield transaction.increaseCounts();
     return transaction;
-  }).then(next, err => next(err));
+  }).then(next, next);
 
 });
 
@@ -147,7 +147,7 @@ transactionSchema.post('remove', function(next) {
   co(function*() {
     yield transaction.decreaseCounts();
     return transaction;
-  }).then(next, console.log);
+  }).then(next, next);
 
 });
 

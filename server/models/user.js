@@ -10,6 +10,7 @@ const config = require('config');
 const co = require('co');
 const validator = require('validator');
 const uniqueValidator = require('mongoose-unique-validator');
+
 /**
  * SCHEMA.
  */
@@ -22,9 +23,9 @@ let userSchema = new mongoose.Schema({
     lowercase: true,
     trim: true,
     validate: [{
-      validator: validator.isEmail,
+      validator: (val) => validator.isEmail(val),
       msg: 'Email is wrong'
-    }],
+    }]
   },
   passwordHash: {
     type: String

@@ -7,12 +7,12 @@ let mustBeAuthenticated = require('../../lib/mustBeAuthenticated');
 let router = new Router();
 
 router
-  .param('transactionById', transactionCtrl.params.transactionById)
+  .param('id', transactionCtrl.params.transactionById)
   .get('/', transactionCtrl.getTransactions)
   .post('/', transactionCtrl.post)
-  .get('/:transactionById', transactionCtrl.get)
-  .patch('/:transactionById', transactionCtrl.patch)
-  .del('/:transactionById', transactionCtrl.del);
+  .get('/:id', transactionCtrl.get)
+  .patch('/:id', transactionCtrl.patch)
+  .del('/:id', transactionCtrl.del);
   
 
 module.exports = router.routes();

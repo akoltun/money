@@ -1,7 +1,5 @@
 'use strict';
-if (process.env.NODE_TRACE) {
-  require('./lib/trace');
-}
+if (process.env.NODE_TRACE) require('./lib/trace');
 
 const koa = require('koa');
 const config = require('config');
@@ -10,18 +8,10 @@ const middlewares = require('./middlewares');
 
 app.keys = [config.secret];
 
-app.use(middlewares.favicon);
-app.use(middlewares.static);
-if (process.env.NODE_ENV !== 'testing') app.use(middlewares.logger);
-app.use(middlewares.templates);
-app.use(middlewares.errors);
-app.use(middlewares.session);
-app.use(middlewares.bodyParser);
-app.use(middlewares.multipartParser);
-app.use(middlewares.cleanPassportWrapper);
-app.use(middlewares.passport);
-app.use(middlewares.passportSession);
-app.use(middlewares.flash);
-app.use(middlewares.router);
+for (let key in middlewares) {
+  if (middlewares.hasOwnProperty(key)) {
+    app.use(middlewares[key]);
+  }
+}
 
 module.exports = app;

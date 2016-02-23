@@ -1,0 +1,19 @@
+{
+  "restartable": "rs",
+  "colours": true,
+  "ignore": [
+    ".git",
+    "node_modules",
+    ".sass-cache",
+    "frontend",
+    "public",
+    "client"
+  ],
+  "verbose": false,
+  "watch": ["./server","./config"],
+  "env": {
+    "NODE_ENV": "development",
+    "NODE_TRACE": true
+  },
+  "ext": "js json"
+}

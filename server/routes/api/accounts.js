@@ -7,12 +7,12 @@ let mustBeAuthenticated = require('../../lib/mustBeAuthenticated');
 let router = new Router();
 
 router
-  .param('accountById', accountCtrl.params.accountById)
+  .param('id', accountCtrl.params.accountById)
   .get('/', accountCtrl.getAccounts)
   .post('/', accountCtrl.post)
-  .get('/:accountById', accountCtrl.getAccountTransactions)
-  .patch('/:accountById', accountCtrl.patch)
-  .del('/:accountById', accountCtrl.del);
+  .get('/:id', accountCtrl.getAccountTransactions)
+  .patch('/:id', accountCtrl.patch)
+  .del('/:id', accountCtrl.del);
   
 
 module.exports = router.routes();

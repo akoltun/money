@@ -54,7 +54,7 @@ module.exports = {
   },
 
   post: function*(next) {
-
+    
     let user = yield User.create(this.request.body);
 
     this.newFlash = {message: 'Sie haben sich angemeldet'};

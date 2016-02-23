@@ -108,7 +108,10 @@ module.exports = {
     proxy: [{
       path: /.*/,
       target: 'http://localhost:3000'
-    }]
+    }],
+    stats: {
+      colors: true
+    }
   }
 
 };

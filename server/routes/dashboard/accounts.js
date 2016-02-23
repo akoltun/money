@@ -7,13 +7,13 @@ const accountCtrl = require('../../controllers').dashboard.account;
 const router = new Router();
 
 router
-  .param('accountById', accountAPICtrl.params.accountById)
+  .param('id', accountAPICtrl.params.accountById)
   .get('/', accountCtrl.getAccounts)
-  .get('/:accountById', accountCtrl.getTransactionsByAccount)
+  .get('/:id', accountCtrl.getTransactionsByAccount)
   .get('/addaccount', accountCtrl.addAccount)
   .post('/addaccount', accountCtrl.addAccountPost)
-  .get('/editaccount/:accountById', accountCtrl.editAccountById)
-  .post('/editaccount/:accountById', accountCtrl.editAccountByIdPost)
-  .get('/deleteaccount/:accountById', accountCtrl.deleteAccountById);
+  .get('/editaccount/:id', accountCtrl.editAccountById)
+  .post('/editaccount/:id', accountCtrl.editAccountByIdPost)
+  .get('/deleteaccount/:id', accountCtrl.deleteAccountById);
 
 module.exports = router.routes();

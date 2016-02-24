@@ -8,6 +8,6 @@ let chain = require('stack-chain');
 chain.filter.attach(function (error, frames) {
   return frames.filter(function (callSite) {
     let name = callSite && callSite.getFileName();
-    return (name && name.indexOf("/co/") == -1);
+    return (name && name.indexOf('/co/') == -1);
   });
 });

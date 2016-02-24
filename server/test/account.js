@@ -82,7 +82,7 @@ describe('Account REST API', () => {
 
   describe('POST /accounts', () => {
 
-    it("creates account", function*() {
+    it('creates account', function*() {
       let response = yield request({
         method: 'post',
         url: getURL('/accounts'),

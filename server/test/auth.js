@@ -45,8 +45,8 @@ describe('Auth API', () => {
         url: getURL('/login'),
         json: true,
         body: {
-          "email": fixtures.User[0].email,
-          "password": fixtures.User[0].password
+          email: fixtures.User[0].email,
+          password: fixtures.User[0].password
         }
       });
       response.statusCode.should.eql(302);
@@ -63,7 +63,7 @@ describe('Auth API', () => {
         url: getURL('/login'),
         json: true,
         body: {
-          "password": fixtures.User[0].password
+          password: fixtures.User[0].password
         }
       });
 
@@ -79,7 +79,7 @@ describe('Auth API', () => {
         url: getURL('/login'),
         json: true,
         body: {
-          "email": fixtures.User[0].email
+          email: fixtures.User[0].email
         }
       });
 
@@ -96,8 +96,8 @@ describe('Auth API', () => {
         url: getURL('/login'),
         json: true,
         body: {
-          "email": "admin@test.com",
-          "password": "123456"
+          email: 'admin@test.com',
+          password: '123456'
         }
       });
 
@@ -114,8 +114,8 @@ describe('Auth API', () => {
         url: getURL('/login'),
         json: true,
         body: {
-          "email": "admin@test.ru",
-          "password": "12345698"
+          email: 'admin@test.ru',
+          password: '12345698'
         }
       });
 
@@ -135,8 +135,8 @@ describe('Auth API', () => {
         url: getURL('/login'),
         json: true,
         body: {
-          "email": fixtures.User[0].email,
-          "password": fixtures.User[0].password
+          email: fixtures.User[0].email,
+          password: fixtures.User[0].password
         }
       });
     });

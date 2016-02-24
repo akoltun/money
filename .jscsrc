@@ -1,0 +1,12 @@
+{
+  "preset": "node-style-guide",
+  "excludeFiles": ["node_modules", "public"],
+  "requireCapitalizedComments": false,
+  "requireTrailingComma": false,
+  "disallowSpaceAfterObjectKeys": false,
+  "requireCurlyBraces": [
+    "for",
+    "while",
+    "do"
+  ]
+}

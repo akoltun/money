@@ -22,7 +22,7 @@ module.exports = function* (next) {
     // autoFields => part is a file
     // specific handlers know how to handle the file, not us
     // alt: can auto-save to disk
-    this.throw(400, "Files are not allowed here");
+    this.throw(400, 'Files are not allowed here');
   }
 
   this.request.body = parser.field;

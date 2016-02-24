@@ -10,6 +10,7 @@ const config = require('config');
 const co = require('co');
 const validator = require('validator');
 const uniqueValidator = require('mongoose-unique-validator');
+let User;
 
 /**
  * SCHEMA.
@@ -52,15 +53,17 @@ userSchema.virtual('password')
 
     if (password !== undefined) {
       if (password.length < 4) {
-        this.invalidate('password', 'Password should not be less than 4 character');
+        this.invalidate('password',
+          'Password should not be less than 4 character');
       }
     }
 
     this._plainPassword = password;
 
     if (password) {
-      this.salt = crypto.randomBytes(config.crypto.hash.length).toString('base64');
-      this.passwordHash = crypto.pbkdf2Sync(password, this.salt, config.crypto.hash.iterations, config.crypto.hash.length);
+      this.salt = crypto.randomBytes(config.crypto.hash.length)
+        .toString('base64');
+      this.passwordHash = passwordHash(password, this.salt);
     } else {
       this.salt = undefined;
       this.passwordHash = undefined;
@@ -84,7 +87,7 @@ userSchema.methods.checkPassword = function(password) {
   if (!password) return false;
   if (!this.passwordHash) return false;
 
-  return crypto.pbkdf2Sync(password, this.salt, config.crypto.hash.iterations, config.crypto.hash.length) == this.passwordHash;
+  return passwordHash(password, this.salt) == this.passwordHash;
 };
 
 userSchema.methods.getInfoFields = function() {
@@ -104,7 +107,13 @@ userSchema.statics.getInfoFields = function(user) {
   };
 };
 
-let User = mongoose.model('User', userSchema);
+User = mongoose.model('User', userSchema);
+
+function passwordHash(password, salt) {
+  let iterations = config.crypto.hash.iterations;
+  let length = config.crypto.hash.length;
+  return crypto.pbkdf2Sync(password, salt, iterations, length);
+}
 
 /**
  * EXPORT.

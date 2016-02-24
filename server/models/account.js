@@ -7,6 +7,7 @@
 const mongoose = require('../lib/mongoose');
 const validator = require('validator');
 const co = require('co');
+let Account;
 
 /**
  * SCHEMA.
@@ -57,7 +58,7 @@ accountSchema.pre('save', function(next) {
     }
     return account;
   }).then(next, err => next(err));
-  
+
 });
 
 accountSchema.pre('remove', function(next) {
@@ -84,7 +85,7 @@ accountSchema.pre('remove', function(next) {
  */
 
 
-let Account = mongoose.model('Account', accountSchema);
+Account = mongoose.model('Account', accountSchema);
 
 module.exports = Account;
 

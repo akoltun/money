@@ -25,7 +25,7 @@ describe('User REST API', () => {
   });
 
   let newUserData = {
-    email: "alice@test.ru",
+    email: 'alice@test.ru',
     name: 'alice',
     lastName: 'alice',
     password: '1234567'
@@ -33,7 +33,7 @@ describe('User REST API', () => {
 
   describe('POST /users', () => {
 
-    it("creates a user", function*() {
+    it('creates a user', function*() {
       let response = yield request({
         method: 'POST',
         url: getURL('/users'),
@@ -59,8 +59,8 @@ describe('User REST API', () => {
         url: getURL('/login'),
         json: true,
         body: {
-          "email": fixtures.User[0].email,
-          "password": fixtures.User[0].password
+          email: fixtures.User[0].email,
+          password: fixtures.User[0].password
         }
       });
     });
@@ -99,8 +99,8 @@ describe('User REST API', () => {
         url: getURL('/login'),
         json: true,
         body: {
-          "email": fixtures.User[0].email,
-          "password": fixtures.User[0].password
+          email: fixtures.User[0].email,
+          password: fixtures.User[0].password
         }
       });
     });
@@ -138,7 +138,8 @@ describe('User REST API', () => {
         }
       });
       response.statusCode.should.eql(409);
-      response.body.errors[0].should.eql('Error: email: google@google.com exists');
+      response.body.errors[0].should
+        .eql('Error: email: google@google.com exists');
     });
 
     it('returns 400 if passwordOld is wrong', function*() {
@@ -171,8 +172,8 @@ describe('User REST API', () => {
         url: getURL('/login'),
         json: true,
         body: {
-          "email": fixtures.User[0].email,
-          "password": fixtures.User[0].password
+          email: fixtures.User[0].email,
+          password: fixtures.User[0].password
         }
       });
     });
@@ -206,7 +207,8 @@ describe('User REST API', () => {
         body: fixtures.User[0]
       });
       response.statusCode.should.eql(409);
-      response.body.errors[0].should.eql('Error: email: admin@google.com exists');
+      response.body.errors[0].should
+        .eql('Error: email: admin@google.com exists');
     });
 
     it('returns 409 if email not valid', function*() {
@@ -233,7 +235,8 @@ describe('User REST API', () => {
         }
       });
       response.statusCode.should.eql(409);
-      response.body.errors[0].should.eql('Password should not be less than 4 character');
+      response.body.errors[0].should
+        .eql('Password should not be less than 4 character');
     });
 
   });

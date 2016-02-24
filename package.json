@@ -5,16 +5,17 @@
   "main": "./server/index.js",
   "scripts": {
     "nodemon": "nodemon ./server/",
-    "mocha:server": "NODE_ENV=testing mocha --opts ./config/mocha.opts ./server/test/",
+    "mocha:server": "NODE_ENV=testing mocha --opts ./mocha.opts ./server/test/",
     "mocha": "npm run mocha:server",
     "test": "npm run mocha:server",
+    "lint": "jshint --config .jshintrc .",
     "db:load": "NODE_ENV=development NODE_TRACE=true node ./server/fixtures/loadFixtures",
     "webpack:build:dev": "NODE_ENV=development webpack --config ./config/webpack.js",
     "webpack:build:prod": "NODE_ENV=production webpack --config ./config/webpack.js",
     "webpack:server": "NODE_ENV=development webpack-dev-server --config config/webpack.js & npm run nodemon",
     "build:dev": "npm run webpack:build:dev",
     "build:prod": "npm run webpack:build:prod",
-    "dev": "npm run build:dev & npm run nodemon"
+    "dev": "npm run lint && (npm run build:dev & npm run nodemon)"
   },
   "keywords": [
     "money",
@@ -34,6 +35,7 @@
     "css-loader": "^0.23.1",
     "extract-text-webpack-plugin": "^1.0.1",
     "file-loader": "^0.8.5",
+    "jshint": "^2.9.1",
     "less": "^2.6.0",
     "less-loader": "^2.2.2",
     "mocha": "^2.4.5",

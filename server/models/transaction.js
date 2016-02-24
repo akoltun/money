@@ -6,6 +6,7 @@
 
 const mongoose = require('../lib/mongoose');
 const co = require('co');
+let Transaction;
 
 /**
  * SCHEMA.
@@ -83,12 +84,20 @@ transactionSchema.methods.increaseCounts = function*() {
   let summary = earned - spent;
 
   yield mongoose.models.Account.findByIdAndUpdate(this.account, {
-    $inc: {spent: spent, earned: earned, summary: summary, transactionsCount: 1}
+    $inc: {
+      spent: spent,
+      earned: earned,
+      summary: summary,
+      transactionsCount: 1}
   });
 
   yield mongoose.models.Category.update(
-    {_id: {$in: this.categories}}, //Условия поиска
-    {$inc: {spent: spent, earned: earned, summary: summary, transactionsCount: 1}}, //Что изменить
+    {_id: {$in: this.categories}},
+    {$inc: {
+      spent: spent,
+      earned: earned,
+      summary: summary,
+      transactionsCount: 1}},
     {multi: true});
 
   return this;
@@ -115,16 +124,24 @@ transactionSchema.methods.decreaseCounts = function*() {
   let summary = earned - spent;
 
   yield mongoose.models.Account.findByIdAndUpdate(this.account, {
-    $inc: {spent: -spent, earned: -earned, summary: -summary, transactionsCount: -1}
+    $inc: {
+      spent: -spent,
+      earned: -earned,
+      summary: -summary,
+      transactionsCount: -1}
   });
 
   yield mongoose.models.Category.update(
     {_id: {$in: this.categories}},
-    {$inc: {spent: -spent, earned: -earned, summary: -summary, transactionsCount: -1}},
+    {$inc: {
+      spent: -spent,
+      earned: -earned,
+      summary: -summary,
+      transactionsCount: -1}},
     {multi: true});
 
   return this;
-  
+
 };
 
 /**
@@ -155,6 +172,6 @@ transactionSchema.post('remove', function(next) {
  * EXPORT.
  */
 
-let Transaction = mongoose.model('Transaction', transactionSchema);
+Transaction = mongoose.model('Transaction', transactionSchema);
 
 module.exports = Transaction;

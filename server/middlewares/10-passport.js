@@ -5,12 +5,14 @@ let localStrategy = require('../lib/authStrategy').localStrategy;
 
 const User = require('../models/user');
 
+// При авторизации пишет ID юзера в this.session.passport.user
 passport.serializeUser((user, done) => {
-  done(null, user.id);//при авторизации пишет ID юзера в this.session.passport.user
+  done(null, user.id);
 });
 
+// Какждый раз по id юзера из сессии пишет юзера в req.user
 passport.deserializeUser((id, done) => {
-  User.findById(id, done);// какждый раз по id юзера из сессии пишет юзера в req.user
+  User.findById(id, done);
 });
 
 passport.use(localStrategy);

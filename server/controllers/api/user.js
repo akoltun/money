@@ -34,7 +34,7 @@ module.exports = {
       }
 
       if (allowed) this.params.user = user;
-      else this.throw(403, "Not allowed.");
+      else this.throw(403, 'Not allowed.');
       yield* next;
 
     }
@@ -70,7 +70,7 @@ module.exports = {
 
     if (fields.password) {
       if (user.passwordHash && !user.checkPassword(fields.oldPassword)) {
-        this.throw(400, "Old password is wrong.");
+        this.throw(400, 'Old password is wrong.');
       }
     }
 

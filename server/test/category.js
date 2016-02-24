@@ -82,7 +82,7 @@ describe('Category REST API', () => {
 
   describe('POST /categories', () => {
 
-    it("creates category", function*() {
+    it('creates category', function*() {
       let response = yield request({
         method: 'post',
         url: getURL('/categories'),

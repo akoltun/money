@@ -86,7 +86,7 @@ describe('Transaction REST API', () => {
 
   describe('POST /transactions', () => {
 
-    it("creates transaction", function*() {
+    it('creates transaction', function*() {
       let response = yield request({
         method: 'post',
         url: getURL('/transactions'),
@@ -96,9 +96,11 @@ describe('Transaction REST API', () => {
       response.statusCode.should.eql(201);
       response.body.success.should.eql(true);
       response.body.transaction.amount.should.eql(+newTransactionData.amount);
-      response.body.transaction.account.name.should.eql(newTransactionData.account);
+      response.body.transaction.account.name.should
+        .eql(newTransactionData.account);
       response.body.transaction.account._id.should.eql(fixtures.Account[0]._id);
-      response.body.transaction.categories[0]._id.should.eql(fixtures.Category[0]._id);
+      response.body.transaction.categories[0]._id.should
+        .eql(fixtures.Category[0]._id);
       response.body.transaction.user._id.should.eql(fixtures.User[0]._id);
     });
 
@@ -115,7 +117,7 @@ describe('Transaction REST API', () => {
       response.statusCode.should.eql(200);
       response.body.length.should.eql(5);
     });
-      
+
   });
 
   describe('GET /transaction/:id', () => {
@@ -129,7 +131,7 @@ describe('Transaction REST API', () => {
       response.statusCode.should.eql(200);
       response.body._id.should.eql(fixtures.Transaction[0]._id);
     });
-      
+
   });
 
   describe('PATCH /transactions/:id', () => {
@@ -146,11 +148,13 @@ describe('Transaction REST API', () => {
       response.body.success.should.eql(true);
       response.body.transaction._id.should.eql(fixtures.Transaction[0]._id);
       response.body.transaction.amount.should.eql(newTransactionData.amount);
-      response.body.transaction.description.should.eql(newTransactionData.description);
-      response.body.transaction.account.name.should.eql(newTransactionData.account);
+      response.body.transaction.description.should
+        .eql(newTransactionData.description);
+      response.body.transaction.account.name.should
+        .eql(newTransactionData.account);
       response.body.transaction.categories.length.should.eql(1);
     });
-      
+
   });
 
   describe('DELETE /transactions/:id', () => {
@@ -164,7 +168,7 @@ describe('Transaction REST API', () => {
       response.statusCode.should.eql(200);
       response.body.success.should.eql(true);
     });
-      
+
   });
 
 });

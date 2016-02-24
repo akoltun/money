@@ -6,7 +6,7 @@
 
 const mongoose = require('../lib/mongoose');
 const co = require('co');
-
+let Category;
 /**
  * SCHEMA.
  */
@@ -53,7 +53,7 @@ categorySchema.pre('save', function(next) {
     }
     return category;
   }).then(next, err => next(err));
-  
+
 });
 
 categorySchema.pre('remove', function(next) {
@@ -76,7 +76,7 @@ categorySchema.pre('remove', function(next) {
  */
 
 
-let Category = mongoose.model('Category', categorySchema);
+Category = mongoose.model('Category', categorySchema);
 
 module.exports = Category;
 

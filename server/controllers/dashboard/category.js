@@ -37,7 +37,7 @@ module.exports = {
     this.body = this.render('categories/addCategory', {
       title: `Kategorie hinzufügen`
     });
-    
+
   },
 
   addCategoryPost: function*(next) {
@@ -57,7 +57,7 @@ module.exports = {
       title: `Kategorie '${category.name}' ändern`,
       category: category
     });
-    
+
   },
 
   editCategoryByIdPost: function*(next) {
@@ -74,7 +74,7 @@ module.exports = {
 
     yield this.params.category.remove();
     this.redirect('/dashboard/categories');
-    
+
   }
 
 };

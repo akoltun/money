@@ -33,9 +33,9 @@ class MongooseStore {
       let session = yield this.Session.findOne({ sid: sid });
 
       if (session && session.sid) return session.sessionData;
-      else return null;
+      return null;
 
-    } catch(err) {
+    } catch (err) {
       console.error(err);
       return null;
     }
@@ -52,7 +52,7 @@ class MongooseStore {
       yield this.Session.findOneAndUpdate({ sid: sid },
       {sid: sid, sessionData: sessionData, updatedAt: new Date()},
       { upsert: true, safe: true });
-    } catch(err) {
+    } catch (err) {
       console.error(err);
     }
 
@@ -66,7 +66,7 @@ class MongooseStore {
 
     try {
       yield this.Session.findOneAndRemove({ sid: sid });
-    } catch(err) {
+    } catch (err) {
       console.error(err);
     }
 

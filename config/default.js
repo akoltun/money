@@ -38,7 +38,7 @@ module.exports = {
       httpOnly: true,
       path: '/',
       overwrite: true,
-      maxAge: 3600 * 5 * 1000 //ms
+      maxAge: 3600 * 5 * 1000 // ms
     }
   },
 

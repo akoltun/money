@@ -8,7 +8,7 @@
 const busboy = require('co-busboy');
 
 
-module.exports = function* (next) {
+module.exports = function*(next) {
   // the body isn't multipart, so busboy can't parse it
   if (!this.request.is('multipart/*')) return yield* next;
 

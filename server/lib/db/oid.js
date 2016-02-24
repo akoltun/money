@@ -5,7 +5,11 @@ const crypto = require('crypto');
 
 // oid('course1') => generates always same id
 module.exports = function oid(str) {
-  return crypto.createHash('md5').update(str).digest('hex').substring(0, 24);
+  return crypto
+    .createHash('md5')
+    .update(str)
+    .digest('hex')
+    .substring(0, 24);
 };
 
 module.exports.withTime = function oidWithTime(str) {
@@ -13,5 +17,9 @@ module.exports.withTime = function oidWithTime(str) {
   while (time.length < 8) { // never happens in real-life though
     time = '0' + time;
   }
-  return time + crypto.createHash('md5').update(str).digest('hex').substring(0, 16);
+  return time + crypto
+    .createHash('md5')
+    .update(str)
+    .digest('hex')
+    .substring(0, 16);
 };

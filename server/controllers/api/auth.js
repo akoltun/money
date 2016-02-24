@@ -25,12 +25,12 @@ module.exports = {
         if (err) throw err;
 
         if (user === false) {
-          return ctx.throw(401, info); //можно изменить на flash собщения
-        } else {
-          yield ctx.login(user);
-          ctx.newFlash = {message: 'Sie haben sich eingeloggt'};
-          ctx.redirect('/dashboard');
+          return ctx.throw(401, info); // можно изменить на flash собщения
         }
+
+        yield ctx.login(user);
+        ctx.newFlash = {message: 'Sie haben sich eingeloggt'};
+        ctx.redirect('/dashboard');
 
       }).call(this, next);
 
@@ -39,11 +39,11 @@ module.exports = {
   },
 
   logout: function*() {
-    //cookies.set( name, [ value ], [ options ] ) - без value удаляет
+    // cookies.set( name, [ value ], [ options ] ) - без value удаляет
     // this.cookies.set('sid');
     // this.cookies.set('sid.sig');
     this.logout();
-    //this.session = null;
+    // this.session = null;
     this.newFlash = {message: 'Sie haben sich abgemeldet'};
     this.redirect('/');
 

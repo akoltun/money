@@ -13,6 +13,6 @@ router
   .get('/:id', accountCtrl.getAccountTransactions)
   .patch('/:id', accountCtrl.patch)
   .del('/:id', accountCtrl.del);
-  
+
 
 module.exports = router.routes();

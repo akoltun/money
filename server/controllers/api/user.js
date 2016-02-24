@@ -10,10 +10,10 @@ module.exports = {
   params: {
 
     userByReq: function*(next) {
-      this.params.user = this.user; //from passport
+      this.params.user = this.user; // from passport
       yield * next;
     },
-    
+
     userById: function*(id, next) {
 
       if (!isValid(id)) this.throw(404, 'User not found');
@@ -54,7 +54,7 @@ module.exports = {
   },
 
   post: function*(next) {
-    
+
     let user = yield User.create(this.request.body);
 
     this.newFlash = {message: 'Sie haben sich angemeldet'};

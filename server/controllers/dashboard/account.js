@@ -37,7 +37,7 @@ module.exports = {
     this.body = this.render('accounts/addAccount', {
       title: `Konto hinzufügen`
     });
-    
+
   },
 
   addAccountPost: function*(next) {
@@ -58,7 +58,7 @@ module.exports = {
       title: `Konto '${account.name}' ändern`,
       account: account
     });
-    
+
   },
 
   editAccountByIdPost: function*(next) {
@@ -76,7 +76,7 @@ module.exports = {
 
     yield this.params.account.remove();
     this.redirect('/dashboard/accounts');
-    
+
   }
 
 };

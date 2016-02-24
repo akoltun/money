@@ -46,7 +46,7 @@ module.exports = {
 
     let fields = this.request.body;
     fields.user = this.user;
-    
+
     if (fields.date) {
       fields.date = +new Date(fields.date) +
         (new Date() - new Date(fields.date));
@@ -68,7 +68,8 @@ module.exports = {
         this.throw(409, 'Transfer can\'t be without an account');
       }
 
-      if (String(fields.sourceAccount._id) === String(fields.destinationAccount._id)) {
+      if (String(fields.sourceAccount._id) ===
+          String(fields.destinationAccount._id)) {
         this.throw(409, 'Transfer can\'t be on the same account');
       }
 
@@ -122,7 +123,8 @@ module.exports = {
         this.throw(409, 'Transfer can\'t be without an account');
       }
 
-      if (String(fields.sourceAccount._id) === String(fields.destinationAccount._id)) {
+      if (String(fields.sourceAccount._id) ===
+          String(fields.destinationAccount._id)) {
         this.throw(409, 'Transfer can\'t be on the same account');
       }
 
@@ -161,7 +163,10 @@ module.exports = {
   del: function*(next) {
 
     yield this.params.transaction.remove();
-    this.body = {success: true, transaction: this.params.transaction.toObject()};
+    this.body = {
+      success: true,
+      transaction: this.params.transaction.toObject()
+    };
 
   }
 

@@ -13,6 +13,6 @@ router
   .get('/:id', categoryCtrl.getCategoryTransactions)
   .patch('/:id', categoryCtrl.patch)
   .del('/:id', categoryCtrl.del);
-  
+
 
 module.exports = router.routes();

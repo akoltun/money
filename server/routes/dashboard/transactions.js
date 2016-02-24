@@ -9,7 +9,7 @@ const router = new Router();
 router
   .param('id', transactionAPICtrl.params.transactionById)
   .get('/', transactionCtrl.getTransactions)
-  
+
   .get('/addtransaction', transactionCtrl.addTransaction)
   .post('/addtransaction', transactionCtrl.addTransactionPost)
   .get('/edittransaction/:id', transactionCtrl.editTransactionById)

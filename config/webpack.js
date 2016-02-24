@@ -62,7 +62,8 @@ module.exports = {
       loader: 'jade'
     }, {
       test: /\.less$/,
-      loader: ExtractTextPlugin.extract('style', 'css!autoprefixer?browsers=last 2 versions!less')
+      loader: ExtractTextPlugin
+        .extract('style', 'css!autoprefixer?browsers=last 2 versions!less')
     }, {
       test: /\.(png|jpg|svg|ttf|eot|woff|woff2)$/,
       exclude: /\/node_modules\//,
@@ -92,7 +93,7 @@ module.exports = {
     }),
     new ExtractTextPlugin('[name].css', {
       allChunks: true,
-      //disable: NODE_ENV === 'development'
+      // disable: NODE_ENV === 'development'
     }),
     new AssetsPlugin({ // создать json с хэшами текущих версий файла
       filename: 'assets.json',
@@ -103,7 +104,7 @@ module.exports = {
   devServer: {
     host: config.server.host,
     port: 9000,
-    //contentBase: config.server.root, // если html статика
+    // contentBase: config.server.root, // если html статика
     hot: true,
     proxy: [{
       path: /.*/,
@@ -121,6 +122,7 @@ if (NODE_ENV === 'production') {
     new webpack.optimize.UglifyJsPlugin({
       compress: {
         warnings: false,
+        // jscs:disable
         drop_console: true, // jshint ignore:line
         unsafe: true
       }

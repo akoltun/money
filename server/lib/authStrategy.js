@@ -17,7 +17,8 @@ let localStrategy = new LocalStrategy({
     let user = yield User.findOne({email: email});
 
     if (!user || !user.checkPassword(password)) {
-      throw new AuthError('Email or password wrong');//Ошибка идет в модуль login, функция passport.authenticate, переменная info
+      // Ошибка идет в модуль login, func passport.authenticate, переменная info
+      throw new AuthError('Email or password wrong');
     }
 
     return user;

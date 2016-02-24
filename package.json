@@ -8,7 +8,7 @@
     "mocha:server": "NODE_ENV=testing mocha --opts ./mocha.opts ./server/test/",
     "mocha": "npm run mocha:server",
     "test": "npm run mocha:server",
-    "lint": "jshint --config .jshintrc .",
+    "lint": "jshint --config .jshintrc . && jscs --config .jscsrc .",
     "db:load": "NODE_ENV=development NODE_TRACE=true node ./server/fixtures/loadFixtures",
     "webpack:build:dev": "NODE_ENV=development webpack --config ./config/webpack.js",
     "webpack:build:prod": "NODE_ENV=production webpack --config ./config/webpack.js",

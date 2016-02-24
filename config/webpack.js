@@ -109,7 +109,8 @@ module.exports = {
     host: config.server.host,
     port: 9000,
     // contentBase: config.server.public, // если html статика
-    hot: true,
+    // hot: true,
+    inline: true,
     proxy: [{
       path: /.*/,
       target: 'http://localhost:3000'

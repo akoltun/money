@@ -21,4 +21,4 @@ include layout/head
         a.btn.btn-primary(href='/') Einloggen
   if NODE_ENV === 'development'
     block scripts
-      script(src='/assets/main.js')
+      script(src='#{assets.main.js}')

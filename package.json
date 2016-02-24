@@ -73,6 +73,7 @@
     "moment": "^2.11.2",
     "mongoose": "^4.4.4",
     "mongoose-unique-validator": "^1.0.1",
+    "mz": "^2.3.1",
     "passport-local": "^1.0.0",
     "validator": "^5.0.0",
     "whatwg-fetch": "^0.11.0"

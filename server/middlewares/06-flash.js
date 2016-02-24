@@ -2,9 +2,7 @@
 
 module.exports = function* flash(next) {
   this.flash = this.session.flash || {};
-  if (this.method === 'GET') {
-    this.session.lastPath = this.url;
-  }
+  if (this.method === 'GET') this.session.lastPath = this.url;
 
   this.session.flash = {};
 

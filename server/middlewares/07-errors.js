@@ -29,7 +29,7 @@ module.exports = function*(next) {
           errors: errors
         };
       } else {
-        this.body = 'Bad data';
+        this.newFlash = {success: false, message: errors.join('; ')};
         this.redirect(redirectPath);
       }
 

@@ -4,6 +4,7 @@ html(lang="de")
     block variables
     meta(charset="UTF-8")
     title= title
-    link(rel="stylesheet", href="/assets/main.css")
+    if NODE_ENV !== 'development'
+      link(rel="stylesheet", href="/assets/main.css")
     script(src='/assets/common.js')
     block head

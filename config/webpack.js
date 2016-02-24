@@ -83,17 +83,17 @@ module.exports = {
     new webpack.NoErrorsPlugin(),
     new webpack.DefinePlugin({
       NODE_ENV: JSON.stringify(NODE_ENV),
-      LANG: JSON.stringify('ru')
+      LANG: JSON.stringify('en')
     }),
     new webpack.optimize.CommonsChunkPlugin({
       name: 'common',
     }),
     new webpack.ProvidePlugin({
-      jQuery: 'jquery'
+      jQuery: 'jquery' // for bootstrap
     }),
     new ExtractTextPlugin('[name].css', {
       allChunks: true,
-      // disable: NODE_ENV === 'development'
+      disable: NODE_ENV === 'development'
     }),
     new AssetsPlugin({ // создать json с хэшами текущих версий файла
       filename: 'assets.json',

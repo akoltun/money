@@ -19,3 +19,6 @@ include layout/head
       .col-xs-4
         br
         a.btn.btn-primary(href='/register') Anmelden
+  if NODE_ENV === 'development'
+    block scripts
+      script(src='/assets/main.js')

@@ -19,6 +19,9 @@ module.exports = function*(next) {
     },
     get flash() {
       return ctx.flash;
+    },
+    get NODE_ENV() {
+      return ctx.app.env;
     }
   };
 

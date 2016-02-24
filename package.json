@@ -5,17 +5,20 @@
   "main": "./server/index.js",
   "scripts": {
     "nodemon": "nodemon ./server/",
+    "bs": "browser-sync start --config ./config/bs-config.js",
+    "clean": "rm -rf ./public",
     "mocha:server": "NODE_ENV=testing mocha --opts ./mocha.opts ./server/test/",
     "mocha": "npm run mocha:server",
     "test": "npm run mocha:server",
-    "lint": "jshint --config .jshintrc . && jscs --config .jscsrc .",
+    "jscs:fix": "jscs --config ./.jscsrc --fix",
+    "lint": "jshint --config ./.jshintrc . && jscs --config ./.jscsrc .",
     "db:load": "NODE_ENV=development NODE_TRACE=true node ./server/fixtures/loadFixtures",
     "webpack:build:dev": "NODE_ENV=development webpack --config ./config/webpack.js",
     "webpack:build:prod": "NODE_ENV=production webpack --config ./config/webpack.js",
-    "webpack:server": "NODE_ENV=development webpack-dev-server --config config/webpack.js & npm run nodemon",
+    "webpack:server": "NODE_ENV=development webpack-dev-server --config ./config/webpack.js & npm run nodemon",
     "build:dev": "npm run webpack:build:dev",
     "build:prod": "npm run webpack:build:prod",
-    "dev": "npm run lint && (npm run build:dev & npm run nodemon)"
+    "dev": "npm run lint && (npm run build:dev & npm run nodemon & npm run bs)"
   },
   "keywords": [
     "money",
@@ -29,6 +32,7 @@
     "babel-core": "^6.5.2",
     "babel-loader": "^6.2.3",
     "babel-preset-es2015": "^6.5.0",
+    "browser-sync": "^2.11.1",
     "clarify": "^1.0.5",
     "co-mocha": "^1.1.2",
     "co-request": "^1.0.0",

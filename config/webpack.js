@@ -3,9 +3,13 @@
 const webpack = require('webpack');
 const server = require('webpack-dev-server');
 const config = require('config');
+
 const NODE_ENV = process.env.NODE_ENV || 'development';
+const NODE_BSS = process.env.NODE_BSS || false;
+
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const CommonsChunkPlugin = require('webpack/lib/optimize/CommonsChunkPlugin');
+const BrowserSyncPlugin = require('browser-sync-webpack-plugin');
 const AssetsPlugin = require('assets-webpack-plugin');
 const rimraf = require('rimraf');
 
@@ -104,7 +108,7 @@ module.exports = {
   devServer: {
     host: config.server.host,
     port: 9000,
-    // contentBase: config.server.root, // если html статика
+    // contentBase: config.server.public, // если html статика
     hot: true,
     proxy: [{
       path: /.*/,
@@ -125,6 +129,23 @@ if (NODE_ENV === 'production') {
         // jscs:disable
         drop_console: true, // jshint ignore:line
         unsafe: true
+      }
+    })
+  );
+}
+
+if (NODE_BSS) {
+  module.exports.plugins.push(
+    new BrowserSyncPlugin({
+      host: config.server.host,
+      port: 9000,
+      browser: ['google chrome'],
+      open: false,
+      online: false,
+      notify: false,
+      proxy: {
+        target: `${config.server.host}:${config.server.port}`,
+        ws: true
       }
     })
   );

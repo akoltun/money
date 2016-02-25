@@ -4,7 +4,7 @@
   "description": "Money Manager",
   "main": "./server/index.js",
   "scripts": {
-    "nodemon": "nodemon ./server/",
+    "nodemon": "NODE_ENV=development NODE_TRACE=true nodemon ./server/",
     "bs": "browser-sync start --config ./config/bs-config.js",
     "clean": "rm -rf ./public",
     "mocha:server": "NODE_ENV=testing NODE_TRACE=true mocha --opts ./mocha.opts ./server/test/",
@@ -18,8 +18,8 @@
     "webpack:server": "webpack-dev-server --config ./config/webpack.js & npm run nodemon",
     "build:dev": "npm run webpack:build:dev",
     "build:prod": "npm run webpack:build:prod",
-    "dev": "NODE_ENV=development NODE_TRACE=true npm run lint && (npm run build:dev & npm run nodemon)",
-    "devs": "NODE_ENV=development NODE_TRACE=true npm run lint && npm run webpack:server"
+    "dev": "npm run lint && (npm run build:dev & npm run nodemon)",
+    "devs": "npm run lint && npm run webpack:server"
   },
   "keywords": [
     "money",

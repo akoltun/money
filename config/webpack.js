@@ -4,6 +4,7 @@ const webpack = require('webpack');
 const server = require('webpack-dev-server');
 const config = require('config');
 
+const isDev = !process.env.NODE_ENV || process.env.NODE_ENV === 'development';
 const NODE_ENV = process.env.NODE_ENV || 'development';
 const NODE_BSS = process.env.NODE_BSS || false;
 
@@ -14,8 +15,9 @@ const AssetsPlugin = require('assets-webpack-plugin');
 const rimraf = require('rimraf');
 
 function addHash(template, hash) {
-  return NODE_ENV === 'production' ?
-    template.replace(/\.[^.]+$/, `.[${hash}]$&`) : `${template}?hash=[${hash}]`;
+  return isDev ?
+    `${template}?hash=[${hash}]` :
+    template.replace(/\.[^.]+$/, `.[${hash}]$&`);
 }
 
 module.exports = {
@@ -32,8 +34,8 @@ module.exports = {
   output: {
     path: config.client.assets,
     publicPath: '/assets/',
-    filename: '[name].js',
-    chunkFilename: '[id].js',
+    filename: addHash('[name].js', 'hash'),
+    chunkFilename: addHash('[id].js', 'chunkhash'),
     library: '[name]'
   },
 
@@ -48,13 +50,13 @@ module.exports = {
     extensions: ['', '.js']
   },
 
-  watch: NODE_ENV === 'development',
+  watch: isDev,
 
   watchOptions: {
     aggregateTimeout: 100
   },
 
-  devtool: NODE_ENV === 'development' ? 'cheap-inline-module-source-map' : null,
+  devtool: isDev ? 'cheap-inline-module-source-map' : null,
 
   module: {
     loaders: [{
@@ -71,7 +73,7 @@ module.exports = {
     }, {
       test: /\.(png|jpg|svg|ttf|eot|woff|woff2)$/,
       exclude: /\/node_modules\//,
-      loader: 'url?name=[path][name].[ext]&limit=4096',
+      loader: addHash('url?name=[path][name].[ext]&limit=4096', 'hash:6')
     }, {
       test: /\.(png|jpg|svg|ttf|eot|woff|woff2)$/,
       include: /\/node_modules\//,
@@ -95,9 +97,9 @@ module.exports = {
     new webpack.ProvidePlugin({
       jQuery: 'jquery' // for bootstrap
     }),
-    new ExtractTextPlugin('[name].css', {
+    new ExtractTextPlugin(addHash('[name].css', 'contenthash'), {
       allChunks: true,
-      disable: NODE_ENV === 'development'
+      disable: isDev
     }),
     new AssetsPlugin({ // создать json с хэшами текущих версий файла
       filename: 'assets.json',

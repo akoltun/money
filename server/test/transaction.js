@@ -4,62 +4,51 @@ const app = require('../app');
 let request = require('co-request');
 const loadModels = require('../lib/db/loadModels');
 const fixtures = require('../fixtures');
-let server;
 
+let server;
 request = request.defaults({
+  baseUrl: 'http://localhost:3005/',
   jar: true
 });
 
-function getURL(path) {
-  return `http://localhost:3005${path}`;
-}
+let login = {
+  method: 'post',
+  url: '/login',
+  json: true,
+  body: {
+    email: fixtures.User[0].email,
+    password: fixtures.User[0].password
+  }
+};
+let logout = {method: 'get', url: '/logout'};
+let newTransactionData = {
+  amount: 2850,
+  description: 'Casino',
+  type: 'spent',
+  account: fixtures.Account[0].name,
+  categories: [fixtures.Category[0].name]
+};
 
 describe('Transaction REST API', () => {
 
-  before(() => {
-    server = app.listen(3005, '127.0.0.1');
-  });
-
-  after(() => {
-    server.close();
-  });
+  before(() => server = app.listen(3005, '127.0.0.1'));
+  after(() => server.close());
 
   beforeEach(function*() {
     yield * loadModels(fixtures);
-
-    yield request({
-      method: 'post',
-      url: getURL('/login'),
-      json: true,
-      body: {
-        email: fixtures.User[0].email,
-        password: fixtures.User[0].password
-      }
-    });
+    yield request(login);
   });
 
   afterEach(function*() {
-    yield request({
-      method: 'get',
-      url: getURL('/logout'),
-      json: true
-    });
+    yield request(logout);
   });
-
-  let newTransactionData = {
-    amount: 2850,
-    description: 'Casino',
-    type: 'spent',
-    account: fixtures.Account[0].name,
-    categories: [fixtures.Category[0].name]
-  };
 
   describe('PARAMS', () => {
 
     it('returns 404 if transaction not exist', function*() {
       let response = yield request({
         method: 'get',
-        url: getURL('/transactions/fe3a2ecc7355a20674486789'),
+        url: '/transactions/fe3a2ecc7355a20674486789',
         json: true
       });
       response.statusCode.should.eql(404);
@@ -67,15 +56,11 @@ describe('Transaction REST API', () => {
     });
 
     it('returns 403 if user not authorized', function*() {
-      yield request({
-        method: 'get',
-        url: getURL('/logout'),
-        json: true
-      });
+      yield request(logout);
 
       let response = yield request({
         method: 'get',
-        url: getURL('/transactions/' + fixtures.Account[0]._id),
+        url: '/transactions/' + fixtures.Account[0]._id,
         json: true
       });
       response.statusCode.should.eql(403);
@@ -89,7 +74,7 @@ describe('Transaction REST API', () => {
     it('creates transaction', function*() {
       let response = yield request({
         method: 'post',
-        url: getURL('/transactions'),
+        url: '/transactions',
         json: true,
         body: newTransactionData
       });
@@ -111,7 +96,7 @@ describe('Transaction REST API', () => {
     it('returns transactions to user', function*() {
       let response = yield request({
         method: 'get',
-        url: getURL('/transactions'),
+        url: '/transactions',
         json: true
       });
       response.statusCode.should.eql(200);
@@ -125,7 +110,7 @@ describe('Transaction REST API', () => {
     it('returns single transaction by id', function*() {
       let response = yield request({
         method: 'get',
-        url: getURL('/transactions/' + fixtures.Transaction[0]._id),
+        url: '/transactions/' + fixtures.Transaction[0]._id,
         json: true
       });
       response.statusCode.should.eql(200);
@@ -140,7 +125,7 @@ describe('Transaction REST API', () => {
 
       let response = yield request({
         method: 'patch',
-        url: getURL('/transactions/' + fixtures.Transaction[0]._id),
+        url: '/transactions/' + fixtures.Transaction[0]._id,
         json: true,
         body: newTransactionData
       });
@@ -162,7 +147,7 @@ describe('Transaction REST API', () => {
     it('delete account', function*() {
       let response = yield request({
         method: 'delete',
-        url: getURL('/transactions/' + fixtures.Transaction[0]._id),
+        url: '/transactions/' + fixtures.Transaction[0]._id,
         json: true,
       });
       response.statusCode.should.eql(200);

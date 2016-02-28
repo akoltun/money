@@ -1,42 +1,54 @@
 'use strict';
 
 const app = require('../app');
-const request = require('co-request');
+let originalRequest = require('co-request');
 const loadModels = require('../lib/db/loadModels');
 const fixtures = require('../fixtures');
+
 let server;
 
-function getURL(path) {
-  return `http://localhost:3001${path}`;
-}
+let request = originalRequest.defaults({
+  baseUrl: 'http://localhost:3001/',
+  jar: true
+});
+
+let login = {
+  method: 'post',
+  url: '/login',
+  json: true,
+  body: {
+    email: fixtures.User[0].email,
+    password: fixtures.User[0].password
+  }
+};
+let logout = {method: 'get', url: '/logout'};
+let newUserData = {
+  email: 'alice@test.ru',
+  name: 'alice',
+  lastName: 'alice',
+  password: '1234567'
+};
 
 describe('User REST API', () => {
 
-  before(() => {
-    server = app.listen(3001, '127.0.0.1');
-  });
-
-  after(() => {
-    server.close();
-  });
+  before(() => server = app.listen(3001, '127.0.0.1'));
+  after(() => server.close());
 
   beforeEach(function*() {
     yield * loadModels(fixtures);
+    yield request(login);
   });
 
-  let newUserData = {
-    email: 'alice@test.ru',
-    name: 'alice',
-    lastName: 'alice',
-    password: '1234567'
-  };
+  afterEach(function*() {
+    yield request(logout);
+  });
 
   describe('POST /users', () => {
 
     it('creates a user', function*() {
       let response = yield request({
         method: 'POST',
-        url: getURL('/users'),
+        url: '/users',
         json: true,
         body: newUserData
       });
@@ -48,35 +60,11 @@ describe('User REST API', () => {
 
   describe('GET /users/me', () => {
 
-    let req;
-
-    beforeEach(function*() {
-      req = request.defaults({
-        jar: true
-      });
-      yield req({
-        method: 'post',
-        url: getURL('/login'),
-        json: true,
-        body: {
-          email: fixtures.User[0].email,
-          password: fixtures.User[0].password
-        }
-      });
-    });
-
-    afterEach(function*() {
-      yield req({
-        method: 'get',
-        url: getURL('/logout')
-      });
-    });
-
     it('returns a user himself', function*() {
 
-      let response = yield req({
+      let response = yield request({
         method: 'get',
-        url: getURL('/users/me'),
+        url: '/users/me',
         json: true
       });
       response.statusCode.should.eql(200);
@@ -88,34 +76,10 @@ describe('User REST API', () => {
 
   describe('PATCH /users/me', () => {
 
-    let req;
-
-    beforeEach(function*() {
-      req = request.defaults({
-        jar: true
-      });
-      yield req({
-        method: 'post',
-        url: getURL('/login'),
-        json: true,
-        body: {
-          email: fixtures.User[0].email,
-          password: fixtures.User[0].password
-        }
-      });
-    });
-
-    afterEach(function*() {
-      yield req({
-        method: 'get',
-        url: getURL('/logout')
-      });
-    });
-
     it('modified a user himself', function*() {
-      let response = yield req({
+      let response = yield request({
         method: 'patch',
-        url: getURL('/users/me'),
+        url: '/users/me',
         json: true,
         body: {
           email: newUserData.email,
@@ -129,9 +93,9 @@ describe('User REST API', () => {
     });
 
     it('returns 409 if email is isOccupied', function*() {
-      let response = yield req({
+      let response = yield request({
         method: 'patch',
-        url: getURL('/users/me'),
+        url: '/users/me',
         json: true,
         body: {
           email: fixtures.User[1].email
@@ -143,9 +107,9 @@ describe('User REST API', () => {
     });
 
     it('returns 400 if passwordOld is wrong', function*() {
-      let response = yield req({
+      let response = yield request({
         method: 'patch',
-        url: getURL('/users/me'),
+        url: '/users/me',
         json: true,
         body: {
           email: newUserData.email,
@@ -161,34 +125,10 @@ describe('User REST API', () => {
 
   describe('DELETE /users/me', () => {
 
-    let req;
-
-    beforeEach(function*() {
-      req = request.defaults({
-        jar: true
-      });
-      yield req({
-        method: 'post',
-        url: getURL('/login'),
-        json: true,
-        body: {
-          email: fixtures.User[0].email,
-          password: fixtures.User[0].password
-        }
-      });
-    });
-
-    afterEach(function*() {
-      yield req({
-        method: 'get',
-        url: getURL('/logout')
-      });
-    });
-
     it('delete a user himself', function*() {
-      let response = yield req({
+      let response = yield request({
         method: 'delete',
-        url: getURL('/users/me'),
+        url: '/users/me',
         json: true
       });
       response.statusCode.should.eql(200);
@@ -202,7 +142,7 @@ describe('User REST API', () => {
     it('returns 409 if email already exists', function*() {
       let response = yield request({
         method: 'POST',
-        url: getURL('/users'),
+        url: '/users',
         json: true,
         body: fixtures.User[0]
       });
@@ -214,7 +154,7 @@ describe('User REST API', () => {
     it('returns 409 if email not valid', function*() {
       let response = yield request({
         method: 'POST',
-        url: getURL('/users'),
+        url: '/users',
         json: true,
         body: {
           email: 'dimad@'
@@ -227,7 +167,7 @@ describe('User REST API', () => {
     it('returns 409 if password less then 4 char', function*() {
       let response = yield request({
         method: 'POST',
-        url: getURL('/users'),
+        url: '/users',
         json: true,
         body: {
           email: newUserData.email,

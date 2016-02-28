@@ -1,54 +1,46 @@
 'use strict';
 
 const app = require('../app');
-const request = require('co-request');
+let request = require('co-request');
 const loadModels = require('../lib/db/loadModels');
 const fixtures = require('../fixtures');
-request.defaults({
+
+let server;
+request = request.defaults({
+  baseUrl: 'http://localhost:3002/',
   jar: true
 });
 
-let server;
-
-function getURL(path) {
-  return `http://localhost:3002${path}`;
-}
+let login = {
+  method: 'POST',
+  url: '/login',
+  json: true,
+  body: {
+    email: fixtures.User[0].email,
+    password: fixtures.User[0].password
+  }
+};
+let logout = {method: 'get', url: '/logout'};
 
 describe('Auth API', () => {
 
-  before(() => {
-    server = app.listen(3002, '127.0.0.1');
-  });
-
-  after(() => {
-    server.close();
-  });
+  before(() => server = app.listen(3002, '127.0.0.1'));
+  after(() => server.close());
 
   beforeEach(function*() {
     yield * loadModels(fixtures);
+    yield request(logout);
+  });
+
+  afterEach(function*() {
+    yield request(logout);
   });
 
   describe('POST /login', () => {
 
-    afterEach(function*() {
-      yield request({
-        method: 'get',
-        url: getURL('/logout'),
-        json: true
-      });
-    });
-
     it('returns success and 200', function*() {
 
-      let response = yield request({
-        method: 'POST',
-        url: getURL('/login'),
-        json: true,
-        body: {
-          email: fixtures.User[0].email,
-          password: fixtures.User[0].password
-        }
-      });
+      let response = yield request(login);
       response.statusCode.should.eql(302);
       response.body.should.eql('Redirecting to /dashboard.');
       response.headers.should.have['set-cookie'];
@@ -60,7 +52,7 @@ describe('Auth API', () => {
 
       let response = yield request({
         method: 'post',
-        url: getURL('/login'),
+        url: '/login',
         json: true,
         body: {
           password: fixtures.User[0].password
@@ -76,7 +68,7 @@ describe('Auth API', () => {
 
       let response = yield request({
         method: 'post',
-        url: getURL('/login'),
+        url: '/login',
         json: true,
         body: {
           email: fixtures.User[0].email
@@ -93,7 +85,7 @@ describe('Auth API', () => {
 
       let response = yield request({
         method: 'post',
-        url: getURL('/login'),
+        url: '/login',
         json: true,
         body: {
           email: 'admin@test.com',
@@ -111,7 +103,7 @@ describe('Auth API', () => {
 
       let response = yield request({
         method: 'post',
-        url: getURL('/login'),
+        url: '/login',
         json: true,
         body: {
           email: 'admin@test.ru',
@@ -130,23 +122,12 @@ describe('Auth API', () => {
   describe('GET /logout', () => {
 
     before(function*() {
-      yield request({
-        method: 'post',
-        url: getURL('/login'),
-        json: true,
-        body: {
-          email: fixtures.User[0].email,
-          password: fixtures.User[0].password
-        }
-      });
+      yield request(login);
     });
 
     it('logout user', function*() {
 
-      let response = yield request({
-        method: 'get',
-        url: getURL('/logout')
-      });
+      let response = yield request(logout);
 
       response.headers.should.not.have['set-cookie'];
       response.statusCode.should.eql(200);

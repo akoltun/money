@@ -4,58 +4,45 @@ const app = require('../app');
 let request = require('co-request');
 const loadModels = require('../lib/db/loadModels');
 const fixtures = require('../fixtures');
-let server;
 
+let server;
 request = request.defaults({
+  baseUrl: 'http://localhost:3004/',
   jar: true
 });
 
-function getURL(path) {
-  return `http://localhost:3004${path}`;
-}
+let login = {
+  method: 'post',
+  url: '/login',
+  json: true,
+  body: {
+    email: fixtures.User[0].email,
+    password: fixtures.User[0].password
+  }
+};
+let logout = {method: 'get', url: '/logout'};
+let newCategoryData = {name: 'newCategory'};
 
 describe('Category REST API', () => {
 
-  before(() => {
-    server = app.listen(3004, '127.0.0.1');
-  });
-
-  after(() => {
-    server.close();
-  });
+  before(() => server = app.listen(3004, '127.0.0.1'));
+  after(() => server.close());
 
   beforeEach(function*() {
     yield * loadModels(fixtures);
-
-    yield request({
-      method: 'post',
-      url: getURL('/login'),
-      json: true,
-      body: {
-        email: fixtures.User[0].email,
-        password: fixtures.User[0].password
-      }
-    });
+    yield request(login);
   });
 
   afterEach(function*() {
-    yield request({
-      method: 'get',
-      url: getURL('/logout'),
-      json: true
-    });
+    yield request(logout);
   });
-
-  let newCategoryData = {
-    name: 'newCategory'
-  };
 
   describe('PARAMS', () => {
 
     it('returns 404 if category not exist', function*() {
       let response = yield request({
         method: 'get',
-        url: getURL('/categories/fe3a2ecc7355a20674486789'),
+        url: '/categories/fe3a2ecc7355a20674486789',
         json: true
       });
       response.statusCode.should.eql(404);
@@ -63,15 +50,11 @@ describe('Category REST API', () => {
     });
 
     it('returns 403 if user not authorized', function*() {
-      yield request({
-        method: 'get',
-        url: getURL('/logout'),
-        json: true
-      });
+      yield request(logout);
 
       let response = yield request({
         method: 'get',
-        url: getURL('/categories/' + fixtures.Category[0]._id),
+        url: '/categories/' + fixtures.Category[0]._id,
         json: true
       });
       response.statusCode.should.eql(403);
@@ -85,7 +68,7 @@ describe('Category REST API', () => {
     it('creates category', function*() {
       let response = yield request({
         method: 'post',
-        url: getURL('/categories'),
+        url: '/categories',
         json: true,
         body: newCategoryData
       });
@@ -102,7 +85,7 @@ describe('Category REST API', () => {
     it('returns categories to user', function*() {
       let response = yield request({
         method: 'get',
-        url: getURL('/categories'),
+        url: '/categories',
         json: true
       });
       response.statusCode.should.eql(200);
@@ -116,7 +99,7 @@ describe('Category REST API', () => {
     it('returns transactions by category to user', function*() {
       let response = yield request({
         method: 'get',
-        url: getURL('/categories/' + fixtures.Category[0]._id),
+        url: '/categories/' + fixtures.Category[0]._id,
         json: true
       });
       response.statusCode.should.eql(200);
@@ -132,7 +115,7 @@ describe('Category REST API', () => {
     it('modified category', function*() {
       let response = yield request({
         method: 'patch',
-        url: getURL('/categories/' + fixtures.Category[0]._id),
+        url: '/categories/' + fixtures.Category[0]._id,
         json: true,
         body: newCategoryData
       });
@@ -144,7 +127,7 @@ describe('Category REST API', () => {
     it('returns 409 if category name is isOccupied', function*() {
       let response = yield request({
         method: 'patch',
-        url: getURL('/categories/' + fixtures.Category[0]._id),
+        url: '/categories/' + fixtures.Category[0]._id,
         json: true,
         body: {
           name: 'travel'
@@ -161,7 +144,7 @@ describe('Category REST API', () => {
     it('delete category', function*() {
       let response = yield request({
         method: 'delete',
-        url: getURL('/categories/' + fixtures.Category[0]._id),
+        url: '/categories/' + fixtures.Category[0]._id,
         json: true,
       });
       response.statusCode.should.eql(200);
@@ -175,7 +158,7 @@ describe('Category REST API', () => {
     it('returns 409 if category name already exists', function*() {
       let response = yield request({
         method: 'post',
-        url: getURL('/categories'),
+        url: '/categories',
         json: true,
         body: {
           name: 'travel'
@@ -188,7 +171,7 @@ describe('Category REST API', () => {
     it('returns 409 if category name is empty', function*() {
       let response = yield request({
         method: 'post',
-        url: getURL('/categories'),
+        url: '/categories',
         json: true,
         body: {
           name: ''

@@ -1,1 +1,25 @@
-/Users/dimonn/os_x_appdata/Sublime Text 3/User/jshint.conf
+{
+  "maxerr": 50,
+  "latedef": "nofunc",
+  "browser": true,
+  "browserify": true,
+  "jquery": true,
+  "mocha": true,
+  "node": true, // for browserify require etc
+  "globals": [""],
+  "camelcase": true,
+  "newcap": true,
+  "quotmark": "single",
+  "eqeqeq": false,
+  "strict": true,
+  "undef": true,
+  "multistr": true,
+  "varstmt": true,
+  "esversion": 6,
+  "noyield": true,
+  "devel": true,
+  "loopfunc": true,
+  "-W004": true,
+  "-W030": true, // for yield* ...
+  "-W078": true //<em/> allow setter w/o getter
+}

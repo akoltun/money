@@ -8,10 +8,8 @@ const middlewares = require('./middlewares');
 
 app.keys = [config.secret];
 
-for (let key in middlewares) {
-  if (middlewares.hasOwnProperty(key)) {
-    app.use(middlewares[key]);
-  }
-}
+Object.keys(middlewares).forEach((middleware) => {
+  app.use(middlewares[middleware]);
+});
 
 module.exports = app;

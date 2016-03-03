@@ -38,9 +38,9 @@ module.exports = function*(next) {
 
     let localsFull = Object.create(this.state);
 
-    for (let key in locals) {
-      localsFull[key] = locals[key];
-    }
+    Object.keys(locals).forEach((prop) => {
+      localsFull[prop] = locals[prop];
+    });
 
     let templatePathResolved = path.join(templatesPath, templatePath + '.jade');
 

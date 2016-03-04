@@ -7,7 +7,7 @@ const categoryCtrl = require('../../controllers').dashboard.category;
 const router = new Router();
 
 router
-  .param('categoryById', categoryAPICtrl.params.categoryById)
+  .param('id', categoryAPICtrl.params.categoryById)
   .get('/', categoryCtrl.getCategories)
   .get('/:id', categoryCtrl.getTransactionsByCategory)
   .get('/addcategory', categoryCtrl.addCategory)

@@ -67,7 +67,7 @@ categorySchema.pre('remove', function(next) {
       {multi: true});
 
     return category;
-  }).then(next, console.log);
+  }).then(next, next);
 
 });
 

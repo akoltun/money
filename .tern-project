@@ -1,0 +1,14 @@
+{
+"libs": [
+    "browser"
+  ],
+  "ecmaVersion": 6,
+  "plugins": {
+    "complete_strings": {},
+    "node": {},
+    "node-mongoose": {},
+    "requirejs": {},
+    "modules": {},
+    "es_modules": {}
+  }
+}

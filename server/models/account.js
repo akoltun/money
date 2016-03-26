@@ -76,7 +76,7 @@ accountSchema.pre('remove', function(next) {
     }
 
     return account;
-  }).then(next,console.log);
+  }).then(next, next);
 
 });
 

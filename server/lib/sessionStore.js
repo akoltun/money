@@ -1,7 +1,7 @@
 'use strict';
 
 const mongoose = require('./mongoose');
-const MongooseStore = require('./koa-session-mongoose');
+const MongooseStore = require('koa-session-mongoose');
 const config = require('config');
 
 module.exports = {

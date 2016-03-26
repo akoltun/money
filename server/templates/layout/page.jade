@@ -1,7 +1,10 @@
 include head
   body
     if flash
-      p.bg-success=flash.message
+      if flash.success
+        p.bg-success=flash.message
+      if flash.success === false
+        p.bg-danger=flash.message
     section.dashboard.container-fluid: .row
       include ../partials/sidebarLeft.jade
       block content

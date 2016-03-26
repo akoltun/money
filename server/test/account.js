@@ -135,7 +135,8 @@ describe('Account REST API', () => {
         }
       });
       response.statusCode.should.eql(409);
-      response.body.error.should.eql('Account name is occupied');
+      response.body.errors[0].should
+        .eql(`Account name: "${fixtures.Account[1].name}" exists`);
     });
 
   });
@@ -166,7 +167,8 @@ describe('Account REST API', () => {
         }
       });
       response.statusCode.should.eql(409);
-      response.body.error.should.eql('Account name is occupied');
+      response.body.errors[0].should
+        .eql(`Account name: "${fixtures.Account[1].name}" exists`);
     });
 
     it('returns 400 if account name is empty', function*() {

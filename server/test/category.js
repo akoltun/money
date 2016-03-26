@@ -134,7 +134,8 @@ describe('Category REST API', () => {
         }
       });
       response.statusCode.should.eql(409);
-      response.body.error.should.eql('Category name is occupied');
+      response.body.errors[0].should
+        .eql(`Category name: "${fixtures.Category[2].name}" exists`);
     });
 
   });
@@ -165,7 +166,8 @@ describe('Category REST API', () => {
         }
       });
       response.statusCode.should.eql(409);
-      response.body.error.should.eql('Category name is occupied');
+      response.body.errors[0].should
+        .eql(`Category name: "${fixtures.Category[2].name}" exists`);
     });
 
     it('returns 409 if category name is empty', function*() {

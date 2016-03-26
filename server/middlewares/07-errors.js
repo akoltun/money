@@ -20,7 +20,9 @@ module.exports = function*(next) {
       redirectPath = this.session.lastPath;
 
       for (let field in err.errors) {
-        errors.push(err.errors[field].message);
+        if (typeof err.errors[field].value !== 'object') {
+          errors.push(err.errors[field].message);
+        }
       }
 
       if (preferredType === 'json') {

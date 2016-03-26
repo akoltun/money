@@ -7,6 +7,7 @@
 const mongoose = require('../lib/mongoose');
 const validator = require('validator');
 const co = require('co');
+const uniqueValidator = require('mongoose-unique-validator');
 let Account;
 
 /**
@@ -19,14 +20,12 @@ let accountSchema = new mongoose.Schema({
     required: 'Account name can\'t be a empty',
     minLength: 2,
     maxlength: 256,
-    trim: true,
-    index: true
+    trim: true
   },
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
-    required: 'Account can\'t be without user',
-    index: true
+    required: 'Account can\'t be without user'
   },
   transactionsCount : {type : Number,  default : 0},
   spent             : {type : Number,  default : 0}, // Потрачено
@@ -37,29 +36,15 @@ let accountSchema = new mongoose.Schema({
   pinned            : {type : Boolean, default : true}, // Закрепить
 });
 
+accountSchema.index({ name: 1, user: 1}, { unique: true });
+
+accountSchema.plugin(uniqueValidator, {
+  message: 'Account {PATH}: "{VALUE}" exists'
+});
+
 /**
  * MIDDLEWARE.
  */
-
-accountSchema.pre('save', function(next) {
-  let account = this;
-
-  co(function*() {
-    let isOccupied = yield Account.findOne({
-      name: account.name,
-      user: account.user
-    });
-
-    if (isOccupied) {
-      if (String(isOccupied._id) == String(account._id)) return next();
-      let err = new mongoose.Error('Account name is occupied');
-      err.status = 409;
-      throw err;
-    }
-    return account;
-  }).then(next, err => next(err));
-
-});
 
 accountSchema.pre('remove', function(next) {
   let account = this;

@@ -2,7 +2,6 @@
 
 const Router = require('koa-router');
 let transactionCtrl = require('../../controllers').api.transaction;
-let mustBeAuthenticated = require('../../lib/mustBeAuthenticated');
 
 let router = new Router();
 

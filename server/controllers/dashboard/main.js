@@ -23,24 +23,20 @@ module.exports = {
 
     this.state.summary = summary;
     this.state.pinnedAccounts = pinned;
-    yield * next;
+    yield* next;
 
   },
 
-  get: function*(next) {
+  get: function*() {
 
     let transactions = yield Transaction.find({
       user: this.user
     }).populate('account categories sourceAccount destinationAccount')
       .sort({date: -1}).lean();
 
-    let accounts = yield Account.find({
-      user: this.user
-    }).lean();
+    let accounts = yield Account.find({user: this.user}).lean();
 
-    let categories = yield Category.find({
-      user: this.user
-    }).lean();
+    let categories = yield Category.find({user: this.user}).lean();
 
     this.body = this.render('dashboard', {
       title: 'Übersicht',

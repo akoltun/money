@@ -15,10 +15,8 @@ module.exports = {
 
       if (!isValid(id)) this.throw(404, 'Transaction not found');
 
-      let transaction = yield Transaction.findOne({
-        _id: id,
-        user: this.user
-      }).populate('account categories sourceAccount destinationAccount');
+      let transaction = yield Transaction.findOne({_id: id, user: this.user})
+        .populate('account categories sourceAccount destinationAccount');
 
       if (!transaction) this.throw(404, 'Transaction not found');
       this.params.transaction = transaction;
@@ -28,21 +26,20 @@ module.exports = {
 
   },
 
-  getTransactions: function*(next) {
+  getTransactions: function*() {
 
-    let transaction = yield Transaction.find({user: this.user})
+    this.body = yield Transaction.find({user: this.user})
       .sort({date: -1}).lean();
-    this.body = transaction;
 
   },
 
-  get: function*(next) {
+  get: function*() {
 
     this.body = this.params.transaction.toObject();
 
   },
 
-  post: function*(next) {
+  post: function*() {
 
     let fields = this.request.body;
     fields.user = this.user;
@@ -97,7 +94,7 @@ module.exports = {
 
   },
 
-  patch: function*(next) {
+  patch: function*() {
 
     let transaction = this.params.transaction;
     let fields = this.request.body;
@@ -160,13 +157,10 @@ module.exports = {
 
   },
 
-  del: function*(next) {
+  del: function*() {
 
     yield this.params.transaction.remove();
-    this.body = {
-      success: true,
-      transaction: this.params.transaction.toObject()
-    };
+    this.body = {success: true,transaction: this.params.transaction.toObject()};
 
   }
 

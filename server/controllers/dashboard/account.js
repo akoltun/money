@@ -5,11 +5,9 @@ const Transaction = require('../../models').Transaction;
 
 module.exports = {
 
-  getAccounts: function*(next) {
+  getAccounts: function*() {
 
-    let accounts = yield Account.find({
-      user: this.user
-    }).lean();
+    let accounts = yield Account.find({user: this.user}).lean();
 
     this.body = this.render('accounts/index', {
       title: 'Kontos',
@@ -18,7 +16,7 @@ module.exports = {
 
   },
 
-  getTransactionsByAccount: function*(next) {
+  getTransactionsByAccount: function*() {
 
     let transactions = yield Transaction.find({
       user: this.user,
@@ -32,47 +30,40 @@ module.exports = {
 
   },
 
-  addAccount: function*(next) {
+  addAccount: function*() {
 
-    this.body = this.render('accounts/addAccount', {
-      title: `Konto hinzufügen`
-    });
+    this.body = this.render('accounts/addAccount', {title: `Konto hinzufügen`});
 
   },
 
-  addAccountPost: function*(next) {
+  addAccountPost: function*() {
 
-    let fields = this.request.body;
-    fields.user = this.user;
-    if (!fields.pinned) fields.pinned = false;
-    let account = yield Account.create(fields);
+    this.request.body.user = this.user;
+    if (!this.request.body.pinned) this.request.body.pinned = false;
+    let account = yield Account.create(this.request.body);
     this.redirect('/dashboard/accounts');
 
   },
 
-  editAccountById: function*(next) {
-
-    let account = this.params.account;
+  editAccountById: function*() {
 
     this.body = this.render('accounts/editAccount', {
-      title: `Konto '${account.name}' ändern`,
-      account: account
+      title: `Konto '${this.params.account.name}' ändern`,
+      account: this.params.account
     });
 
   },
 
-  editAccountByIdPost: function*(next) {
+  editAccountByIdPost: function*() {
 
-    let account = this.params.account;
-    let fields = this.request.body;
-    if (!fields.pinned) fields.pinned = false;
-    Object.assign(account, fields);
-    yield account.save();
+    if (!this.request.body.pinned) this.request.body.pinned = false;
+    Object.assign(this.params.account, this.request.body);
+    yield this.params.account.save();
     this.redirect('/dashboard/accounts');
 
   },
 
-  deleteAccountById: function*(next) {
+  deleteAccountById: function*() {
 
     yield this.params.account.remove();
     this.redirect('/dashboard/accounts');

@@ -11,7 +11,7 @@ module.exports = {
 
     userByReq: function*(next) {
       this.params.user = this.user; // from passport
-      yield * next;
+      yield* next;
     },
 
     userById: function*(id, next) {
@@ -40,33 +40,31 @@ module.exports = {
     }
   },
 
-  getUsers: function*(next) {
+  getUsers: function*() {
 
     let users = yield User.find();
     this.body = users.map(User.getInfoFields);
 
   },
 
-  get: function*(next) {
+  get: function*() {
 
     this.body = this.params.user.getInfoFields();
 
   },
 
-  post: function*(next) {
+  post: function*() {
 
     let user = yield User.create(this.request.body);
-
     this.newFlash = {message: 'Sie haben sich angemeldet'};
     this.redirect('/');
 
   },
 
-  patch: function*(next) {
+  patch: function*() {
 
     let user = this.params.user;
     let fields = this.request.body;
-
 
     if (fields.password) {
       if (user.passwordHash && !user.checkPassword(fields.oldPassword)) {
@@ -80,10 +78,9 @@ module.exports = {
 
   },
 
-  del: function*(next) {
-    let user = this.params.user;
-    yield user.remove();
-    this.body = {success: true, user: user.getInfoFields()};
+  del: function*() {
+    yield this.params.user.remove();
+    this.body = {success: true, user: this.params.user.getInfoFields()};
 
   }
 

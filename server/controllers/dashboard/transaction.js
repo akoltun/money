@@ -7,11 +7,10 @@ const moment      = require('moment');
 
 module.exports = {
 
-  getTransactions: function*(next) {
+  getTransactions: function*() {
 
-    let transactions = yield Transaction.find({
-      user: this.user
-    }).populate('account categories sourceAccount destinationAccount')
+    let transactions = yield Transaction.find({user: this.user})
+      .populate('account categories sourceAccount destinationAccount')
       .sort({date: -1}).lean();
 
     this.body = this.render('transactions/index', {
@@ -21,19 +20,13 @@ module.exports = {
 
   },
 
-  addTransaction: function*(next) {
+  addTransaction: function*() {
 
-    let transactions = yield Transaction.find({
-      user: this.user
-    }).populate('account categories').lean();
+    let transactions = yield Transaction.find({user: this.user})
+      .populate('account categories').lean();
 
-    let accounts = yield Account.find({
-      user: this.user
-    }).lean();
-
-    let categories = yield Category.find({
-      user: this.user
-    }).lean();
+    let accounts = yield Account.find({user: this.user}).lean();
+    let categories = yield Category.find({user: this.user}).lean();
 
     this.body = this.render('transactions/addTransaction', {
       title: `Transaction hinzufügen`,
@@ -44,19 +37,13 @@ module.exports = {
 
   },
 
-  addTransfer: function*(next) {
+  addTransfer: function*() {
 
-    let transactions = yield Transaction.find({
-      user: this.user
-    }).populate('account categories').lean();
+    let transactions = yield Transaction.find({user: this.user})
+      .populate('account categories').lean();
 
-    let accounts = yield Account.find({
-      user: this.user
-    }).lean();
-
-    let categories = yield Category.find({
-      user: this.user
-    }).lean();
+    let accounts = yield Account.find({user: this.user}).lean();
+    let categories = yield Category.find({user: this.user}).lean();
 
     this.body = this.render('transactions/addTransfer', {
       title: `Geld Überweisen`,
@@ -67,7 +54,7 @@ module.exports = {
 
   },
 
-  addTransactionPost: function*(next) {
+  addTransactionPost: function*() {
 
     let fields = this.request.body;
     fields.user = this.user;
@@ -121,7 +108,7 @@ module.exports = {
 
   },
 
-  editTransactionById: function*(next) {
+  editTransactionById: function*() {
 
     let transactions = yield Transaction.find({
       user: this.user
@@ -147,7 +134,7 @@ module.exports = {
 
   },
 
-  editTransferById: function*(next) {
+  editTransferById: function*() {
 
     let transactions = yield Transaction.find({
       user: this.user
@@ -173,7 +160,7 @@ module.exports = {
 
   },
 
-  editTransactionByIdPost: function*(next) {
+  editTransactionByIdPost: function*() {
 
     let transaction = this.params.transaction;
     let fields = this.request.body;
@@ -235,7 +222,7 @@ module.exports = {
 
   },
 
-  deleteTransactionById: function*(next) {
+  deleteTransactionById: function*() {
 
     yield this.params.transaction.remove();
     this.redirect('/dashboard/transactions');

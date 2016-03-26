@@ -1,7 +1,10 @@
 include layout/head
   body
     if flash
-      p.bg-success=flash.message
+      if flash.success
+        p.bg-success=flash.message
+      if flash.success === false
+        p.bg-danger=flash.message
     section.container-fluid: .row
       .col-xs-4
       .col-xs-4: h2 Anmelden

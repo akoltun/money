@@ -12,14 +12,8 @@ module.exports = {
     categoryById: function*(id, next) {
 
       if (!isValid(id)) this.throw(404, 'Category not found');
-
-      let category = yield Category.findOne({
-        _id: id,
-        user: this.user
-      });
-
+      let category = yield Category.findOne({_id: id, user: this.user});
       if (!category) this.throw(404, 'Category not found');
-
       this.params.category = category;
       yield * next;
 
@@ -27,49 +21,45 @@ module.exports = {
 
   },
 
-  getCategories: function*(next) {
+  getCategories: function*() {
 
-    let categories = yield Category.find({user: this.user}).lean();
-    this.body = categories;
+    this.body = yield Category.find({user: this.user}).lean();
 
   },
 
-  get: function*(next) {
+  get: function*() {
 
     this.body = this.params.category.lean();
 
   },
 
-  getCategoryTransactions: function*(next) {
+  getTransactionsByCategory: function*() {
 
     this.body = yield Transaction.find({
       user: this.user,
       categories: this.params.category
-    }).lean();
+    }).populate('account categories').lean();
 
   },
 
-  post: function*(next) {
+  post: function*() {
 
-    let fields = this.request.body;
-    fields.user = this.user;
-    let category = yield Category.create(fields);
+    this.request.body.user = this.user;
+    let category = yield Category.create(this.request.body);
     this.status = 201;
     this.body = {success: true, category: category.toObject()};
 
   },
 
-  patch: function*(next) {
+  patch: function*() {
 
-    let category = this.params.category;
-    let fields = this.request.body;
-    Object.assign(category, fields);
-    yield category.save();
-    this.body = {success: true, category: category.toObject()};
+    Object.assign(this.params.category, this.request.body);
+    yield this.params.category.save();
+    this.body = {success: true, category: this.params.category.toObject()};
 
   },
 
-  del: function*(next) {
+  del: function*() {
 
     yield this.params.category.remove();
     this.body = {success: true, category: this.params.category.toObject()};

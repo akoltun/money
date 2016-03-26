@@ -5,11 +5,9 @@ const Transaction = require('../../models').Transaction;
 
 module.exports = {
 
-  getCategories: function*(next) {
+  getCategories: function*() {
 
-    let categories = yield Category.find({
-      user: this.user
-    }).lean();
+    let categories = yield Category.find({user: this.user}).lean();
 
     this.body = this.render('categories/index', {
       title: 'Kategorie',
@@ -18,7 +16,7 @@ module.exports = {
 
   },
 
-  getTransactionsByCategory: function*(next) {
+  getTransactionsByCategory: function*() {
 
     let transactions = yield Transaction.find({
       user: this.user,
@@ -32,7 +30,7 @@ module.exports = {
 
   },
 
-  addCategory: function*(next) {
+  addCategory: function*() {
 
     this.body = this.render('categories/addCategory', {
       title: `Kategorie hinzufügen`
@@ -40,37 +38,32 @@ module.exports = {
 
   },
 
-  addCategoryPost: function*(next) {
+  addCategoryPost: function*() {
 
-    let fields = this.request.body;
-    fields.user = this.user;
-    let category = yield Category.create(fields);
+    this.request.body.user = this.user;
+    let category = yield Category.create(this.request.body);
     this.redirect('/dashboard/categories');
 
   },
 
-  editCategoryById: function*(next) {
-
-    let category = this.params.category;
+  editCategoryById: function*() {
 
     this.body = this.render('categories/editCategory', {
-      title: `Kategorie '${category.name}' ändern`,
-      category: category
+      title: `Kategorie '${this.params.category.name}' ändern`,
+      category: this.params.category
     });
 
   },
 
-  editCategoryByIdPost: function*(next) {
+  editCategoryByIdPost: function*() {
 
-    let category = this.params.category;
-    let fields = this.request.body;
-    Object.assign(category, fields);
-    yield category.save();
+    Object.assign(this.params.category, this.request.body);
+    yield this.params.category.save();
     this.redirect('/dashboard/categories');
 
   },
 
-  deleteCategoryById: function*(next) {
+  deleteCategoryById: function*() {
 
     yield this.params.category.remove();
     this.redirect('/dashboard/categories');

@@ -7,11 +7,10 @@ module.exports = {
   login: {
 
     get: function*() {
-      if (this.isAuthenticated()) {
-        this.redirect('/dashboard');
-        return;
-      }
+
+      if (this.isAuthenticated()) return this.redirect('/dashboard');
       this.body = this.render('login', {title: 'Einloggen'});
+
     },
 
     post: function*(next) {

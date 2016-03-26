@@ -33,7 +33,7 @@ let accountSchema = new mongoose.Schema({
   summary           : {type : Number,  default : 0}, // Итого
   withdrawal        : {type : Number,  default : 0}, // Снято
   deposits          : {type : Number,  default : 0}, // Пополнено
-  pinned            : {type : Boolean, default : true}, // Закрепить
+  pinned            : {type : Boolean, default : false}, // Закрепить
 });
 
 accountSchema.index({ name: 1, user: 1}, { unique: true });

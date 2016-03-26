@@ -104,9 +104,9 @@ describe('Account REST API', () => {
       });
       response.statusCode.should.eql(200);
       response.body.length.should.eql(3);
-      response.body[0].account.should.eql(fixtures.Account[0]._id);
-      response.body[1].account.should.eql(fixtures.Account[0]._id);
-      response.body[2].account.should.eql(fixtures.Account[0]._id);
+      response.body[0].account._id.should.eql(fixtures.Account[0]._id);
+      response.body[1].account._id.should.eql(fixtures.Account[0]._id);
+      response.body[2].account._id.should.eql(fixtures.Account[0]._id);
     });
 
   });

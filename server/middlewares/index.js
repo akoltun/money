@@ -1,9 +1,7 @@
 'use strict';
 
 const NODE_ENV = process.env.NODE_ENV;
-function* no(next) {
-  yield* next;
-}
+function* no(next) { yield* next; }
 
 module.exports = {
   favicon              : require('./01-favicon'),

@@ -18,7 +18,7 @@ let accountSchema = new mongoose.Schema({
   name: {
     type: String,
     required: 'Account name can\'t be a empty',
-    minLength: 2,
+    minlength: 2,
     maxlength: 256,
     trim: true
   },

@@ -1,6 +1,6 @@
 'use strict';
 Error.stackTraceLimit = 1000;
-require('trace');
+// require('trace');
 require('clarify');
 
 let chain = require('stack-chain');

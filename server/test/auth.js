@@ -41,8 +41,9 @@ describe('Auth API', () => {
     it('returns success and 200', function*() {
 
       let response = yield request(login);
-      response.statusCode.should.eql(302);
-      response.body.should.eql('Redirecting to /dashboard.');
+      response.statusCode.should.eql(200);
+      response.body.success.should.eql(true);
+      response.body.user.email.should.eql(login.body.email);
       response.headers.should.have['set-cookie'];
       response.headers['set-cookie'].length.should.not.eql(0);
 

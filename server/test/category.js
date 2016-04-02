@@ -134,7 +134,7 @@ describe('Category REST API', () => {
         }
       });
       response.statusCode.should.eql(409);
-      response.body.errors[0].should
+      response.body.error[0].should
         .eql(`Category name: "${fixtures.Category[2].name}" exists`);
     });
 
@@ -166,7 +166,7 @@ describe('Category REST API', () => {
         }
       });
       response.statusCode.should.eql(409);
-      response.body.errors[0].should
+      response.body.error[0].should
         .eql(`Category name: "${fixtures.Category[2].name}" exists`);
     });
 
@@ -180,7 +180,7 @@ describe('Category REST API', () => {
         }
       });
       response.statusCode.should.eql(409);
-      response.body.errors[0].should.eql('Category name can\'t be a empty');
+      response.body.error[0].should.eql('Category name can\'t be a empty');
     });
 
   });

@@ -135,7 +135,7 @@ describe('Account REST API', () => {
         }
       });
       response.statusCode.should.eql(409);
-      response.body.errors[0].should
+      response.body.error[0].should
         .eql(`Account name: "${fixtures.Account[1].name}" exists`);
     });
 
@@ -167,7 +167,7 @@ describe('Account REST API', () => {
         }
       });
       response.statusCode.should.eql(409);
-      response.body.errors[0].should
+      response.body.error[0].should
         .eql(`Account name: "${fixtures.Account[1].name}" exists`);
     });
 
@@ -181,7 +181,7 @@ describe('Account REST API', () => {
         }
       });
       response.statusCode.should.eql(409);
-      response.body.errors[0].should.eql('Account name can\'t be a empty');
+      response.body.error[0].should.eql('Account name can\'t be a empty');
     });
 
   });

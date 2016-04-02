@@ -52,8 +52,9 @@ describe('User REST API', () => {
         json: true,
         body: newUserData
       });
-      response.statusCode.should.eql(302);
-      response.body.should.eql('Redirecting to /.');
+      response.statusCode.should.eql(200);
+      response.body.success.should.eql(true);
+      response.body.user.email.should.eql(newUserData.email);
     });
 
   });
@@ -69,7 +70,7 @@ describe('User REST API', () => {
       });
       response.statusCode.should.eql(200);
       response.body.email.should.eql(fixtures.User[0].email);
-      response.body.id.should.eql(fixtures.User[0]._id);
+      response.body._id.should.eql(fixtures.User[0]._id);
     });
 
   });
@@ -102,7 +103,7 @@ describe('User REST API', () => {
         }
       });
       response.statusCode.should.eql(409);
-      response.body.errors[0].should
+      response.body.error[0].should
         .eql('Error: email: google@google.com exists');
     });
 
@@ -147,7 +148,7 @@ describe('User REST API', () => {
         body: fixtures.User[0]
       });
       response.statusCode.should.eql(409);
-      response.body.errors[0].should
+      response.body.error[0].should
         .eql('Error: email: admin@google.com exists');
     });
 
@@ -161,7 +162,7 @@ describe('User REST API', () => {
         }
       });
       response.statusCode.should.eql(409);
-      response.body.errors[0].should.eql('Email is wrong');
+      response.body.error[0].should.eql('Email is wrong');
     });
 
     it('returns 409 if password less then 4 char', function*() {
@@ -175,7 +176,7 @@ describe('User REST API', () => {
         }
       });
       response.statusCode.should.eql(409);
-      response.body.errors[0].should
+      response.body.error[0].should
         .eql('Password should not be less than 4 character');
     });
 

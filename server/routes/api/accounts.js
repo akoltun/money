@@ -8,6 +8,7 @@ let router = new Router();
 router
   .param('id', accountCtrl.params.accountById)
   .get('/', accountCtrl.getAccounts)
+  .get('/stats', accountCtrl.getStats)
   .post('/', accountCtrl.post)
   .get('/:id', accountCtrl.getTransactionsByAccount)
   .patch('/:id', accountCtrl.patch)

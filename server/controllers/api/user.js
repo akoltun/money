@@ -56,8 +56,7 @@ module.exports = {
   post: function*() {
 
     let user = yield User.create(this.request.body);
-    this.newFlash = {message: 'Sie haben sich angemeldet'};
-    this.redirect('/');
+    this.body = {success: true, user: user.getInfoFields()};
 
   },
 

@@ -34,6 +34,25 @@ module.exports = {
 
   },
 
+  getStats: function*() {
+
+    let accounts = yield Account.find({
+      user: this.user,
+    }).sort({name: 1}).lean();
+    let summary = 0;
+    let pinned;
+
+    if (accounts.length) {
+      summary = accounts
+        .map(account => account.summary)
+        .reduce((a, b) => a + b);
+      pinned = accounts.filter(account => account.pinned);
+    }
+
+    this.body = {success: true, summary: summary, accounts: pinned};
+
+  },
+
   getTransactionsByAccount: function*() {
 
     this.body = yield Transaction.find({

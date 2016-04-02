@@ -100,7 +100,7 @@ userSchema.methods.getInfoFields = function() {
 
 userSchema.statics.getInfoFields = function(user) {
   return {
-    id: user._id,
+    _id: user._id,
     email: user.email,
     hasPassword: Boolean(user.passwordHash),
     created: user.created

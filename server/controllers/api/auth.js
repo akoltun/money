@@ -24,12 +24,11 @@ module.exports = {
         if (err) throw err;
 
         if (user === false) {
-          return ctx.throw(401, info); // можно изменить на flash собщения
+          return ctx.throw(401, info);
         }
 
         yield ctx.login(user);
-        ctx.newFlash = {message: 'Sie haben sich eingeloggt'};
-        ctx.redirect('/dashboard');
+        ctx.body = {success: true, user: user.getInfoFields()};
 
       }).call(this, next);
 
@@ -43,8 +42,7 @@ module.exports = {
     // this.cookies.set('sid.sig');
     this.logout();
     // this.session = null;
-    this.newFlash = {message: 'Sie haben sich abgemeldet'};
-    this.redirect('/');
+    this.body = {success: true};
 
   },
 

@@ -28,7 +28,8 @@ module.exports = function*(next) {
       if (preferredType === 'json') {
         this.type = 'application/json';
         this.body = {
-          errors: errors
+          success: false,
+          error: errors
         };
       } else {
         this.newFlash = {success: false, message: errors.join('; ')};
@@ -52,6 +53,7 @@ module.exports = function*(next) {
       case 'json':
         this.type = 'application/json';
         this.body = {
+          success: false,
           error: err.message
         };
         break;

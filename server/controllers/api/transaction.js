@@ -90,7 +90,7 @@ module.exports = {
 
     let transaction = yield Transaction.create(fields);
     this.status = 201;
-    this.body = {success: true, transaction: transaction.toObject()};
+    this.body = transaction.toObject();
 
   },
 
@@ -153,14 +153,14 @@ module.exports = {
     Object.assign(transaction, fields);
     yield transaction.save();
 
-    this.body = {success: true, transaction: transaction.toObject()};
+    this.body = transaction.toObject();
 
   },
 
   del: function*() {
 
     yield this.params.transaction.remove();
-    this.body = {success: true,transaction: this.params.transaction.toObject()};
+    this.body = this.params.transaction.toObject();
 
   }
 

@@ -47,7 +47,7 @@ module.exports = {
     this.request.body.user = this.user;
     let category = yield Category.create(this.request.body);
     this.status = 201;
-    this.body = {success: true, category: category.toObject()};
+    this.body = category.toObject();
 
   },
 
@@ -55,14 +55,14 @@ module.exports = {
 
     Object.assign(this.params.category, this.request.body);
     yield this.params.category.save();
-    this.body = {success: true, category: this.params.category.toObject()};
+    this.body = this.params.category.toObject();
 
   },
 
   del: function*() {
 
     yield this.params.category.remove();
-    this.body = {success: true, category: this.params.category.toObject()};
+    this.body = this.params.category.toObject();
 
   }
 

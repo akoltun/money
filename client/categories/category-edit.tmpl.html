@@ -1,0 +1,76 @@
+<div class="panel"
+     ng-class="{'panel-success': $ctrl.editableCategory.summary > 0 ||
+                                  !$ctrl.editableCategory.summary,
+                 'panel-danger': $ctrl.editableCategory.summary <= 0}">
+  <div class="panel-heading">
+    <h3 class="panel-title">{{$ctrl.editableCategory.name}}</h3>
+  </div>
+  <div class="panel-body">
+
+    <form name="categoryForm"
+          id="categoryForm"
+          class="form-horizontal"
+          novalidate
+          ng-submit="$ctrl.save()">
+
+      <div class="form-group"
+            ng-class="{'has-error': categoryForm.categoryName.$invalid &&
+                        !categoryForm.categoryName.$pristine,
+                      'has-success': categoryForm.categoryName.$valid &&
+                        !categoryForm.categoryName.$pristine}">
+
+      <label for="categoryName" class="col-sm-1 control-label">Name</label>
+
+      <div class="col-sm-11">
+        <input type="text"
+                class="form-control"
+                name="categoryName"
+                id="categoryName"
+                required
+                ng-minlength="2"
+                ng-maxlength="20"
+                placeholder="Name"
+                ng-model="$ctrl.editableCategory.name">
+
+        <div ng-messages="categoryForm.categoryName.$error"
+             ng-if="!categoryForm.categoryName.$pristine">
+          <ng-message class="help-block"
+                      when="required">
+            You did not enter a name
+          </ng-message>
+          <ng-message class="help-block"
+                      when="maxlength">
+            Category name is too long
+          </ng-message>
+          <ng-message class="help-block"
+                      when="minlength">
+            Category name is too short
+          </ng-message>
+        </div>
+
+      </div>
+        
+      </div>
+
+      <hr>
+
+      <div class="form-group">
+        <div class="col-sm-offset-1 col-sm-11">
+          <div class="btn-group">
+            <button type="submit"
+                    class="btn btn-success"
+                    ng-disabled="categoryForm.$invalid">
+              Save
+            </button>
+            <button class="btn btn-info"
+                    ng-click="$ctrl.cancelEdit()">
+              Cancel
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </form>
+
+  </div>
+</div>

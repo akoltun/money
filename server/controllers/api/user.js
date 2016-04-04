@@ -56,7 +56,7 @@ module.exports = {
   post: function*() {
 
     let user = yield User.create(this.request.body);
-    this.body = {success: true, user: user.getInfoFields()};
+    this.body = user.getInfoFields();
 
   },
 
@@ -73,13 +73,13 @@ module.exports = {
 
     Object.assign(user, fields);
     yield user.save();
-    this.body = {success: true, user: user.getInfoFields()};
+    this.body = user.getInfoFields();
 
   },
 
   del: function*() {
     yield this.params.user.remove();
-    this.body = {success: true, user: this.params.user.getInfoFields()};
+    this.body = this.params.user.getInfoFields();
 
   }
 

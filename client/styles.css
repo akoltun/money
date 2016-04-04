@@ -1,0 +1,9 @@
+body {
+  background-color: #ccc;
+  padding: 20px;
+}
+
+.app {
+  background-color: #fff;
+  min-height: 600px;
+}

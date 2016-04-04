@@ -40,16 +40,14 @@ module.exports = {
       user: this.user,
     }).sort({name: 1}).lean();
     let summary = 0;
-    let pinned;
 
     if (accounts.length) {
       summary = accounts
         .map(account => account.summary)
         .reduce((a, b) => a + b);
-      pinned = accounts.filter(account => account.pinned);
     }
 
-    this.body = {success: true, summary: summary, accounts: pinned};
+    this.body = {summary: summary, accounts: accounts};
 
   },
 
@@ -65,26 +63,23 @@ module.exports = {
   post: function*() {
 
     this.request.body.user = this.user;
-    if (!this.request.body.pinned) this.request.body.pinned = false;
     let account = yield Account.create(this.request.body);
     this.status = 201;
-    this.body = {success: true, account: account.toObject()};
+    this.body = account.toObject();
 
   },
 
   patch: function*() {
-
-    if (!this.request.body.pinned) this.request.body.pinned = false;
     Object.assign(this.params.account, this.request.body);
     yield this.params.account.save();
-    this.body = {success: true, account: this.params.account.toObject()};
+    this.body = this.params.account.toObject();
 
   },
 
   del: function*() {
 
     yield this.params.account.remove();
-    this.body = {success: true, account: this.params.account.toObject()};
+    this.body = this.params.account.toObject();
 
   }
 

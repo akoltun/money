@@ -1,0 +1,17 @@
+<td>{{category.name}}</td>
+<td>{{category.transactionsCount}}</td>
+<td>{{category.spent}}</td>
+<td>{{category.earned}}</td>
+<td>{{category.summary}}</td>
+<td>
+  <button type="button"
+          class="btn btn-default"
+          ui-sref="categories-edit({id: category._id})">
+    <span class="glyphicon glyphicon-edit"></span>
+  </button>
+  <button type="button"
+          class="btn btn-default"
+          ng-click="remove({category: category})">
+    <span class="glyphicon glyphicon-remove"></span>
+  </button>
+</td>

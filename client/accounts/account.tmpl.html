@@ -1,0 +1,19 @@
+<td>{{account.name}}</td>
+<td>{{account.transactionsCount}}</td>
+<td>{{account.spent}}</td>
+<td>{{account.earned}}</td>
+<td>{{account.withdrawal}}</td>
+<td>{{account.deposits}}</td>
+<td>{{account.summary}}</td>
+<td>
+  <button type="button"
+          class="btn btn-default"
+          ui-sref="accounts-edit({id: account._id})">
+    <span class="glyphicon glyphicon-edit"></span>
+  </button>
+  <button type="button"
+          class="btn btn-default"
+          ng-click="remove({account: account})">
+    <span class="glyphicon glyphicon-remove"></span>
+  </button>
+</td>

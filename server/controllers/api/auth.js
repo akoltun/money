@@ -28,7 +28,7 @@ module.exports = {
         }
 
         yield ctx.login(user);
-        ctx.body = {success: true, user: user.getInfoFields()};
+        ctx.body = user.getInfoFields();
 
       }).call(this, next);
 

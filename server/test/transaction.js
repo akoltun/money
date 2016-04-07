@@ -7,7 +7,7 @@ const fixtures = require('../fixtures');
 
 let server;
 request = request.defaults({
-  baseUrl: 'http://localhost:3005/',
+  baseUrl: 'http://localhost:3005/api/',
   jar: true
 });
 
@@ -25,8 +25,8 @@ let newTransactionData = {
   amount: 2850,
   description: 'Casino',
   type: 'spent',
-  account: fixtures.Account[0].name,
-  categories: [fixtures.Category[0].name]
+  account: fixtures.Account[0]._id,
+  categories: [fixtures.Category[0]._id]
 };
 
 describe('Transaction REST API', () => {
@@ -79,14 +79,12 @@ describe('Transaction REST API', () => {
         body: newTransactionData
       });
       response.statusCode.should.eql(201);
-      response.body.success.should.eql(true);
-      response.body.transaction.amount.should.eql(+newTransactionData.amount);
-      response.body.transaction.account.name.should
+      response.body.amount.should.eql(+newTransactionData.amount);
+      response.body.account.should
         .eql(newTransactionData.account);
-      response.body.transaction.account._id.should.eql(fixtures.Account[0]._id);
-      response.body.transaction.categories[0]._id.should
+      response.body.categories[0].should
         .eql(fixtures.Category[0]._id);
-      response.body.transaction.user._id.should.eql(fixtures.User[0]._id);
+      response.body.user._id.should.eql(fixtures.User[0]._id);
     });
 
   });
@@ -130,14 +128,11 @@ describe('Transaction REST API', () => {
         body: newTransactionData
       });
       response.statusCode.should.eql(200);
-      response.body.success.should.eql(true);
-      response.body.transaction._id.should.eql(fixtures.Transaction[0]._id);
-      response.body.transaction.amount.should.eql(newTransactionData.amount);
-      response.body.transaction.description.should
+      response.body._id.should.eql(fixtures.Transaction[0]._id);
+      response.body.amount.should.eql(newTransactionData.amount);
+      response.body.description.should
         .eql(newTransactionData.description);
-      response.body.transaction.account.name.should
-        .eql(newTransactionData.account);
-      response.body.transaction.categories.length.should.eql(1);
+      response.body.categories.length.should.eql(1);
     });
 
   });
@@ -151,7 +146,6 @@ describe('Transaction REST API', () => {
         json: true,
       });
       response.statusCode.should.eql(200);
-      response.body.success.should.eql(true);
     });
 
   });

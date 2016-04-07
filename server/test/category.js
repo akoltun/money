@@ -7,7 +7,7 @@ const fixtures = require('../fixtures');
 
 let server;
 request = request.defaults({
-  baseUrl: 'http://localhost:3004/',
+  baseUrl: 'http://localhost:3004/api/',
   jar: true
 });
 
@@ -73,9 +73,8 @@ describe('Category REST API', () => {
         body: newCategoryData
       });
       response.statusCode.should.eql(201);
-      response.body.success.should.eql(true);
-      response.body.category.name.should.eql(newCategoryData.name);
-      response.body.category.user._id.should.eql(fixtures.User[0]._id);
+      response.body.name.should.eql(newCategoryData.name);
+      response.body.user._id.should.eql(fixtures.User[0]._id);
     });
 
   });
@@ -120,8 +119,7 @@ describe('Category REST API', () => {
         body: newCategoryData
       });
       response.statusCode.should.eql(200);
-      response.body.success.should.eql(true);
-      response.body.category.user.should.eql(fixtures.User[0]._id);
+      response.body.user.should.eql(fixtures.User[0]._id);
     });
 
     it('returns 409 if category name is isOccupied', function*() {
@@ -149,7 +147,6 @@ describe('Category REST API', () => {
         json: true,
       });
       response.statusCode.should.eql(200);
-      response.body.success.should.eql(true);
     });
 
   });

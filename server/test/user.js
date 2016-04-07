@@ -8,7 +8,7 @@ const fixtures = require('../fixtures');
 let server;
 
 let request = originalRequest.defaults({
-  baseUrl: 'http://localhost:3001/',
+  baseUrl: 'http://localhost:3001/api/',
   jar: true
 });
 
@@ -53,8 +53,7 @@ describe('User REST API', () => {
         body: newUserData
       });
       response.statusCode.should.eql(200);
-      response.body.success.should.eql(true);
-      response.body.user.email.should.eql(newUserData.email);
+      response.body.email.should.eql(newUserData.email);
     });
 
   });
@@ -89,8 +88,7 @@ describe('User REST API', () => {
         }
       });
       response.statusCode.should.eql(200);
-      response.body.success.should.eql(true);
-      response.body.user.email.should.eql(newUserData.email);
+      response.body.email.should.eql(newUserData.email);
     });
 
     it('returns 409 if email is isOccupied', function*() {
@@ -133,7 +131,6 @@ describe('User REST API', () => {
         json: true
       });
       response.statusCode.should.eql(200);
-      response.body.success.should.eql(true);
     });
 
   });

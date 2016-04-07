@@ -70,6 +70,7 @@ module.exports = {
   },
 
   patch: function*() {
+
     Object.assign(this.params.account, this.request.body);
     yield this.params.account.save();
     this.body = this.params.account.toObject();

@@ -7,7 +7,7 @@ const fixtures = require('../fixtures');
 
 let server;
 request = request.defaults({
-  baseUrl: 'http://localhost:3003/',
+  baseUrl: 'http://localhost:3003/api/',
   jar: true
 });
 
@@ -73,9 +73,8 @@ describe('Account REST API', () => {
         body: newAccountData
       });
       response.statusCode.should.eql(201);
-      response.body.success.should.eql(true);
-      response.body.account.name.should.eql(newAccountData.name);
-      response.body.account.user._id.should.eql(fixtures.User[0]._id);
+      response.body.name.should.eql(newAccountData.name);
+      response.body.user._id.should.eql(fixtures.User[0]._id);
     });
 
   });
@@ -121,8 +120,7 @@ describe('Account REST API', () => {
         body: newAccountData
       });
       response.statusCode.should.eql(200);
-      response.body.success.should.eql(true);
-      response.body.account.user.should.eql(fixtures.User[0]._id);
+      response.body.user.should.eql(fixtures.User[0]._id);
     });
 
     it('returns 409 if account name is isOccupied', function*() {
@@ -150,7 +148,6 @@ describe('Account REST API', () => {
         json: true,
       });
       response.statusCode.should.eql(200);
-      response.body.success.should.eql(true);
     });
 
   });

@@ -7,7 +7,7 @@ const fixtures = require('../fixtures');
 
 let server;
 request = request.defaults({
-  baseUrl: 'http://localhost:3002/',
+  baseUrl: 'http://localhost:3002/api/',
   jar: true
 });
 
@@ -42,8 +42,7 @@ describe('Auth API', () => {
 
       let response = yield request(login);
       response.statusCode.should.eql(200);
-      response.body.success.should.eql(true);
-      response.body.user.email.should.eql(login.body.email);
+      response.body.email.should.eql(login.body.email);
       response.headers.should.have['set-cookie'];
       response.headers['set-cookie'].length.should.not.eql(0);
 

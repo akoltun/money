@@ -15,8 +15,7 @@ module.exports = {
 
       if (!isValid(id)) this.throw(404, 'Transaction not found');
 
-      let transaction = yield Transaction.findOne({_id: id, user: this.user})
-        .populate('account categories sourceAccount destinationAccount');
+      let transaction = yield Transaction.findOne({_id: id, user: this.user});
 
       if (!transaction) this.throw(404, 'Transaction not found');
       this.params.transaction = transaction;
@@ -43,11 +42,6 @@ module.exports = {
 
     let fields = this.request.body;
     fields.user = this.user;
-
-    if (fields.date) {
-      fields.date = +new Date(fields.date) +
-        (new Date() - new Date(fields.date));
-    }
 
     if (fields.type === 'transfer') {
 
@@ -98,11 +92,6 @@ module.exports = {
 
     let transaction = this.params.transaction;
     let fields = this.request.body;
-
-    if (moment(fields.date).format('YYYY-MM-DD') ===
-        moment().format('YYYY-MM-DD')) {
-      delete fields.date;
-    }
 
     if (fields.type === 'transfer') {
 

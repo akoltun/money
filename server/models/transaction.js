@@ -148,6 +148,19 @@ transactionSchema.methods.decreaseCounts = function*() {
  * MIDDLEWARE.
  */
 
+transactionSchema.pre('save', function(next) {
+  
+  if (this.type === 'transfer') {
+    if (this.account) this.account = undefined;
+  } else {
+    if (this.sourceAccount) this.sourceAccount = undefined;
+    if (this.destinationAccount) this.destinationAccount = undefined;
+  }
+
+  next();
+
+});
+
 transactionSchema.post('save', function(next) {
   let transaction = this;
 

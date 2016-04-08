@@ -8,14 +8,15 @@ angular.module('moneyApp', [
   'dashboard',
   'sidebar',
   'accounts',
-  'categories'
+  'categories',
+  'transactions'
 ])
 
 
 .config(($stateProvider, $urlRouterProvider, RestangularProvider, $httpProvider) => {
 
   RestangularProvider
-    .setBaseUrl('/')
+    .setBaseUrl('/api/')
     .setRestangularFields({
       id: '_id'
     });

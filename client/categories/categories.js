@@ -5,22 +5,15 @@ angular.module('categories', [])
 .config(($stateProvider) => {
 
   $stateProvider
-    .state('categories', {
-      parent: 'dashboard',
+    .state('dashboard.categories', {
       url: '/categories',
       abstract: true,
-      resolve: {
-        categories: function(CategoryService) {
-          return CategoryService.getCategories();
-        }
-      },
       controller: function() {
       },
       controllerAs: '$ctrl',
       template: '<categories></categories>'
     })
-    .state('categories-list', {
-      parent: 'categories',
+    .state('dashboard.categories.list', {
       url: '',
       controller: function(categories) {
         this.categories = categories;
@@ -29,8 +22,7 @@ angular.module('categories', [])
       template: `<categories-list categories="$ctrl.categories">
                  <categories-list/>`
     })
-    .state('categories-new', {
-      parent: 'categories',
+    .state('dashboard.categories.new', {
       url: '/new',
       controller: function() {
         
@@ -38,17 +30,18 @@ angular.module('categories', [])
       controllerAs: '$ctrl',
       template: '<category-new><category-new/>'
     })
-    .state('categories-details', {
-      parent: 'categories',
+    .state('dashboard.categories.details', {
       url: '/:id',
-      controller: function() {
-        
+      controller: function($stateParams, transactions, categories) {
+        this.transactions = transactions;
+        this.category = categories.find(c => c._id === $stateParams.id);
       },
       controllerAs: '$ctrl',
-      template: '<categories-detail><categories-detail/>'
+      template: `<category-details transactions="$ctrl.transactions"
+                                     category="$ctrl.category">
+                 <category-details/>`
     })
-    .state('categories-edit', {
-      parent: 'categories',
+    .state('dashboard.categories.edit', {
       url: '/edit/:id',
       controller: function($stateParams, categories) {
         this.category = categories.find(c => c._id === $stateParams.id);
@@ -63,14 +56,14 @@ angular.module('categories', [])
   bindings: {},
   controller: function() {
   },
-  templateUrl: 'categories/categories.tmpl.html'
+  templateUrl: 'categories/templates/categories.tmpl.html'
 })
 
 .component('categoriesList', {
   bindings: {
     categories: '='
   },
-  controller: function(CategoryService) {
+  controller: function(AccountService, CategoryService, TransactionService) {
 
     this.thead = [
       {name: 'name', title: 'Name'},
@@ -81,12 +74,14 @@ angular.module('categories', [])
     ];
 
     this.remove = category => {
-      let index = this.categories.indexOf(category);
-      category.remove().then(res => this.categories.splice(index, 1));
+      let index = this.categories.findIndex(c => c._id === category._id);
+      category.remove()
+        .then(() => TransactionService.updateTransactions())
+        .then(() => this.categories.splice(index, 1));
     };
 
   },
-  templateUrl: 'categories/categories-list.tmpl.html'
+  templateUrl: 'categories/templates/categories-list.tmpl.html'
 })
 
 .directive('singleCategory', function() {
@@ -96,8 +91,36 @@ angular.module('categories', [])
       category: '=',
       remove: '&'
     },
-    templateUrl: 'categories/category.tmpl.html'
+    templateUrl: 'categories/templates/category.tmpl.html'
   };
+})
+
+.component('categoryDetails', {
+  bindings: {
+    transactions: '=',
+    category: '='
+  },
+  controller: function(AccountService, CategoryService) {
+
+    this.thead = [
+      {name: 'amount', title: 'Amount'},
+      {name: 'date', title: 'Date'},
+      {name: 'account', title: 'Account'},
+      {name: 'categories', title: 'Categories'},
+      {name: 'description', title: 'Description'}
+    ];
+
+    this.remove = transaction => {
+      let index = this.transactions.findIndex(t => t._id === transaction._id);
+      transaction.remove()
+        .then(() => AccountService.updateStats())
+        .then(() => AccountService.updateAccounts())
+        .then(() => CategoryService.updateCategories())
+        .then(() => this.transactions.splice(index, 1));
+    };
+
+  },
+  templateUrl: 'categories/templates/category-details.tmpl.html'
 })
 
 .component('categoryEdit', {
@@ -110,16 +133,16 @@ angular.module('categories', [])
 
     this.save = () => {
       this.category.patch(this.editableCategory)
-        .then(() => Object.assign(this.category, this.editableCategory))
-        .then(() => $state.go('categories-list'));
+        .then(category => Object.assign(this.category, category))
+        .then(() => $state.go('dashboard.categories.list'));
     };
 
     this.cancelEdit = () => {
-      $state.go('categories-list');
+      $state.go('dashboard.categories.list');
     };
 
   },
-  templateUrl: 'categories/category-edit.tmpl.html'
+  templateUrl: 'categories/templates/category-edit.tmpl.html'
 })
 
 .component('categoryNew', {
@@ -131,15 +154,15 @@ angular.module('categories', [])
     this.save = () => {
       CategoryService.rest.post(this.editableCategory)
         .then(category => CategoryService.categories.push(category))
-        .then(() => $state.go('categories-list'));
+        .then(() => $state.go('dashboard.categories.list'));
     };
 
     this.cancelEdit = () => {
-      $state.go('categories-list');
+      $state.go('dashboard.categories.list');
     };
 
   },
-  templateUrl: 'categories/category-edit.tmpl.html'
+  templateUrl: 'categories/templates/category-edit.tmpl.html'
 })
 
 .service('CategoryService', function(Restangular, $q) {
@@ -152,5 +175,9 @@ angular.module('categories', [])
     return this.categories;
   };
 
+  this.updateCategories = () => {
+    return this.rest.getList()
+      .then(categories => Object.assign(this.categories, categories));
+  };
 
 });

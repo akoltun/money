@@ -73,7 +73,7 @@ module.exports = {
 
     Object.assign(this.params.account, this.request.body);
     yield this.params.account.save();
-    this.body = this.params.account.toObject();
+    this.body = this.params.account;
 
   },
 

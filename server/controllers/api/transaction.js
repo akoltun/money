@@ -5,7 +5,6 @@ const isValid     = mongoose.Types.ObjectId.isValid;
 const Transaction = require('../../models').Transaction;
 const Account     = require('../../models').Account;
 const Category    = require('../../models').Category;
-const moment      = require('moment');
 
 module.exports = {
 
@@ -28,13 +27,17 @@ module.exports = {
   getTransactions: function*() {
 
     this.body = yield Transaction.find({user: this.user})
-      .sort({date: -1}).lean();
+      .sort({date: -1})
+      .populate('account categories sourceAccount destinationAccount')
+      .lean();
 
   },
 
   get: function*() {
 
-    this.body = this.params.transaction.toObject();
+    this.body = this.params.transaction
+      .populate('account categories sourceAccount destinationAccount')
+      .toObject();
 
   },
 
@@ -47,12 +50,12 @@ module.exports = {
 
       fields.sourceAccount = yield Account.findOne({
         user: fields.user,
-        name: fields.sourceAccount
+        _id: fields.sourceAccount
       });
 
       fields.destinationAccount = yield Account.findOne({
         user: fields.user,
-        name: fields.destinationAccount
+        _id: fields.destinationAccount
       });
 
       if (!fields.sourceAccount || !fields.destinationAccount) {
@@ -68,12 +71,12 @@ module.exports = {
 
       fields.account = yield Account.findOne({
         user: fields.user,
-        name: fields.account
+        _id: fields.account
       });
 
       fields.categories = yield Category.find({
         user: fields.user,
-        name: {$in: fields.categories}
+        _id: {$in: fields.categories}
       });
 
       if (!fields.account) {
@@ -97,12 +100,12 @@ module.exports = {
 
       fields.sourceAccount = yield Account.findOne({
         user: this.user,
-        name: fields.sourceAccount
+        _id: fields.sourceAccount
       });
 
       fields.destinationAccount = yield Account.findOne({
         user: this.user,
-        name: fields.destinationAccount
+        _id: fields.destinationAccount
       });
 
       if (!fields.sourceAccount || !fields.destinationAccount) {
@@ -114,34 +117,32 @@ module.exports = {
         this.throw(409, 'Transfer can\'t be on the same account');
       }
 
-      if (transaction.account) delete transaction.account;
-      if (transaction.categories) delete transaction.categories;
-      if (transaction.description) delete transaction.description;
+      if (fields.account) delete fields.account;
+      if (fields.categories) fields.categories = [];
 
     } else {
 
       fields.account = yield Account.findOne({
         user: this.user,
-        name: fields.account
+        _id: fields.account
       });
       fields.categories = yield Category.find({
         user: this.user,
-        name: {$in: fields.categories}
+        _id: {$in: fields.categories}
       });
 
       if (!fields.account) {
         this.throw(409, 'Transaction can\'t be without an account');
       }
 
-      if (transaction.sourceAccount) delete transaction.sourceAccount;
-      if (transaction.destinationAccount) delete transaction.destinationAccount;
+      if (fields.sourceAccount) delete fields.sourceAccount;
+      if (fields.destinationAccount) delete fields.destinationAccount;
 
     }
 
     yield transaction.decreaseCounts();
     Object.assign(transaction, fields);
     yield transaction.save();
-
     this.body = transaction.toObject();
 
   },

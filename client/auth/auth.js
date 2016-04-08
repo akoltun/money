@@ -21,7 +21,7 @@ angular.module('auth', [])
     AuthService.getUser()
       .then(user => {
         if (user && user.email) {
-          return $state.go('overview');
+          return $state.go('dashboard.overview');
         }
       })
       .catch(res => console.log(res.data.error));
@@ -31,12 +31,12 @@ angular.module('auth', [])
 
     this.login = () => {
       AuthService.login(this.email, this.password)
-        .then(() => $state.go('overview'))
+        .then(() => $state.go('dashboard.overview'))
         .catch(res => console.log(res.data.error));
     };
 
   },
-  templateUrl: 'auth/auth.tmpl.html'
+  templateUrl: 'auth/templates/auth.tmpl.html'
 })
 
 .service('AuthService', function($http, $q) {
@@ -46,20 +46,20 @@ angular.module('auth', [])
 
   this.getUser = () => {
     if (this.user && this.user.name) return $q.resolve(this.user);
-    return $http.get('/users/me')
+    return $http.get('/api/users/me')
       .then(res => Object.assign(this.user, res.data));
   };
 
   this.login = (email, password) => {
     this.credentials.email = email;
     this.credentials.password = password;
-    return $http.post('/login', this.credentials)
+    return $http.post('/api/login', this.credentials)
       .then(res => res.data)
       .then(user => Object.assign(this.user, user));
   };
 
   this.logout = () => {
-    return $http.get('/logout')
+    return $http.get('/api/logout')
       .then(res => res.data);
   };
   

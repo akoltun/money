@@ -1,3 +1,6 @@
+<h1>{{$ctrl.editableCategory._id ? 'Edit \'' + $ctrl.editableCategory.name + '\' category' :
+      'New Category'}}</h1>
+<hr>
 <div class="panel"
      ng-class="{'panel-success': $ctrl.editableCategory.summary > 0 ||
                                   !$ctrl.editableCategory.summary,

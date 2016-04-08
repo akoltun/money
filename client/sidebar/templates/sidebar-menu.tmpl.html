@@ -1,6 +1,6 @@
 <ul class="nav nav-pills nav-stacked">
   <li ng-repeat="menuItem in $ctrl.menu"
-      ui-sref-active="active">
+      ng-class="{active: $ctrl.$state.includes(menuItem.parentState)}">
     <a ui-sref="{{menuItem.state}}">
       <span class="icon glyphicon glyphicon-{{menuItem.icon}}"></span>
       &nbsp;

@@ -1,7 +1,9 @@
+<h1>Accounts</h1>
+<hr>
 <div>
   <button class="btn btn-default"
-          ui-sref="categories-new">
-    Add Category
+          ui-sref="dashboard.accounts.new">
+    Add Account
   </button>
 </div>
 <hr>
@@ -16,10 +18,10 @@
     </tr>
   </thead>
   <tbody>
-    <tr ng-repeat="category in $ctrl.categories"
-        single-category
-        category="category"
-        remove="$ctrl.remove(category)">
+    <tr ng-repeat="account in $ctrl.accounts"
+        single-account
+        account="account"
+        remove="$ctrl.remove(account)">
     </tr>
   </tbody>
   

@@ -19,6 +19,15 @@ angular.module('dashboard', [])
               console.log(res.data.error);
               return $state.go('auth');
             });
+        },
+        transactions: function(TransactionService) {
+          return TransactionService.getTransactions();
+        },
+        accounts: function(AccountService) {
+          return AccountService.getAccounts();
+        },
+        categories: function(CategoryService) {
+          return CategoryService.getCategories();
         }
       },
       url: '/dashboard',
@@ -28,23 +37,12 @@ angular.module('dashboard', [])
       template: `<dashboard></dashboard>`
     })
 
-    .state('overview', {
-      parent: 'dashboard',
+    .state('dashboard.overview', {
       url: '/overview',
       controller: function() {
       },
       controllerAs: '$ctrl',
       template: '<overview><overview/>'
-    })
-
-    .state('transactions', {
-      parent: 'dashboard',
-      url: '/transactions',
-      controller: function() {
-        
-      },
-      controllerAs: '$ctrl',
-      template: '<transactions><transactions/>'
     });
 
 })
@@ -55,7 +53,7 @@ angular.module('dashboard', [])
   },
   controller: function() {
   },
-  templateUrl: 'dashboard/dashboard.tmpl.html'
+  templateUrl: 'dashboard/templates/dashboard.tmpl.html'
 });
 
 

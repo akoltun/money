@@ -1,0 +1,22 @@
+<h1>Transactions by category: '{{$ctrl.category.name}}'</h1>
+<hr>
+<table class="table table-striped table-hover">
+
+  <thead>
+    <tr>
+      <th ng-repeat="th in $ctrl.thead">
+        {{th.title}}
+      </th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat="transaction in $ctrl.transactions |
+                   filter: {categories: {_id: $ctrl.category._id}}"
+        single-transaction
+        transaction="transaction"
+        remove="$ctrl.remove(transaction)">
+    </tr>
+  </tbody>
+  
+</table>

@@ -1,0 +1,31 @@
+<h1>Transactions</h1>
+<hr>
+<div>
+  <button class="btn btn-default"
+          ui-sref="dashboard.transactions.new">
+    Add Transaction
+  </button>
+</div>
+<hr>
+
+<table class="table table-striped table-hover">
+
+  <thead>
+    <tr>
+      <th ng-repeat="th in $ctrl.thead">
+        {{th.title}}
+      </th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat="transaction in $ctrl.transactions"
+        single-transaction
+        transaction="transaction"
+        remove="$ctrl.remove(transaction)">
+    </tr>
+  </tbody>
+  
+</table>
+
+<!-- filter: {account: {_id: $ctrl.id}} -->

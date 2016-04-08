@@ -5,22 +5,15 @@ angular.module('accounts', [])
 .config(($stateProvider) => {
 
   $stateProvider
-    .state('accounts', {
-      parent: 'dashboard',
+    .state('dashboard.accounts', {
       url: '/accounts',
       abstract: true,
-      resolve: {
-        accounts: function(AccountService) {
-          return AccountService.getAccounts();
-        }
-      },
       controller: function() {
       },
       controllerAs: '$ctrl',
       template: '<accounts></accounts>'
     })
-    .state('accounts-list', {
-      parent: 'accounts',
+    .state('dashboard.accounts.list', {
       url: '',
       controller: function(accounts) {
         this.accounts = accounts;
@@ -29,8 +22,7 @@ angular.module('accounts', [])
       template: `<accounts-list accounts="$ctrl.accounts">
                  <accounts-list/>`
     })
-    .state('accounts-new', {
-      parent: 'accounts',
+    .state('dashboard.accounts.new', {
       url: '/new',
       controller: function() {
         
@@ -38,17 +30,18 @@ angular.module('accounts', [])
       controllerAs: '$ctrl',
       template: '<account-new><account-new/>'
     })
-    .state('accounts-details', {
-      parent: 'accounts',
+    .state('dashboard.accounts.details', {
       url: '/:id',
-      controller: function() {
-        
+      controller: function($stateParams, transactions, accounts) {
+        this.transactions = transactions;
+        this.account = accounts.find(a => a._id === $stateParams.id);
       },
       controllerAs: '$ctrl',
-      template: '<account-detail><account-detail/>'
+      template: `<account-details transactions="$ctrl.transactions"
+                                  account="$ctrl.account">
+                 <account-details/>`
     })
-    .state('accounts-edit', {
-      parent: 'accounts',
+    .state('dashboard.accounts.edit', {
       url: '/edit/:id',
       controller: function($stateParams, accounts) {
         this.account = accounts.find(a => a._id === $stateParams.id);
@@ -63,14 +56,14 @@ angular.module('accounts', [])
   bindings: {},
   controller: function() {
   },
-  templateUrl: 'accounts/accounts.tmpl.html'
+  templateUrl: 'accounts/templates/accounts.tmpl.html'
 })
 
 .component('accountsList', {
   bindings: {
     accounts: '='
   },
-  controller: function(AccountService) {
+  controller: function(AccountService, CategoryService, TransactionService) {
 
     this.thead = [
       {name: 'name', title: 'Name'},
@@ -83,15 +76,26 @@ angular.module('accounts', [])
     ];
 
     this.remove = account => {
-      let index = this.accounts.indexOf(account);
-      account.remove().then(res => {
-        AccountService.updateStats();
-        this.accounts.splice(index, 1);
-      });
+      let index = this.accounts.findIndex(a => a._id === account._id);
+      account.remove()
+        .then(() => AccountService.updateStats())
+        .then(() => TransactionService.updateTransactions())
+        .then(transactions => {
+          for (let i = 0; i <= transactions.length; i++) {
+            if (typeof transactions[i] !== 'object') return;
+            if (!transactions[i].account) return;
+            if (transactions[i].account._id === account._id) {
+              transactions.splice(i, 1);
+              i--;
+            }
+          }
+        })
+        .then(() => CategoryService.updateCategories())
+        .then(() => this.accounts.splice(index, 1));
     };
 
   },
-  templateUrl: 'accounts/accounts-list.tmpl.html'
+  templateUrl: 'accounts/templates/accounts-list.tmpl.html'
 })
 
 .directive('singleAccount', function() {
@@ -101,8 +105,36 @@ angular.module('accounts', [])
       account: '=',
       remove: '&'
     },
-    templateUrl: 'accounts/account.tmpl.html'
+    templateUrl: 'accounts/templates/account.tmpl.html'
   };
+})
+
+.component('accountDetails', {
+  bindings: {
+    transactions: '=',
+    account: '='
+  },
+  controller: function(AccountService, CategoryService) {
+
+    this.thead = [
+      {name: 'amount', title: 'Amount'},
+      {name: 'date', title: 'Date'},
+      {name: 'account', title: 'Account'},
+      {name: 'categories', title: 'Categories'},
+      {name: 'description', title: 'Description'}
+    ];
+
+    this.remove = transaction => {
+      let index = this.transactions.findIndex(t => t._id === transaction._id);
+      transaction.remove()
+        .then(() => AccountService.updateStats())
+        .then(() => AccountService.updateAccounts())
+        .then(() => CategoryService.updateCategories())
+        .then(() => this.transactions.splice(index, 1));
+    };
+
+  },
+  templateUrl: 'accounts/templates/account-details.tmpl.html'
 })
 
 .component('accountEdit', {
@@ -115,17 +147,17 @@ angular.module('accounts', [])
 
     this.save = () => {
       this.account.patch(this.editableAccount)
-        .then(res => AccountService.updateStats())
-        .then(() => Object.assign(this.account, this.editableAccount))
-        .then(() => $state.go('accounts-list'));
+        .then(account => Object.assign(this.account, account))
+        .then(() => AccountService.updateStats())
+        .then(() => $state.go('dashboard.accounts.list'));
     };
 
     this.cancelEdit = () => {
-      $state.go('accounts-list');
+      $state.go('dashboard.accounts.list');
     };
 
   },
-  templateUrl: 'accounts/account-edit.tmpl.html'
+  templateUrl: 'accounts/templates/account-edit.tmpl.html'
 })
 
 .component('accountNew', {
@@ -136,19 +168,17 @@ angular.module('accounts', [])
 
     this.save = () => {
       AccountService.rest.post(this.editableAccount)
-        .then(account => {
-          AccountService.accounts.push(account);
-          return AccountService.updateStats();
-        })
-        .then(() => $state.go('accounts-list'));
+        .then(account => AccountService.accounts.push(account))
+        .then(() => AccountService.updateStats())
+        .then(() => $state.go('dashboard.accounts.list'));
     };
 
     this.cancelEdit = () => {
-      $state.go('accounts-list');
+      $state.go('dashboard.accounts.list');
     };
 
   },
-  templateUrl: 'accounts/account-edit.tmpl.html'
+  templateUrl: 'accounts/templates/account-edit.tmpl.html'
 })
 
 .service('AccountService', function(Restangular, $q) {
@@ -174,5 +204,9 @@ angular.module('accounts', [])
     return this.accounts;
   };
 
+  this.updateAccounts = () => {
+    return this.rest.getList()
+      .then(accounts => Object.assign(this.accounts, accounts));
+  };
 
 });

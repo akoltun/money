@@ -1,0 +1,258 @@
+<h1>{{$ctrl.editableTransaction._id ? 'Edit Transaction' : 'New Transaction'}}</h1>
+<hr>
+
+<div class="panel"
+     ng-class="{'panel-success': $ctrl.editableTransaction.type === 'earned',
+                'panel-danger': $ctrl.editableTransaction.type === 'spent',
+                'panel-info': ($ctrl.editableTransaction.type === 'transfer') ||
+                 !$ctrl.editableTransaction.type}">
+  <div class="panel-heading">
+    <h3 class="panel-title">Transaction</h3>
+  </div>
+  <div class="panel-body">
+
+    <form name="transactionForm"
+          id="transactionForm"
+          class="form-horizontal"
+          novalidate
+          ng-submit="$ctrl.save()">
+
+      <!-- transaction amount -->
+      <div class="form-group"
+           ng-class="{'has-error': transactionForm.transactionAmount.$invalid &&
+                        !transactionForm.transactionAmount.$pristine,
+                      'has-success': transactionForm.transactionAmount.$valid &&
+                        !transactionForm.transactionAmount.$pristine}">
+
+        <label for="transactionAmount" class="col-sm-1 control-label">
+          Amount
+        </label>
+
+        <div class="col-sm-11">
+
+          <input type="number"
+                 class="form-control"
+                 name="transactionAmount"
+                 id="transactionAmount"
+                 required
+                 min="0"
+                 placeholder="Transaction amount"
+                 ng-model="$ctrl.editableTransaction.amount">
+          
+          <div ng-messages="transactionForm.transactionAmount.$error"
+               ng-if="!transactionForm.transactionAmount.$pristine">
+            <ng-message class="help-block"
+                        when="required">
+              You did not enter amount
+            </ng-message>
+            <ng-message class="help-block"
+                        when="min">
+              Amount can't be less than zero
+            </ng-message>
+          </div>
+
+        </div>
+        
+      </div>
+      <!-- end transaction amount -->
+
+      <!-- transaction type -->
+      <div class="form-group">
+
+        <label for="transactionType" class="col-sm-1 control-label">Type</label>
+        
+        <label class="radio-inline">
+          <input type="radio"
+                 name="transactionType"
+                 id="transactionType"
+                 ng-model="$ctrl.editableTransaction.type"
+                 value="spent"> Spent
+        </label>
+        <label class="radio-inline">
+          <input type="radio"
+                 name="transactionType"
+                 id="transactionType"
+                 ng-model="$ctrl.editableTransaction.type"
+                 value="earned"> Earned
+        </label>
+        <label class="radio-inline">
+          <input type="radio"
+                 name="transactionType"
+                 id="transactionType"
+                 ng-model="$ctrl.editableTransaction.type"
+                 value="transfer"> Transfer
+        </label>
+
+      </div>
+      <!-- end transaction type -->
+
+      <!-- transaction description -->
+      <div class="form-group"
+           ng-class="{'has-error': transactionForm.transactionDescription.$invalid &&
+                        !transactionForm.transactionDescription.$pristine,
+                      'has-success': transactionForm.transactionDescription.$valid &&
+                        !transactionForm.transactionDescription.$pristine}">
+        
+        <label for="transactionDescription" class="col-sm-1 control-label">
+          Description
+        </label>
+
+        <div class="col-sm-11">
+
+          <textarea class="form-control"
+                    rows="4"
+                    name="transactionDescription"
+                    id="transactionDescription"
+                    ng-maxlength="600"
+                    placeholder="Transaction Description..."
+                    ng-model="$ctrl.editableTransaction.description"></textarea>
+
+          <div ng-messages="transactionForm.transactionDescription.$error"
+               ng-if="!transactionForm.transactionDescription.$pristine">
+            <ng-message class="help-block"
+                        when="ng-maxlength">
+              Transaction description can't be more than 600
+            </ng-message>
+          </div>
+
+        </div>
+
+      </div>
+      <!-- end transaction description -->
+
+      <!-- transaction account -->
+      <div class="form-group"
+           ng-if="$ctrl.editableTransaction.type !== 'transfer'">
+
+        <label for="transactionAccount" class="col-sm-1 control-label">
+          Account
+        </label>
+
+        <div class="col-sm-11">
+          <select class="form-control"
+                  name="transactionAccount"
+                  id="transactionAccount"
+                  ng-model="$ctrl.editableTransaction.account"
+                  ng-options="account.name for account in $ctrl.accounts track by account._id"
+                  required>
+          </select>
+        </div>
+        
+      </div>
+      <!-- end transaction account -->
+
+      <!-- transaction transfer -->
+      <div ng-if="$ctrl.editableTransaction.type === 'transfer'">
+
+        <div class="col-xs-11">
+          <!-- transaction source account -->
+          <div class="form-group">
+    
+            <label for="transactionSourceAccount" class="col-sm-1 control-label">
+              Source Account
+            </label>
+    
+            <div class="col-sm-11">
+              <select class="form-control"
+                      name="transactionSourceAccount"
+                      id="transactionSourceAccount"
+                      ng-model="$ctrl.editableTransaction.sourceAccount"
+                      required
+                      ng-options="account.name disable when
+                      account._id == $ctrl.editableTransaction.destinationAccount._id
+                      for account in $ctrl.accounts track by account._id">
+              </select>
+            </div>
+            
+          </div>
+          <!-- end transaction source account -->
+    
+          <!-- transaction destination account -->
+          <div class="form-group">
+    
+            <label for="transactionDestinationAccount"
+                   class="col-sm-1 control-label">
+              Destination Account
+            </label>
+    
+            <div class="col-sm-11">
+              <select class="form-control"
+                      name="transactionDestinationAccount"
+                      id="transactionDestinationAccount"
+                      ng-model="$ctrl.editableTransaction.destinationAccount"
+                      required
+                      ng-options="account.name disable when
+                      account._id == $ctrl.editableTransaction.sourceAccount._id
+                      for account in $ctrl.accounts track by account._id">
+              </select>
+            </div>
+            
+          </div>
+          <!-- end transaction destination account -->
+          
+        </div>
+  
+        <!-- transaction swap button -->
+        <div class="form-group col-xs-1">
+  
+             <div class="col-sm-11 col-sm-offset-1">
+               <button type="button"
+                       class="btn btn-default"
+                       ng-click="$ctrl.swapAccounts()">
+                 <span class="glyphicon glyphicon-sort"></span>
+               </button>
+             </div>
+  
+        </div>
+        <!-- end transaction swap button -->
+        
+      </div>
+      <!-- end transaction transfer -->
+
+      <!-- transaction categories -->
+      <div ng-if="$ctrl.editableTransaction.type !== 'transfer'">
+
+      <div class="form-group">
+
+        <label for="transactionCategories" class="col-sm-1 control-label">Categories</label>
+
+        <div class="col-sm-11">
+            <div class="checkbox">
+              <label ng-repeat="category in $ctrl.categories">
+                <input type="checkbox"
+                       name="transactionCategories"
+                       value="category"
+                       ng-checked="$ctrl.isChecked(category)"
+                       ng-click="$ctrl.change(category)"
+                       id="transactionCategories">{{category.name}} &nbsp;
+              </label>
+            </div>
+          </div>
+
+        </div>
+        
+      </div>
+      <!-- end transaction categories -->
+      
+      <!-- transaction buttons -->
+      <div class="form-group">
+        <div class="col-sm-offset-1 col-sm-11">
+          <div class="btn-group">
+            <button type="submit"
+                    class="btn btn-success"
+                    ng-disabled="transactionForm.$invalid">
+              Save
+            </button>
+            <button class="btn btn-info"
+                    ng-click="$ctrl.cancelEdit()">
+              Cancel
+            </button>
+          </div>
+        </div>
+      </div>
+      <!-- end transaction buttons -->
+      
+    </form>
+
+  </div>
+</div>

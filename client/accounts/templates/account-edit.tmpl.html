@@ -1,3 +1,6 @@
+<h1>{{$ctrl.editableAccount._id ? 'Edit \'' + $ctrl.editableAccount.name + '\' account' :
+      'New Account'}}</h1>
+<hr>
 <div class="panel"
      ng-class="{'panel-success': ($ctrl.editableAccount.summary > 0) ||
                                   !$ctrl.editableAccount.summary,

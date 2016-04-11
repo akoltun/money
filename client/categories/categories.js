@@ -37,9 +37,9 @@ angular.module('categories', [])
         this.category = categories.find(c => c._id === $stateParams.id);
       },
       controllerAs: '$ctrl',
-      template: `<category-details transactions="$ctrl.transactions"
+      template: `<transactions-list transactions="$ctrl.transactions"
                                      category="$ctrl.category">
-                 <category-details/>`
+                 <transactions-list/>`
     })
     .state('dashboard.categories.edit', {
       url: '/edit/:id',
@@ -93,34 +93,6 @@ angular.module('categories', [])
     },
     templateUrl: 'categories/templates/category.tmpl.html'
   };
-})
-
-.component('categoryDetails', {
-  bindings: {
-    transactions: '=',
-    category: '='
-  },
-  controller: function(AccountService, CategoryService) {
-
-    this.thead = [
-      {name: 'amount', title: 'Amount'},
-      {name: 'date', title: 'Date'},
-      {name: 'account', title: 'Account'},
-      {name: 'categories', title: 'Categories'},
-      {name: 'description', title: 'Description'}
-    ];
-
-    this.remove = transaction => {
-      let index = this.transactions.findIndex(t => t._id === transaction._id);
-      transaction.remove()
-        .then(() => AccountService.updateStats())
-        .then(() => AccountService.updateAccounts())
-        .then(() => CategoryService.updateCategories())
-        .then(() => this.transactions.splice(index, 1));
-    };
-
-  },
-  templateUrl: 'categories/templates/category-details.tmpl.html'
 })
 
 .component('categoryEdit', {

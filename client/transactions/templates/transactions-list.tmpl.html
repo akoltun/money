@@ -1,4 +1,11 @@
-<h1>Transactions</h1>
+<h1 ng-if="!$ctrl.category && !$ctrl.account">Transactions</h1>
+<h1 ng-if="$ctrl.category">
+  Transactions by category: '{{$ctrl.category.name}}'
+</h1>
+<h1 ng-if="$ctrl.account">
+  Transactions by account: '{{$ctrl.account.name}}'
+</h1>
+
 <hr>
 <div>
   <button class="btn btn-default"
@@ -19,7 +26,8 @@
     </tr>
   </thead>
   <tbody>
-    <tr ng-repeat="transaction in $ctrl.transactions"
+    <tr ng-repeat="transaction in $ctrl.transactions |
+                    filter: $ctrl.account._id || $ctrl.category._id"
         single-transaction
         transaction="transaction"
         remove="$ctrl.remove(transaction)">

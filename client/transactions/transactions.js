@@ -79,6 +79,8 @@ angular.module('transactions', [])
 .component('transactionsList', {
   bindings: {
     transactions: '=',
+    account: '=',
+    category: '='
   },
   controller: function(TransactionService, AccountService, CategoryService) {
 

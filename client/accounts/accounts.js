@@ -37,9 +37,9 @@ angular.module('accounts', [])
         this.account = accounts.find(a => a._id === $stateParams.id);
       },
       controllerAs: '$ctrl',
-      template: `<account-details transactions="$ctrl.transactions"
-                                  account="$ctrl.account">
-                 <account-details/>`
+      template: `<transactions-list transactions="$ctrl.transactions"
+                                    account="$ctrl.account">
+                 <transactions-list/>`
     })
     .state('dashboard.accounts.edit', {
       url: '/edit/:id',
@@ -107,34 +107,6 @@ angular.module('accounts', [])
     },
     templateUrl: 'accounts/templates/account.tmpl.html'
   };
-})
-
-.component('accountDetails', {
-  bindings: {
-    transactions: '=',
-    account: '='
-  },
-  controller: function(AccountService, CategoryService) {
-
-    this.thead = [
-      {name: 'amount', title: 'Amount'},
-      {name: 'date', title: 'Date'},
-      {name: 'account', title: 'Account'},
-      {name: 'categories', title: 'Categories'},
-      {name: 'description', title: 'Description'}
-    ];
-
-    this.remove = transaction => {
-      let index = this.transactions.findIndex(t => t._id === transaction._id);
-      transaction.remove()
-        .then(() => AccountService.updateStats())
-        .then(() => AccountService.updateAccounts())
-        .then(() => CategoryService.updateCategories())
-        .then(() => this.transactions.splice(index, 1));
-    };
-
-  },
-  templateUrl: 'accounts/templates/account-details.tmpl.html'
 })
 
 .component('accountEdit', {

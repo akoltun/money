@@ -34,12 +34,6 @@ let dashboard = angular.module('dashboard', [])
       url: '/dashboard',
       controllerAs: '$ctrl',
       template: `<dashboard></dashboard>`
-    })
-
-    .state('dashboard.overview', {
-      url: '/overview',
-      controllerAs: '$ctrl',
-      template: '<overview><overview/>'
     });
 
 });

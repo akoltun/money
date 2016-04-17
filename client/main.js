@@ -3,6 +3,7 @@
 import './auth';
 import './dashboard';
 import './sidebar';
+import './overview';
 import './accounts';
 import './categories';
 import './transactions';
@@ -14,6 +15,7 @@ angular.module('moneyApp', [
   'auth',
   'dashboard',
   'sidebar',
+  'overview',
   'accounts',
   'categories',
   'transactions'
@@ -28,7 +30,7 @@ angular.module('moneyApp', [
       id: '_id'
     });
 
-  $urlRouterProvider.otherwise('/dashboard/overview');
+  $urlRouterProvider.otherwise('/login');
   $httpProvider.defaults.withCredentials = true;
 
 });

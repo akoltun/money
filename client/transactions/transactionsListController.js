@@ -1,13 +1,16 @@
 'use strict';
 
-export default function(TransactionService, AccountService, CategoryService) {
+export default
+function(TransactionService, AccountService, CategoryService, $state) {
+
+  this.$state = $state;
 
   this.thead = [
-    { name: 'amount', title: 'Amount' },
-    { name: 'date', title: 'Date' },
-    { name: 'account', title: 'Account' },
-    { name: 'categories', title: 'Categories' },
-    { name: 'description', title: 'Description' }
+    {name: 'amount', title: 'Amount'},
+    {name: 'date', title: 'Date'},
+    {name: 'account', title: 'Account'},
+    {name: 'categories', title: 'Categories'},
+    {name: 'description', title: 'Description'}
   ];
 
   this.remove = transaction => {

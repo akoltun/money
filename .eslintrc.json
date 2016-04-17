@@ -26,22 +26,12 @@
     "yield-star-spacing": ["error", { "before": false, "after": true }],
     "no-loop-func": "error",
     "no-console": "off",
-    "max-len": [
-      "error",
-      80, 4, {
-        "ignoreUrls": true
-      }
-    ],
+    "max-len": ["error", 80, 4, { "ignoreUrls": true }],
     "no-undef": "error",
     "no-unexpected-multiline": "error",
     "semi": ["error", "always"],
     "no-spaced-func": "error",
-    "space-unary-ops": [
-      2, {
-        "words": true,
-        "nonwords": false
-      }
-    ],
+    "space-unary-ops": [2, { "words": true, "nonwords": false }],
     "quotes": [
       "error",
       "single", {

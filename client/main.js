@@ -7,7 +7,6 @@ import './accounts';
 import './categories';
 import './transactions';
 
-
 angular.module('moneyApp', [
   'ngMessages',
   'ui.router',

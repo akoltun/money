@@ -80,9 +80,9 @@ describe('Transaction REST API', () => {
       });
       response.statusCode.should.eql(201);
       response.body.amount.should.eql(+newTransactionData.amount);
-      response.body.account.should
+      response.body.account._id.should
         .eql(newTransactionData.account);
-      response.body.categories[0].should
+      response.body.categories[0]._id.should
         .eql(fixtures.Category[0]._id);
       response.body.user._id.should.eql(fixtures.User[0]._id);
     });

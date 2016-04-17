@@ -5,6 +5,7 @@
   "main": "./server/index.js",
   "repository": "https://github.com/dimonnwc3/money",
   "scripts": {
+    "start": "NODE_ENV=production NODE_TRACE=true npm run build:prod && nodemon ./server/",
     "nodemon": "NODE_ENV=development NODE_TRACE=true nodemon ./server/",
     "bs": "browser-sync start --config ./config/bs-config.js",
     "clean": "rm -rf ./public",
@@ -14,11 +15,11 @@
     "lint": "eslint . -c ./.eslintrc.json",
     "lint:fix": "eslint . -c ./.eslintrc.json --fix",
     "db:load": "NODE_ENV=development NODE_TRACE=true node ./server/fixtures/loadFixtures",
-    "webpack:build:dev": "NODE_BSS=true webpack --config ./config/webpack.js",
+    "webpack:build:dev": "webpack --config ./config/webpack.js",
     "webpack:build:prod": "NODE_ENV=production webpack --config ./config/webpack.js",
     "webpack:server": "webpack-dev-server --config ./config/webpack.js & npm run nodemon",
-    "build:dev": "npm run webpack:build:dev",
-    "build:prod": "npm run webpack:build:prod",
+    "build:dev": "rm -rf ./public/** && npm run webpack:build:dev",
+    "build:prod": "rm -rf ./public/** && npm run webpack:build:prod",
     "dev": "npm run lint && (npm run build:dev & npm run nodemon)",
     "devs": "npm run lint && npm run webpack:server"
   },

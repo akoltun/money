@@ -1,0 +1,12 @@
+td: a(ui-sref='dashboard.categories.details({id: category._id})')
+    | {{category.name}}
+td {{category.transactionsCount}}
+td {{category.spent}}
+td {{category.earned}}
+td {{category.summary}}
+td
+  button.btn.btn-default(type='button',
+                        ui-sref='dashboard.categories.edit({id: category._id})')
+    span.glyphicon.glyphicon-edit
+  button.btn.btn-default(type='button', ng-click='remove({category: category})')
+    span.glyphicon.glyphicon-remove

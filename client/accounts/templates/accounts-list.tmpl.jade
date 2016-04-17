@@ -1,0 +1,11 @@
+h1 Accounts
+hr
+div: button.btn.btn-default(ui-sref='dashboard.accounts.new') Add Account
+table.table.table-striped.table-hover
+  thead: tr
+    th(ng-repeat='th in $ctrl.thead') {{th.title}}
+    th
+  tbody: tr(ng-repeat='account in $ctrl.accounts'
+            single-account
+            account='account'
+            remove='$ctrl.remove(account)')

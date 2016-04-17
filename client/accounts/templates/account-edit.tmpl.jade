@@ -1,0 +1,39 @@
+h1 {{$ctrl.editableAccount._id ? 'Edit \'' + $ctrl.editableAccount.name +
+   | '\' account' : 'New Account'}}
+hr
+.panel(ng-class="{'panel-success': ($ctrl.editableAccount.summary > 0) ||\
+                   !$ctrl.editableAccount.summary,\
+                   'panel-danger': $ctrl.editableAccount.summary <= 0}")
+  .panel-heading: h3.panel-title {{$ctrl.editableAccount.name}}
+  .panel-body
+    form#accountForm.form-horizontal(name='accountForm',
+                                     novalidate='',
+                                     ng-submit='$ctrl.save()')
+      .form-group(ng-class="{'has-error': accountForm.accountName.$invalid &&\
+                             !accountForm.accountName.$pristine,\
+                             'has-success': accountForm.accountName.$valid &&\
+                             !accountForm.accountName.$pristine}")
+        label.col-sm-1.control-label(for='accountName') Name
+        .col-sm-11
+          input#accountName.form-control(type='text',
+                                         name='accountName',
+                                         required='',
+                                         ng-minlength='2',
+                                         ng-maxlength='20',
+                                         placeholder='Name',
+                                         ng-model='$ctrl.editableAccount.name')
+          div(ng-messages='accountForm.accountName.$error',
+              ng-if='!accountForm.accountName.$pristine')
+            ng-message.help-block(when='required') You did not enter a name
+            ng-message.help-block(when='maxlength') Account name is too long
+            ng-message.help-block(when='minlength') Account name is too short
+      .form-group: .col-sm-offset-1.col-sm-11: .checkbox: label
+        input#accountPinned(type='checkbox',
+                            name='accountPinned',
+                            ng-model='$ctrl.editableAccount.pinned')
+        | Pinned
+      hr
+      .form-group: .col-sm-offset-1.col-sm-11: .btn-group
+        button.btn.btn-success(type='submit',
+                               ng-disabled='accountForm.$invalid') Save
+        button.btn.btn-info(ng-click='$ctrl.cancelEdit()') Cancel

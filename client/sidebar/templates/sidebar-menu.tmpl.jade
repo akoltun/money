@@ -1,0 +1,11 @@
+ul.nav.nav-pills.nav-stacked
+  li(ng-repeat='menuItem in $ctrl.menu',
+      ng-class='{active: $ctrl.$state.includes(menuItem.parentState)}')
+    a(ui-sref='{{menuItem.state}}')
+      span.icon.glyphicon(class='glyphicon-{{menuItem.icon}}')
+      |       {{menuItem.name}}
+hr
+ul.sidebar-nav.nav.nav-pills.nav-stacked
+  li: a(href='#', ng-click='$ctrl.logout()')
+    span.icon.glyphicon.glyphicon-off
+    |       Logout

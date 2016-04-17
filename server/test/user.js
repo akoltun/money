@@ -35,7 +35,7 @@ describe('User REST API', () => {
   after(() => server.close());
 
   beforeEach(function*() {
-    yield * loadModels(fixtures);
+    yield* loadModels(fixtures);
     yield request(login);
   });
 

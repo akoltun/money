@@ -40,7 +40,7 @@ module.exports = {
 
     this.request.body.user = this.user;
     if (!this.request.body.pinned) this.request.body.pinned = false;
-    let account = yield Account.create(this.request.body);
+    yield Account.create(this.request.body);
     this.redirect('/dashboard/accounts');
 
   },

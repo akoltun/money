@@ -47,6 +47,6 @@ module.exports = function*(next) {
     return jade.renderFile(templatePathResolved, localsFull);
   };
 
-  yield * next;
+  yield* next;
 
 };

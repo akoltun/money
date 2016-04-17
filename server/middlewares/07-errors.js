@@ -3,7 +3,7 @@
 module.exports = function*(next) {
 
   try {
-    yield * next;
+    yield* next;
     if (404 == this.response.status && !this.response.body) this.throw(404);
   } catch (err) {
 

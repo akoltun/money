@@ -1,5 +1,13 @@
 'use strict';
 
+import './auth';
+import './dashboard';
+import './sidebar';
+import './accounts';
+import './categories';
+import './transactions';
+
+
 angular.module('moneyApp', [
   'ngMessages',
   'ui.router',
@@ -13,7 +21,7 @@ angular.module('moneyApp', [
 ])
 
 
-.config(($stateProvider, $urlRouterProvider, RestangularProvider, $httpProvider) => {
+.config(($urlRouterProvider, RestangularProvider, $httpProvider) => {
 
   RestangularProvider
     .setBaseUrl('/api/')
@@ -25,7 +33,3 @@ angular.module('moneyApp', [
   $httpProvider.defaults.withCredentials = true;
 
 });
-
-
-
-

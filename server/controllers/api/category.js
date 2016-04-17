@@ -15,7 +15,7 @@ module.exports = {
       let category = yield Category.findOne({_id: id, user: this.user});
       if (!category) this.throw(404, 'Category not found');
       this.params.category = category;
-      yield * next;
+      yield* next;
 
     }
 

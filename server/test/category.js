@@ -29,7 +29,7 @@ describe('Category REST API', () => {
   after(() => server.close());
 
   beforeEach(function*() {
-    yield * loadModels(fixtures);
+    yield* loadModels(fixtures);
     yield request(login);
   });
 
@@ -144,7 +144,7 @@ describe('Category REST API', () => {
       let response = yield request({
         method: 'delete',
         url: '/categories/' + fixtures.Category[0]._id,
-        json: true,
+        json: true
       });
       response.statusCode.should.eql(200);
     });

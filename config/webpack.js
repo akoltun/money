@@ -1,7 +1,7 @@
 'use strict';
 
 const webpack = require('webpack');
-const server = require('webpack-dev-server');
+const server = require('webpack-dev-server');/*eslint no-unused-vars:0*/
 const config = require('config');
 
 const isDev = !process.env.NODE_ENV || process.env.NODE_ENV === 'development';
@@ -10,8 +10,10 @@ const NODE_BSS = process.env.NODE_BSS || false;
 
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const CommonsChunkPlugin = require('webpack/lib/optimize/CommonsChunkPlugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 const BrowserSyncPlugin = require('browser-sync-webpack-plugin');
 const AssetsPlugin = require('assets-webpack-plugin');
+const NgAnnotatePlugin = require('ng-annotate-webpack-plugin');
 const rimraf = require('rimraf');
 
 function addHash(template, hash) {
@@ -25,10 +27,8 @@ module.exports = {
   context: config.client.root,
 
   entry: {
-    main: './main.js',
-    // accounts: './accounts.js',
-    // categories: './categories.js',
-    // dashboard: './dashboard.js'
+    vendor: './vendor.js',
+    main: './main.js'
   },
 
   output: {
@@ -64,7 +64,7 @@ module.exports = {
       include: config.client.root,
       loader: 'babel?presets[]=es2015'
     }, {
-      test: /\.jade$/,
+      test: /\.tmpl.jade$/,
       loader: 'jade'
     }, {
       test: /\.less$/,
@@ -74,10 +74,12 @@ module.exports = {
       test: /\.(png|jpg|svg|ttf|eot|woff|woff2)$/,
       exclude: /\/node_modules\//,
       loader: addHash('url?name=[path][name].[ext]&limit=4096', 'hash:6')
-    }, {
+    },
+    { test: /\.tmpl.html$/, loader: 'ng-cache?prefix=[dir]/[dir]' },
+     {
       test: /\.(png|jpg|svg|ttf|eot|woff|woff2)$/,
       include: /\/node_modules\//,
-      loader: 'file?name=[1]&regExp=node_modules/(.*)',
+      loader: 'file?name=[1]&regExp=node_modules/(.*)'
     }]
   },
 
@@ -86,16 +88,20 @@ module.exports = {
         rimraf.sync(compiler.options.output.path);
       }
     },
+    new HtmlWebpackPlugin({
+      template: 'index.html',
+      inject: 'body'
+    }),
     new webpack.NoErrorsPlugin(),
     new webpack.DefinePlugin({
       NODE_ENV: JSON.stringify(NODE_ENV),
       LANG: JSON.stringify('en')
     }),
     new webpack.optimize.CommonsChunkPlugin({
-      name: 'common',
+      name: 'common'
     }),
     new webpack.ProvidePlugin({
-      jQuery: 'jquery' // for bootstrap
+      // jQuery: 'jquery'
     }),
     new ExtractTextPlugin(addHash('[name].css', 'contenthash'), {
       allChunks: true,
@@ -104,7 +110,8 @@ module.exports = {
     new AssetsPlugin({ // создать json с хэшами текущих версий файла
       filename: 'assets.json',
       path: config.client.assets
-    })
+    }),
+    new NgAnnotatePlugin()
   ],
 
   devServer: {
@@ -129,8 +136,7 @@ if (NODE_ENV === 'production') {
     new webpack.optimize.UglifyJsPlugin({
       compress: {
         warnings: false,
-        // jscs:disable
-        drop_console: true, // jshint ignore:line
+        drop_console: true, /*eslint camelcase:0*/
         unsafe: true
       }
     })

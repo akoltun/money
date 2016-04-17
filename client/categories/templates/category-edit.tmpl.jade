@@ -1,0 +1,34 @@
+h1 {{$ctrl.editableCategory._id ? 'Edit \'' + $ctrl.editableCategory.name +
+   | '\' category' : 'New Category'}}
+hr
+.panel(ng-class="{'panel-success': $ctrl.editableCategory.summary > 0 ||\
+                  !$ctrl.editableCategory.summary,\
+                  'panel-danger': $ctrl.editableCategory.summary <= 0}")
+  .panel-heading: h3.panel-title {{$ctrl.editableCategory.name}}
+  .panel-body
+    form#categoryForm.form-horizontal(name='categoryForm',
+                                      novalidate='',
+                                      ng-submit='$ctrl.save()')
+      .form-group(ng-class="{'has-error': categoryForm.categoryName.$invalid &&\
+                            !categoryForm.categoryName.$pristine,\
+                            'has-success': categoryForm.categoryName.$valid &&\
+                            !categoryForm.categoryName.$pristine}")
+        label.col-sm-1.control-label(for='categoryName') Name
+        .col-sm-11
+          input#categoryName.form-control(type='text',
+                                         name='categoryName',
+                                         required='',
+                                         ng-minlength='2',
+                                         ng-maxlength='20',
+                                         placeholder='Name',
+                                         ng-model='$ctrl.editableCategory.name')
+          div(ng-messages='categoryForm.categoryName.$error',
+              ng-if='!categoryForm.categoryName.$pristine')
+            ng-message.help-block(when='required') You did not enter a name
+            ng-message.help-block(when='maxlength') Category name is too long
+            ng-message.help-block(when='minlength') Category name is too short
+      hr
+      .form-group: .col-sm-offset-1.col-sm-11: .btn-group
+        button.btn.btn-success(type='submit',
+                               ng-disabled='categoryForm.$invalid') Save
+        button.btn.btn-info(ng-click='$ctrl.cancelEdit()') Cancel

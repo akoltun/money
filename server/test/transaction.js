@@ -35,7 +35,7 @@ describe('Transaction REST API', () => {
   after(() => server.close());
 
   beforeEach(function*() {
-    yield * loadModels(fixtures);
+    yield* loadModels(fixtures);
     yield request(login);
   });
 
@@ -143,7 +143,7 @@ describe('Transaction REST API', () => {
       let response = yield request({
         method: 'delete',
         url: '/transactions/' + fixtures.Transaction[0]._id,
-        json: true,
+        json: true
       });
       response.statusCode.should.eql(200);
     });

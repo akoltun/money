@@ -145,7 +145,7 @@ describe('Account REST API', () => {
       let response = yield request({
         method: 'delete',
         url: '/accounts/' + fixtures.Account[0]._id,
-        json: true,
+        json: true
       });
       response.statusCode.should.eql(200);
     });

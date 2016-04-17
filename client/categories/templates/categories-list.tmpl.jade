@@ -1,0 +1,13 @@
+h1 Categories
+hr
+div: button.btn.btn-default(ui-sref='dashboard.categories.new') Add Category
+hr
+table.table.table-striped.table-hover
+  thead: tr
+    th(ng-repeat='th in $ctrl.thead') {{th.title}}
+    th
+  tbody
+    tr(ng-repeat='category in $ctrl.categories',
+       single-category='',
+       category='category',
+       remove='$ctrl.remove(category)')

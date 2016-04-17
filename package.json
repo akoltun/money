@@ -11,8 +11,8 @@
     "mocha:server": "NODE_ENV=testing NODE_TRACE=true mocha --opts ./mocha.opts ./server/test/",
     "mocha": "npm run mocha:server",
     "test": "npm run mocha:server",
-    "jscs:fix": "jscs --config ./.jscsrc --fix",
-    "lint": "jshint --config ./.jshintrc . && jscs --config ./.jscsrc .",
+    "lint": "eslint . -c ./.eslintrc.json",
+    "lint:fix": "eslint . -c ./.eslintrc.json --fix",
     "db:load": "NODE_ENV=development NODE_TRACE=true node ./server/fixtures/loadFixtures",
     "webpack:build:dev": "NODE_BSS=true webpack --config ./config/webpack.js",
     "webpack:build:prod": "NODE_ENV=production webpack --config ./config/webpack.js",
@@ -42,11 +42,14 @@
     "css-loader": "^0.23.1",
     "extract-text-webpack-plugin": "^1.0.1",
     "file-loader": "^0.8.5",
+    "html-webpack-plugin": "^2.15.0",
     "jade-loader": "^0.8.0",
     "jshint": "^2.9.1",
     "less": "^2.6.1",
     "less-loader": "^2.2.3",
     "mocha": "^2.4.5",
+    "ng-annotate-webpack-plugin": "^0.1.2",
+    "ng-cache-loader": "0.0.15",
     "rimraf": "^2.5.2",
     "should": "^8.3.0",
     "style-loader": "^0.13.1",
@@ -56,6 +59,9 @@
     "webpack-dev-server": "^1.14.1"
   },
   "dependencies": {
+    "angular": "^1.5.3",
+    "angular-messages": "^1.5.3",
+    "angular-ui-router": "^0.2.18",
     "bootstrap": "^3.3.6",
     "co": "^4.6.0",
     "co-busboy": "^1.3.1",
@@ -75,6 +81,7 @@
     "mongoose-unique-validator": "^1.0.2",
     "mz": "^2.4.0",
     "passport-local": "^1.0.0",
+    "restangular": "^1.5.2",
     "validator": "^5.2.0"
   }
 }

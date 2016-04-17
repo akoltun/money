@@ -1,0 +1,20 @@
+.col-xs-4
+.col-xs-4
+  h2 Login
+  hr
+  form#loginForm(name='loginForm', ng-submit='$ctrl.login()')
+    .form-group
+      label(for='email') E-mail
+      input#email.form-control(type='email',
+                               name='email',
+                               ng-model='$ctrl.email',
+                               required='',
+                               autofocus='')
+    .form-group
+      label(for='password') Password
+      input#password.form-control(type='password',
+                                  name='password',
+                                  ng-model='$ctrl.password',
+                                  required='')
+    button.btn.btn-primary(type='submit') Login
+.col-xs-4

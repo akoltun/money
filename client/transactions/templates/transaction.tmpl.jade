@@ -1,0 +1,23 @@
+td {{transaction.amount}}
+td {{transaction.date | date:'dd/MM/yyyy'}}
+td
+  a(ui-sref='dashboard.accounts.details({id: transaction.account._id})',
+    ng-if="transaction.type !== 'transfer'") {{transaction.account.name}}
+  a(ui-sref='dashboard.accounts.details({id: transaction.sourceAccount._id})',
+    ng-if="transaction.type === 'transfer'") {{transaction.sourceAccount.name}}
+  span(ng-if="transaction.type === 'transfer'") &nbsp; <-> &nbsp;
+  a(ui-sref='dashboard.accounts.details({id: transaction.destinationAccount._id})',
+    ng-if="transaction.type === 'transfer'")
+    | {{transaction.destinationAccount.name}}
+td: a.label.label-info(ng-repeat='category in transaction.categories',
+                     ng-if="transaction.type !== 'transfer'",
+                     ui-sref='dashboard.categories.details({id: category._id})')
+    | {{category.name}}
+td {{transaction.description}}
+td
+  button.btn.btn-default(type='button',
+                   ui-sref='dashboard.transactions.edit({id: transaction._id})')
+    span.glyphicon.glyphicon-edit
+  button.btn.btn-default(type='button',
+                         ng-click='remove({transaction: transaction})')
+    span.glyphicon.glyphicon-remove

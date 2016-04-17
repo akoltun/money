@@ -1,0 +1,14 @@
+td
+  a(ui-sref='dashboard.accounts.details({id: account._id})') {{account.name}}
+td {{account.transactionsCount}}
+td {{account.spent}}
+td {{account.earned}}
+td {{account.withdrawal}}
+td {{account.deposits}}
+td {{account.summary}}
+td
+  button.btn.btn-default(type='button'
+    ui-sref='dashboard.accounts.edit({id: account._id})')
+    span.glyphicon.glyphicon-edit
+  button.btn.btn-default(type='button' ng-click='remove({account: account})')
+    span.glyphicon.glyphicon-remove

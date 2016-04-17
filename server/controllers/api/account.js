@@ -37,7 +37,7 @@ module.exports = {
   getStats: function*() {
 
     let accounts = yield Account.find({
-      user: this.user,
+      user: this.user
     }).sort({name: 1}).lean();
     let summary = 0;
 

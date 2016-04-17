@@ -7,7 +7,6 @@
 const mongoose = require('../lib/mongoose');
 const crypto = require('crypto');
 const config = require('config');
-const co = require('co');
 const validator = require('validator');
 const uniqueValidator = require('mongoose-unique-validator');
 let User;

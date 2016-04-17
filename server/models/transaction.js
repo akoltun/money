@@ -25,7 +25,7 @@ let transactionSchema = new mongoose.Schema({
   description: {
     type: String,
     maxlength: 150,
-    trim: true,
+    trim: true
   },
   user: {
     type: mongoose.Schema.Types.ObjectId,
@@ -149,7 +149,7 @@ transactionSchema.methods.decreaseCounts = function*() {
  */
 
 transactionSchema.pre('save', function(next) {
-  
+
   if (this.type === 'transfer') {
     if (this.account) this.account = undefined;
   } else {

@@ -41,7 +41,7 @@ module.exports = {
   addCategoryPost: function*() {
 
     this.request.body.user = this.user;
-    let category = yield Category.create(this.request.body);
+    yield Category.create(this.request.body);
     this.redirect('/dashboard/categories');
 
   },

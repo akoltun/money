@@ -1,0 +1,53 @@
+{
+  "env": {
+    "browser": true,
+    "commonjs": true,
+    "shared-node-browser": true,
+    "es6": true,
+    "node": true,
+    "mocha": true,
+    "mongo": true
+  },
+  "extends": "eslint:recommended",
+  "parserOptions": {
+    "sourceType": "module",
+    "ecmaVersion": 7,
+    "impliedStrict": true
+  },
+  "globals": {
+    "angular": true
+  },
+  "rules": {
+    "camelcase": "error",
+    "new-cap": "error",
+    "eqeqeq": "off",
+    "no-multi-str": "off",
+    "require-yield": "off",
+    "yield-star-spacing": ["error", { "before": false, "after": true }],
+    "no-loop-func": "error",
+    "no-console": "off",
+    "max-len": [
+      "error",
+      80, 4, {
+        "ignoreUrls": true
+      }
+    ],
+    "no-undef": "error",
+    "no-unexpected-multiline": "error",
+    "semi": ["error", "always"],
+    "no-spaced-func": "error",
+    "space-unary-ops": [
+      2, {
+        "words": true,
+        "nonwords": false
+      }
+    ],
+    "quotes": [
+      "error",
+      "single", {
+        "avoidEscape": true,
+        "allowTemplateLiterals": true
+      }
+    ]
+  }
+}

@@ -16,9 +16,10 @@ module.exports = function*(next) {
     autoFields: true
   });
 
-  let part;
-  // jshint -W084
-  while (part = yield parser) {
+  let part = yield parser;
+  
+  while (part) {
+    part = yield parser;
     // autoFields => part is a file
     // specific handlers know how to handle the file, not us
     // alt: can auto-save to disk

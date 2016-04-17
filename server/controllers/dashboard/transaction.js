@@ -103,7 +103,7 @@ module.exports = {
 
     }
 
-    let transaction = yield Transaction.create(fields);
+    yield Transaction.create(fields);
     this.redirect('/dashboard/transactions');
 
   },

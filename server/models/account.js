@@ -5,7 +5,6 @@
  */
 
 const mongoose = require('../lib/mongoose');
-const validator = require('validator');
 const co = require('co');
 const uniqueValidator = require('mongoose-unique-validator');
 let Account;
@@ -33,7 +32,7 @@ let accountSchema = new mongoose.Schema({
   summary           : {type : Number,  default : 0}, // Итого
   withdrawal        : {type : Number,  default : 0}, // Снято
   deposits          : {type : Number,  default : 0}, // Пополнено
-  pinned            : {type : Boolean, default : false}, // Закрепить
+  pinned            : {type : Boolean, default : false} // Закрепить
 });
 
 accountSchema.index({ name: 1, user: 1}, { unique: true });

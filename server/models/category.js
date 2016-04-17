@@ -28,7 +28,7 @@ let categorySchema = new mongoose.Schema({
   transactionsCount : {type : Number,  default : 0},
   spent             : {type : Number,  default : 0}, // Потрачено
   earned            : {type : Number,  default : 0}, // Заработано
-  summary           : {type : Number,  default : 0}, // Итого
+  summary           : {type : Number,  default : 0} // Итого
 });
 
 categorySchema.index({ name: 1, user: 1}, { unique: true });

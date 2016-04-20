@@ -43,19 +43,19 @@ module.exports = {
 
   post: function*() {
 
-    let fields = this.request.body;
+    let fields  = this.request.body;
     fields.user = this.user;
 
     if (fields.type === 'transfer') {
 
       fields.sourceAccount = yield Account.findOne({
         user: fields.user,
-        _id: fields.sourceAccount
+        _id : fields.sourceAccount
       });
 
       fields.destinationAccount = yield Account.findOne({
         user: fields.user,
-        _id: fields.destinationAccount
+        _id : fields.destinationAccount
       });
 
       if (!fields.sourceAccount || !fields.destinationAccount) {
@@ -63,49 +63,49 @@ module.exports = {
       }
 
       if (String(fields.sourceAccount._id) ===
-          String(fields.destinationAccount._id)) {
+        String(fields.destinationAccount._id)) {
         this.throw(409, 'Transfer can\'t be on the same account');
       }
 
-    } else {
+    }
 
+    if ((fields.type === 'spent') || (fields.type === 'earned')) {
       fields.account = yield Account.findOne({
         user: fields.user,
-        _id: fields.account
+        _id : fields.account
       });
 
       fields.categories = yield Category.find({
         user: fields.user,
-        _id: {$in: fields.categories}
+        _id : {$in: fields.categories}
       });
 
       if (!fields.account) {
         this.throw(409, 'Transaction can\'t be without an account');
       }
-
     }
 
     let transaction = yield Transaction.create(fields);
-    this.status = 201;
-    this.body = transaction.toObject();
+    this.status     = 201;
+    this.body       = transaction.toObject();
 
   },
 
   patch: function*() {
 
     let transaction = this.params.transaction;
-    let fields = this.request.body;
+    let fields      = this.request.body;
 
     if (fields.type === 'transfer') {
 
       fields.sourceAccount = yield Account.findOne({
         user: this.user,
-        _id: fields.sourceAccount
+        _id : fields.sourceAccount
       });
 
       fields.destinationAccount = yield Account.findOne({
         user: this.user,
-        _id: fields.destinationAccount
+        _id : fields.destinationAccount
       });
 
       if (!fields.sourceAccount || !fields.destinationAccount) {
@@ -113,22 +113,23 @@ module.exports = {
       }
 
       if (String(fields.sourceAccount._id) ===
-          String(fields.destinationAccount._id)) {
+        String(fields.destinationAccount._id)) {
         this.throw(409, 'Transfer can\'t be on the same account');
       }
 
       if (fields.account) delete fields.account;
       if (fields.categories) fields.categories = [];
 
-    } else {
+    }
 
-      fields.account = yield Account.findOne({
+    if ((fields.type === 'spent') || (fields.type === 'earned')) {
+      fields.account    = yield Account.findOne({
         user: this.user,
-        _id: fields.account
+        _id : fields.account
       });
       fields.categories = yield Category.find({
         user: this.user,
-        _id: {$in: fields.categories}
+        _id : {$in: fields.categories}
       });
 
       if (!fields.account) {
@@ -137,7 +138,6 @@ module.exports = {
 
       if (fields.sourceAccount) delete fields.sourceAccount;
       if (fields.destinationAccount) delete fields.destinationAccount;
-
     }
 
     yield transaction.decreaseCounts();

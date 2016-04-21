@@ -14,13 +14,13 @@ export default function($http, $q) {
   this.login = (email, password) => {
     this.credentials.email = email;
     this.credentials.password = password;
-    return $http.post('/api/login', this.credentials)
+    return $http.post('/api/auth/login', this.credentials)
       .then(res => res.data)
       .then(user => Object.assign(this.user, user));
   };
 
   this.logout = () => {
-    return $http.get('/api/logout')
+    return $http.get('/api/auth/logout')
       .then(res => res.data);
   };
 

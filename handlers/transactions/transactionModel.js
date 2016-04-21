@@ -1,0 +1,190 @@
+'use strict';
+
+/**
+ * MODULE DEPENDENCIES.
+ */
+
+const mongoose = require('lib/db').mongoose;
+const co = require('co');
+let Transaction;
+
+/**
+ * SCHEMA.
+ */
+
+let transactionSchema = new mongoose.Schema({
+  amount: {type: Number, default: 0},
+  type: {
+    type: String,
+    index: true,
+    enum: {
+      values: ['spent', 'earned', 'transfer'],
+      message: 'Unknown type of transaction'
+    }
+  },
+  description: {
+    type: String,
+    maxlength: 150,
+    trim: true
+  },
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: 'Transaction can\'t be without user',
+    index: true
+  },
+  account: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Account',
+    index: true
+  },
+  sourceAccount: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Account',
+    index: true
+  },
+  destinationAccount: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Account',
+    index: true
+  },
+  categories: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Category',
+    index: true
+  }],
+  date: {
+    type: Date,
+    default: Date.now
+  }
+});
+
+
+/**
+ * METHODS.
+ */
+
+transactionSchema.methods.increaseCounts = function*() {
+
+  if (this.type === 'transfer') {
+
+    yield mongoose.models.Account.findByIdAndUpdate(this.sourceAccount, {
+      $inc: {withdrawal: this.amount, summary: -this.amount}
+    });
+
+    yield mongoose.models.Account.findByIdAndUpdate(this.destinationAccount, {
+      $inc: {deposits: this.amount, summary: this.amount}
+    });
+
+    return this;
+  }
+
+  let spent = this.type === 'spent' ? this.amount : 0;
+  let earned = this.type === 'earned' ? this.amount : 0;
+  let summary = earned - spent;
+
+  yield mongoose.models.Account.findByIdAndUpdate(this.account, {
+    $inc: {
+      spent: spent,
+      earned: earned,
+      summary: summary,
+      transactionsCount: 1}
+  });
+
+  yield mongoose.models.Category.update(
+    {_id: {$in: this.categories}},
+    {$inc: {
+      spent: spent,
+      earned: earned,
+      summary: summary,
+      transactionsCount: 1}},
+    {multi: true});
+
+  return this;
+
+};
+
+transactionSchema.methods.decreaseCounts = function*() {
+
+  if (this.type === 'transfer') {
+
+    yield mongoose.models.Account.findByIdAndUpdate(this.sourceAccount, {
+      $inc: {withdrawal: -this.amount, summary: this.amount}
+    });
+
+    yield mongoose.models.Account.findByIdAndUpdate(this.destinationAccount, {
+      $inc: {deposits: -this.amount, summary: -this.amount}
+    });
+
+    return this;
+  }
+
+  let spent = this.type === 'spent' ? this.amount : 0;
+  let earned = this.type === 'earned' ? this.amount : 0;
+  let summary = earned - spent;
+
+  yield mongoose.models.Account.findByIdAndUpdate(this.account, {
+    $inc: {
+      spent: -spent,
+      earned: -earned,
+      summary: -summary,
+      transactionsCount: -1}
+  });
+
+  yield mongoose.models.Category.update(
+    {_id: {$in: this.categories}},
+    {$inc: {
+      spent: -spent,
+      earned: -earned,
+      summary: -summary,
+      transactionsCount: -1}},
+    {multi: true});
+
+  return this;
+
+};
+
+/**
+ * MIDDLEWARE.
+ */
+
+transactionSchema.pre('save', function(next) {
+
+  if (this.type === 'transfer') {
+    if (this.account) this.account = undefined;
+  } else {
+    if (this.sourceAccount) this.sourceAccount = undefined;
+    if (this.destinationAccount) this.destinationAccount = undefined;
+  }
+
+  next();
+
+});
+
+transactionSchema.post('save', function(next) {
+  let transaction = this;
+
+  co(function*() {
+    yield transaction.increaseCounts();
+    return transaction;
+  }).then(next, next);
+
+});
+
+transactionSchema.post('remove', function(next) {
+  let transaction = this;
+
+  co(function*() {
+    yield transaction.decreaseCounts();
+    return transaction;
+  }).then(next, next);
+
+});
+
+/**
+ * EXPORT.
+ */
+
+Transaction = mongoose.model('Transaction', transactionSchema);
+
+module.exports = Transaction;

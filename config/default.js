@@ -7,10 +7,10 @@ module.exports = {
   server: {
     port: 3000,
     host: '127.0.0.1',
-    root: path.normalize(ROOT + '/server'),
+    root: path.normalize(ROOT),
     public: path.normalize(ROOT + '/public'),
-    templates: path.normalize(ROOT + '/server/templates'),
-    fixtures: path.normalize(ROOT + '/server/fixtures')
+    templates: path.normalize(ROOT + '/templates'),
+    fixtures: path.normalize(ROOT + '/fixtures')
   },
 
   client: {
@@ -49,6 +49,15 @@ module.exports = {
       length: 128,
       iterations: process.env.NODE_ENV == 'production' ? 12000 : 1
     }
-  }
+  },
+
+  handlers: [
+    'core',
+    'auth',
+    'users',
+    'accounts',
+    'categories',
+    'transactions'
+  ]
 
 };

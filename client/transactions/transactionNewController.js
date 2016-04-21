@@ -1,6 +1,7 @@
 'use strict';
 
 export default
+/*@ngInject*/
 function($state, TransactionService, AccountService, CategoryService) {
 
   this.editableTransaction = {};

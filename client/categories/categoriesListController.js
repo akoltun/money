@@ -1,6 +1,8 @@
 'use strict';
 
-export default function(AccountService, CategoryService, TransactionService) {
+export default
+/*@ngInject*/
+function(AccountService, CategoryService, TransactionService) {
 
   this.thead = [
     { name: 'name', title: 'Name' },

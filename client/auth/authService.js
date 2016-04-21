@@ -1,6 +1,8 @@
 'use strict';
 
-export default function($http, $q) {
+export default
+/*@ngInject*/
+function($http, $q) {
 
   this.user = {};
   this.credentials = {};

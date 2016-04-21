@@ -1,6 +1,8 @@
 'use strict';
 
-export default function($state, CategoryService) {
+export default
+/*@ngInject*/
+function($state, CategoryService) {
 
   this.editableCategory = {};
 

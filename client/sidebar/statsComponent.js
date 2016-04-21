@@ -4,7 +4,7 @@ import statsTmpl from './templates/stats.tmpl.jade';
 
 export default {
   bindings: {},
-  controller: function(AccountService) {
+  controller: /*@ngInject*/ function(AccountService) {
     this.stats =  AccountService.getStats();
   },
   template: statsTmpl()

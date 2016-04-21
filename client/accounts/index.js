@@ -10,7 +10,6 @@ import accountService from './accountService.js';
 let accounts = angular.module('accounts', [])
 
 .config(($stateProvider) => {
-
   $stateProvider
     .state('dashboard.accounts', {
       url: '/accounts',

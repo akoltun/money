@@ -1,6 +1,8 @@
 'use strict';
 
-export default function($state) {
+export default
+/*@ngInject*/
+function($state) {
 
   this.editableCategory = Object.assign({}, this.category);
 

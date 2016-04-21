@@ -5,7 +5,6 @@ import dashboardComponent from './dashboardComponent.js';
 let dashboard = angular.module('dashboard', [])
 
 .config(($stateProvider) => {
-
   $stateProvider
     .state('dashboard', {
       abstract: true,

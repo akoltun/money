@@ -1,6 +1,8 @@
 'use strict';
 
-export default function($state, AccountService) {
+export default
+/*@ngInject*/
+function($state, AccountService) {
 
   this.editableAccount = Object.assign({}, this.account);
 

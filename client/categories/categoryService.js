@@ -1,6 +1,8 @@
 'use strict';
 
-export default function(Restangular) {
+export default
+/*@ngInject*/
+function(Restangular) {
 
   this.rest = Restangular.all('categories');
 

@@ -9,7 +9,6 @@ const NODE_ENV = process.env.NODE_ENV || 'development';
 
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const NgAnnotatePlugin = require('ng-annotate-webpack-plugin');
 
 module.exports = {
 
@@ -49,7 +48,7 @@ module.exports = {
     loaders: [{
       test: /\.js?$/,
       include: config.client.root,
-      loader: 'babel?presets[]=es2015'
+      loader: 'ng-annotate?add=true!babel?presets[]=es2015'
     }, {
       test: /\.tmpl.jade$/,
       loader: 'jade'
@@ -103,7 +102,6 @@ module.exports = {
 
 if (isProd) {
   module.exports.plugins.push(
-    new NgAnnotatePlugin(),
     new webpack.optimize.UglifyJsPlugin({
       compress: {
         warnings: false,

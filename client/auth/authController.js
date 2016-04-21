@@ -1,6 +1,8 @@
 'use strict';
 
-export default function(AuthService, $state) {
+export default
+/*@ngInject*/
+function(AuthService, $state) {
 
   AuthService.getUser()
       .then(user => {

@@ -5,7 +5,6 @@ import overviewComponent from './overviewComponent.js';
 export default angular.module('overview', [])
 
 .config(($stateProvider) => {
-
   $stateProvider
     .state('dashboard.overview', {
       url: '/overview',

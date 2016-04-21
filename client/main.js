@@ -23,7 +23,6 @@ angular.module('moneyApp', [
 
 
 .config(($urlRouterProvider, RestangularProvider, $httpProvider) => {
-
   RestangularProvider
     .setBaseUrl('/api/')
     .setRestangularFields({

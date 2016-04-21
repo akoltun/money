@@ -1,8 +1,8 @@
 'use strict';
 
 export default
+/*@ngInject*/
 function(TransactionService, AccountService, CategoryService, $state) {
-
   this.$state = $state;
 
   this.thead = [

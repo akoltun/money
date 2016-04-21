@@ -10,7 +10,6 @@ import transactionService from './transactionService.js';
 export default angular.module('transactions', [])
 
 .config(($stateProvider, RestangularProvider) => {
-
   RestangularProvider.setRequestInterceptor((e, operation, route) => {
     if (route === 'transactions') {
       if ((operation === 'patch') || operation === 'post') {
